@@ -16,7 +16,7 @@ import static kr.teammangers.dev.auth.mapper.AuthMapper.AUTH_MAPPER;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/v2")
 public class AuthController {
 
     private final TokenService tokenService;
