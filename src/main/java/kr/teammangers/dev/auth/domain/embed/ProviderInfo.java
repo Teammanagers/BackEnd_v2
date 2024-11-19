@@ -1,4 +1,4 @@
-package kr.teammangers.dev.auth.domain;
+package kr.teammangers.dev.auth.domain.embed;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
