@@ -1,6 +1,8 @@
 package kr.teammangers.dev.member.application.impl;
 
 import kr.teammangers.dev.auth.dto.OAuth2UserInfo;
+import kr.teammangers.dev.common.payload.code.dto.enums.ErrorStatus;
+import kr.teammangers.dev.common.payload.exception.GeneralException;
 import kr.teammangers.dev.member.application.MemberService;
 import kr.teammangers.dev.member.domain.Member;
 import kr.teammangers.dev.member.dto.MemberDto;
@@ -26,7 +28,7 @@ public class MemberServiceImpl implements MemberService {
     public MemberDto findDtoByProviderId(final String providerId) {
         return memberRepository.findByProviderInfo_ProviderId(providerId)
                 .map(MEMBER_MAPPER::toDto)
-                .orElseThrow(() -> new RuntimeException(""));   // TODO: Exception
+                .orElseThrow(() -> new GeneralException(ErrorStatus.MEMBER_NOT_FOUND));
     }
 
     @Override
@@ -36,7 +38,7 @@ public class MemberServiceImpl implements MemberService {
 
     private Member findById(final Long id) {
         return memberRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException(""));   // TODO: Exception
+                .orElseThrow(() -> new GeneralException(ErrorStatus.MEMBER_NOT_FOUND));
     }
 
     private Member insertMember(final Member member) {
