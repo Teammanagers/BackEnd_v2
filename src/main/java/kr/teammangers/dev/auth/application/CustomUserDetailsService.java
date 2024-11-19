@@ -26,7 +26,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
-        MemberDto memberDto = memberService.findMemberById(Long.parseLong(username));
+        MemberDto memberDto = memberService.findDtoById(Long.parseLong(username));
 
         Collection<GrantedAuthority> authorities = Collections.singletonList(
                 new SimpleGrantedAuthority(Role.USER.getValue())

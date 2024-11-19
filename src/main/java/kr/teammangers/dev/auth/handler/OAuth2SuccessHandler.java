@@ -25,13 +25,9 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
             throws IOException {
         AuthInfo authInfo = (AuthInfo) authentication.getPrincipal();
-        String accessToken = tokenService.provideAccessToken(response, authInfo.memberDto());
-        String refreshToken = tokenService.provideRefreshToken(response, authInfo.memberDto());
-
-//        response.setHeader(ACCESS_PREFIX.getValue(), TOKEN_PREFIX + accessToken);
-//        response.setHeader(REFRESH_PREFIX.getValue(), refreshToken);
-//        response.setHeader("Access-Control-Expose-Headers", ACCESS_PREFIX.getValue() + ", " + REFRESH_PREFIX.getValue());
-
+        tokenService.provideAccessToken(response, authInfo.memberDto());
+        tokenService.provideRefreshToken(response, authInfo.memberDto());
         response.sendRedirect(redirectUrl);
     }
+
 }
