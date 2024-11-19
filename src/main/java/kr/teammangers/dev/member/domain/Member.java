@@ -5,6 +5,8 @@ import kr.teammangers.dev.auth.domain.ProviderInfo;
 import kr.teammangers.dev.common.entity.BaseField;
 import kr.teammangers.dev.member.dto.enums.Role;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 
 @Entity
 @Getter
@@ -12,6 +14,8 @@ import lombok.*;
 @Table(name = "member")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
+@SQLRestriction("use_yn <> 'N'")
+@SQLDelete(sql = "UPDATE member SET use_yn = 'N' WHERE id = ?")
 public class Member extends BaseField {
 
     @Id
