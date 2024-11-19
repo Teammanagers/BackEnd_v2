@@ -7,6 +7,7 @@ import kr.teammangers.dev.team.application.TeamCrudService;
 import kr.teammangers.dev.team.application.TeamUtilService;
 import kr.teammangers.dev.team.dto.req.CreateTeamReq;
 import kr.teammangers.dev.team.dto.res.CreateTeamRes;
+import kr.teammangers.dev.team.dto.res.GetTeamRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -33,4 +34,13 @@ public class TeamController {
     public ApiRes<String> generateTeamCode() {
         return ApiRes.onSuccess(teamUtilService.generateTeamCode());
     }
+
+    @GetMapping
+    public ApiRes<GetTeamRes> getTeamByTeamCode(
+            @RequestParam("teamCode") final String teamCode
+    ) {
+        GetTeamRes result = teamCrudService.getTeamByTeamCode(teamCode);
+        return ApiRes.onSuccess(result);
+    }
+
 }

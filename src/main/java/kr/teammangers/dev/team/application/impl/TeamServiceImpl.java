@@ -1,5 +1,7 @@
 package kr.teammangers.dev.team.application.impl;
 
+import kr.teammangers.dev.common.payload.code.dto.enums.ErrorStatus;
+import kr.teammangers.dev.common.payload.exception.GeneralException;
 import kr.teammangers.dev.team.application.TeamService;
 import kr.teammangers.dev.team.domain.Team;
 import kr.teammangers.dev.team.dto.TeamDto;
@@ -9,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import static kr.teammangers.dev.team.mapper.TeamMapper.TEAM_MAPPER;
+import static kr.teammangers.dev.team.mapper.TeamReqMapper.TEAM_REQ_MAPPER;
 
 @Service
 @RequiredArgsConstructor
@@ -18,11 +21,21 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public TeamDto save(CreateTeamReq req) {
-        Team team = insertTeam(req);
+        Team team = insert(req);
         return TEAM_MAPPER.toDto(team);
     }
 
-    private Team insertTeam(CreateTeamReq req) {
-        return teamRepository.save(TEAM_MAPPER.toEntity(req));
+    @Override
+    public TeamDto findDtoByTeamCode(String teamCode) {
+        return TEAM_MAPPER.toDto(findByTeamCode(teamCode));
+    }
+
+    private Team insert(CreateTeamReq req) {
+        return teamRepository.save(TEAM_REQ_MAPPER.toEntity(req));
+    }
+
+    private Team findByTeamCode(String teamCode) {
+        return teamRepository.findByCode(teamCode)
+                .orElseThrow(() -> new GeneralException(ErrorStatus.TEAM_NOT_FOUND));
     }
 }
