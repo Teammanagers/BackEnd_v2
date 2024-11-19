@@ -1,4 +1,4 @@
-package kr.teammangers.dev.config.auditor;
+package kr.teammangers.dev.global.config;
 
 import kr.teammangers.dev.member.domain.Member;
 import org.springframework.context.annotation.Configuration;
