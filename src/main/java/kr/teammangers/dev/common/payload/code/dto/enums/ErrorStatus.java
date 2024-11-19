@@ -1,9 +1,7 @@
 package kr.teammangers.dev.common.payload.code.dto.enums;
 
-import kr.teammangers.dev.auth.constants.AuthErrorMessage;
 import kr.teammangers.dev.common.payload.code.base.ErrorBaseCode;
 import kr.teammangers.dev.common.payload.code.dto.ErrorReasonDto;
-import kr.teammangers.dev.member.constant.MemberErrorMessage;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
@@ -22,13 +20,19 @@ public enum ErrorStatus implements ErrorBaseCode {
     _NOT_FOUND(NOT_FOUND, "404", "찾을 수 없습니다."),
 
     // Auth
-    AUTH_FORBIDDEN(FORBIDDEN, "AUTH403", AuthErrorMessage.OAUTH2_AUTHENTICATION_FAILED),
-    AUTH_ILLEGAL_REGISTRATION_ID(NOT_ACCEPTABLE, "AUTH406", AuthErrorMessage.ILLEGAL_REGISTRATION_ID),
-    AUTH_INVALID_EXPIRED_TOKEN(UNAUTHORIZED, "AUTH4010", AuthErrorMessage.INVALID_EXPIRED_TOKEN),
-    AUTH_INVALID_JWT_SIGNATURE(UNAUTHORIZED, "AUTH4012", AuthErrorMessage.INVALID_JWT_SIGNATURE),
+    AUTH_FORBIDDEN(FORBIDDEN, "AUTH403", "OAuth2 로그인에 실패하였습니다."),
+    AUTH_ILLEGAL_REGISTRATION_ID(NOT_ACCEPTABLE, "AUTH406", "Registration ID가 올바르지 않습니다."),
+    AUTH_INVALID_EXPIRED_TOKEN(UNAUTHORIZED, "AUTH4010", "토큰이 유효하지 않거나, 만료된 토큰입니다."),
+    AUTH_INVALID_JWT_SIGNATURE(UNAUTHORIZED, "AUTH4012", "잘못된 JWT 시그니처입니다."),
 
     // Member
-    MEMBER_NOT_FOUND(NOT_FOUND, "MEMBER404", MemberErrorMessage.NOT_FOUND);
+    MEMBER_NOT_FOUND(NOT_FOUND, "MEMBER404", entityNotFoundMessage("사용자")),
+
+    // Team
+    TEAM_NOT_FOUND(NOT_FOUND, "TEAM404", entityNotFoundMessage("팀"));
+
+    // 공통 에러 응답 템플릿
+    private static final String NOT_FOUND_TEMPLATE = "%s을(를) 찾을 수 없습니다.";
 
     private final HttpStatus httpStatus;
     private final String code;
@@ -48,4 +52,9 @@ public enum ErrorStatus implements ErrorBaseCode {
                 .httpStatus(httpStatus)
                 .build();
     }
+
+    private static String entityNotFoundMessage(String entityName) {
+        return String.format(NOT_FOUND_TEMPLATE, entityName);
+    }
+
 }
