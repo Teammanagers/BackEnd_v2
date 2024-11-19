@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
+import static kr.teammangers.dev.common.payload.code.dto.enums.CommonErrorMessage.*;
 import static org.springframework.http.HttpStatus.*;
 
 @Getter
@@ -28,11 +29,12 @@ public enum ErrorStatus implements ErrorBaseCode {
     // Member
     MEMBER_NOT_FOUND(NOT_FOUND, "MEMBER404", entityNotFoundMessage("사용자")),
 
+    // Term
+    TERMS_ALREADY_EXISTS(FORBIDDEN, "TERMS4031", IS_ALREADY_EXISTS),
+
     // Team
     TEAM_NOT_FOUND(NOT_FOUND, "TEAM404", entityNotFoundMessage("팀"));
 
-    // 공통 에러 응답 템플릿
-    private static final String NOT_FOUND_TEMPLATE = "%s을(를) 찾을 수 없습니다.";
 
     private final HttpStatus httpStatus;
     private final String code;

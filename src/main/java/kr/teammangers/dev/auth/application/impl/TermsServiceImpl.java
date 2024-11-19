@@ -19,6 +19,11 @@ public class TermsServiceImpl implements TermsService {
         return insert(memberId).getMemberId();
     }
 
+    @Override
+    public boolean existsByMemberId(Long memberId) {
+        return termsRepository.existsByMemberId(memberId);
+    }
+
     private Terms insert(Long memberId) {
         return termsRepository.save(TERMS_MAPPER.toEntity(memberId));
     }
