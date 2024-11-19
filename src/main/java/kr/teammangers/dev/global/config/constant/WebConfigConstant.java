@@ -1,4 +1,4 @@
-package kr.teammangers.dev.config.constant;
+package kr.teammangers.dev.global.config.constant;
 
 import org.springframework.beans.factory.annotation.Value;
 
@@ -8,7 +8,7 @@ public final class WebConfigConstant {
     }
 
     public static final String[] PERMITTED_URI = {
-            "/api/auth/**",
+            "/api/v2/auth/**",
             "/login",
             "/oauth2/**"
     };

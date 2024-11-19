@@ -4,6 +4,7 @@ import io.jsonwebtoken.Jwts;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import kr.teammangers.dev.auth.constants.AuthConstant;
 import kr.teammangers.dev.auth.dto.enums.TokenRule;
 import kr.teammangers.dev.auth.dto.enums.TokenStatus;
 import kr.teammangers.dev.auth.provider.TokenGenerator;
@@ -17,9 +18,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ObjectUtils;
 
 import java.security.Key;
 
+import static kr.teammangers.dev.auth.constants.AuthConstant.*;
 import static kr.teammangers.dev.auth.dto.enums.TokenRule.*;
 
 @Slf4j
@@ -98,6 +101,12 @@ public class TokenService {
         Cookie[] cookies = request.getCookies();
         if (cookies == null) throw new RuntimeException(""); // TODO: Exception
         return tokenUtil.resolveTokenFromCookie(cookies, tokenPrefix);
+    }
+
+    public String resolveTokenFromHeader(HttpServletRequest request, TokenRule tokenPrefix) {
+        String token = request.getHeader(tokenPrefix.getValue());
+        if(ObjectUtils.isEmpty(token)||!token.startsWith(TOKEN_PREFIX)) return null;
+        return token.substring(TOKEN_PREFIX.length());
     }
 
     public Authentication getAuthentication(String token) {

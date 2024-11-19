@@ -1,5 +1,6 @@
 package kr.teammangers.dev.member.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import kr.teammangers.dev.auth.domain.ProviderInfo;
 import kr.teammangers.dev.common.enums.EntityStatus;
 import kr.teammangers.dev.member.dto.enums.Role;
@@ -19,7 +20,9 @@ public record MemberDto(
         Role role,
 
         // BaseField
+        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
         LocalDateTime createdAt,
+        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
         LocalDateTime updatedAt,
         EntityStatus useYn
 ) {

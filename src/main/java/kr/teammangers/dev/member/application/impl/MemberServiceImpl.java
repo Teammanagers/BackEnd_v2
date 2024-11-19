@@ -7,43 +7,40 @@ import kr.teammangers.dev.member.dto.MemberDto;
 import kr.teammangers.dev.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 import static kr.teammangers.dev.member.mapper.MemberMapper.MEMBER_MAPPER;
 
 @Service
-@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
 
     @Override
-    @Transactional
-    public MemberDto findOneOrSave(final OAuth2UserInfo oAuth2UserInfo) {
-        return findByProviderId(oAuth2UserInfo.providerInfo().getProviderId())
-                .orElseGet(() -> save(MEMBER_MAPPER.toEntity(oAuth2UserInfo)));
+    public MemberDto findDtoOrSave(final OAuth2UserInfo oAuth2UserInfo) {
+        return MEMBER_MAPPER.toDto(memberRepository.findByProviderInfo_ProviderId(oAuth2UserInfo.providerInfo().getProviderId())
+                .orElseGet(() -> insertMember(MEMBER_MAPPER.toEntity(oAuth2UserInfo))));
     }
 
     @Override
-    @Transactional
-    public MemberDto save(final Member member) {
-        return MEMBER_MAPPER.toDto(memberRepository.save(member));
-    }
-
-    @Override
-    public Optional<MemberDto> findByProviderId(final String providerId) {
+    public MemberDto findDtoByProviderId(final String providerId) {
         return memberRepository.findByProviderInfo_ProviderId(providerId)
-                .map(MEMBER_MAPPER::toDto);
-    }
-
-    @Override
-    public MemberDto findMemberById(final Long id) {
-        return memberRepository.findById(id)
                 .map(MEMBER_MAPPER::toDto)
                 .orElseThrow(() -> new RuntimeException(""));   // TODO: Exception
+    }
+
+    @Override
+    public MemberDto findDtoById(final Long id) {
+        return MEMBER_MAPPER.toDto(findById(id));
+    }
+
+    private Member findById(final Long id) {
+        return memberRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException(""));   // TODO: Exception
+    }
+
+    private Member insertMember(final Member member) {
+        return memberRepository.save(member);
     }
 
 }

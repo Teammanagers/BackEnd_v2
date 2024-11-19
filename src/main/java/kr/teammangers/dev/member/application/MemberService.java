@@ -1,19 +1,16 @@
 package kr.teammangers.dev.member.application;
 
 import kr.teammangers.dev.auth.dto.OAuth2UserInfo;
-import kr.teammangers.dev.member.domain.Member;
 import kr.teammangers.dev.member.dto.MemberDto;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
 public interface MemberService {
-    MemberDto findOneOrSave(OAuth2UserInfo oAuth2UserInfo);
 
     @Transactional
-    MemberDto save(Member member);
+    MemberDto findDtoOrSave(OAuth2UserInfo oAuth2UserInfo);
 
-    Optional<MemberDto> findByProviderId(String providerId);
+    MemberDto findDtoByProviderId(String providerId);
 
-    MemberDto findMemberById(Long id);
+    MemberDto findDtoById(Long id);
+
 }

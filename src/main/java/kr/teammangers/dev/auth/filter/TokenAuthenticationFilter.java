@@ -5,7 +5,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import kr.teammangers.dev.auth.application.TokenService;
-import kr.teammangers.dev.config.constant.WebConfigConstant;
+import kr.teammangers.dev.global.config.constant.WebConfigConstant;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import static kr.teammangers.dev.auth.dto.enums.TokenRule.ACCESS_PREFIX;
-import static kr.teammangers.dev.auth.dto.enums.TokenRule.REFRESH_PREFIX;
 
 @Service
 @RequiredArgsConstructor
@@ -36,14 +35,17 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        String accessToken = tokenService.resolveTokenFromCookie(request, ACCESS_PREFIX);
+//        String accessToken = tokenService.resolveTokenFromCookie(request, ACCESS_PREFIX);
+        String accessToken = tokenService.resolveTokenFromHeader(request, ACCESS_PREFIX);
         if (tokenService.validateAccessToken(accessToken)) {
             setAuthenticationToContext(accessToken);
             filterChain.doFilter(request, response);
             return;
         }
 
-        String refreshToken = tokenService.resolveTokenFromCookie(request, REFRESH_PREFIX);
+//        throw new GeneralException(ErrorStatus._UNAUTHORIZED);
+
+//        String refreshToken = tokenService.resolveTokenFromCookie(request, REFRESH_PREFIX);
 //        MemberDto memberDto = findByRefreshToken(refreshToken);     // TODO: refreshToken 구현시
 //        if (jwtService.validateRefreshToken(refreshToken, memberDto.id())) {
 //            String reissuedAccessToken = jwtService.provideAccessToken(response, memberDto);

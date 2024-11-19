@@ -4,10 +4,13 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import jakarta.security.auth.message.AuthException;
 import jakarta.servlet.http.Cookie;
 import kr.teammangers.dev.auth.constants.AuthErrorMessage;
 import kr.teammangers.dev.auth.dto.enums.TokenRule;
 import kr.teammangers.dev.auth.dto.enums.TokenStatus;
+import kr.teammangers.dev.common.payload.code.dto.enums.ErrorStatus;
+import kr.teammangers.dev.common.payload.exception.GeneralException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -35,7 +38,7 @@ public class TokenUtil {
             log.error(AuthErrorMessage.INVALID_EXPIRED_TOKEN);
             return TokenStatus.EXPIRED;
         } catch (JwtException e) {
-            throw new RuntimeException("");     // TODO: Exception
+            throw new GeneralException(ErrorStatus._UNAUTHORIZED);     // TODO: Exception
         }
     }
 

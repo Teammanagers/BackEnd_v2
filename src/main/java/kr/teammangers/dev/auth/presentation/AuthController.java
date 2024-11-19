@@ -16,7 +16,7 @@ import static kr.teammangers.dev.auth.mapper.AuthMapper.AUTH_MAPPER;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/v2")
 public class AuthController {
 
     private final TokenService tokenService;
@@ -27,8 +27,7 @@ public class AuthController {
             HttpServletResponse response,
             @RequestBody TokenReq tokenReq
     ) {
-        MemberDto memberDto = memberService.findByProviderId(tokenReq.providerId())
-                .orElseThrow(() -> new RuntimeException(""));// TODO: Exception
+        MemberDto memberDto = memberService.findDtoByProviderId(tokenReq.providerId());
         tokenService.validMember(memberDto);
         String accessToken = tokenService.provideAccessToken(response, memberDto);
         String refreshToken = tokenService.provideRefreshToken(response, memberDto);
