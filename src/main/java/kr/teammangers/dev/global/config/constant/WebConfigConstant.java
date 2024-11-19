@@ -8,7 +8,6 @@ public final class WebConfigConstant {
     }
 
     public static final String[] PERMITTED_URI = {
-            "/api/v2/auth/**",
             "/login",
             "/oauth2/**"
     };
