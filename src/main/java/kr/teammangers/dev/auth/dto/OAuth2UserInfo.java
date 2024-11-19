@@ -1,6 +1,6 @@
 package kr.teammangers.dev.auth.dto;
 
-import kr.teammangers.dev.auth.domain.ProviderInfo;
+import kr.teammangers.dev.auth.domain.embed.ProviderInfo;
 import lombok.Builder;
 
 @Builder

@@ -1,7 +1,9 @@
 package kr.teammangers.dev.auth.mapper;
 
-import kr.teammangers.dev.auth.domain.ProviderInfo;
+import kr.teammangers.dev.auth.domain.embed.ProviderInfo;
 import kr.teammangers.dev.auth.dto.OAuth2UserInfo;
+import kr.teammangers.dev.common.payload.code.dto.enums.ErrorStatus;
+import kr.teammangers.dev.common.payload.exception.GeneralException;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -21,7 +23,7 @@ public interface ProviderMapper {
             case GOOGLE -> ofGoogle(attributes);
             case KAKAO -> ofKakao(attributes);
             case NAVER -> ofNaver(attributes);
-            default -> throw new RuntimeException();    // TODO: Exception
+            default -> throw new GeneralException(ErrorStatus.AUTH_ILLEGAL_REGISTRATION_ID);
         };
     }
 

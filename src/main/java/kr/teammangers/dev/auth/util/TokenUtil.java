@@ -4,7 +4,6 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import jakarta.security.auth.message.AuthException;
 import jakarta.servlet.http.Cookie;
 import kr.teammangers.dev.auth.constants.AuthErrorMessage;
 import kr.teammangers.dev.auth.dto.enums.TokenRule;

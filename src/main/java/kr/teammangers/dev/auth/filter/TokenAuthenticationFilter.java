@@ -5,6 +5,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import kr.teammangers.dev.auth.application.TokenService;
+import kr.teammangers.dev.common.payload.code.dto.enums.ErrorStatus;
 import kr.teammangers.dev.global.config.constant.WebConfigConstant;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -16,6 +17,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import static kr.teammangers.dev.auth.dto.enums.TokenRule.ACCESS_PREFIX;
+import static kr.teammangers.dev.common.payload.exception.ExceptionUtil.handleAuthException;
 
 @Service
 @RequiredArgsConstructor
@@ -41,9 +43,8 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             setAuthenticationToContext(accessToken);
             filterChain.doFilter(request, response);
             return;
-        }
+        } else handleAuthException(response, ErrorStatus.AUTH_INVALID_EXPIRED_TOKEN);
 
-//        throw new GeneralException(ErrorStatus._UNAUTHORIZED);
 
 //        String refreshToken = tokenService.resolveTokenFromCookie(request, REFRESH_PREFIX);
 //        MemberDto memberDto = findByRefreshToken(refreshToken);     // TODO: refreshToken 구현시

@@ -3,7 +3,6 @@ package kr.teammangers.dev.global.config;
 import kr.teammangers.dev.auth.application.OAuth2UserService;
 import kr.teammangers.dev.auth.application.TokenService;
 import kr.teammangers.dev.auth.filter.TokenAuthenticationFilter;
-import kr.teammangers.dev.auth.handler.CustomAuthenticationEntryPoint;
 import kr.teammangers.dev.auth.handler.OAuth2FailureHandler;
 import kr.teammangers.dev.auth.handler.OAuth2SuccessHandler;
 import lombok.Getter;
@@ -58,7 +57,6 @@ public class SecurityConfig {
                         .successHandler(oAuth2SuccessHandler)
                         .failureHandler(oAuth2FailureHandler)
                 )
-//                .exceptionHandling(configurer -> configurer.authenticationEntryPoint(new CustomAuthenticationEntryPoint()))
                 .addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
