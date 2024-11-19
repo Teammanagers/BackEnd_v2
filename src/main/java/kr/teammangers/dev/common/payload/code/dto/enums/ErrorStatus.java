@@ -6,7 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
-import static kr.teammangers.dev.common.payload.code.dto.enums.CommonErrorMessage.*;
+import static kr.teammangers.dev.common.payload.code.dto.enums.CommonErrorMessage.IS_ALREADY_EXISTS;
+import static kr.teammangers.dev.common.payload.code.dto.enums.CommonErrorMessage.NOT_FOUND_TEMPLATE;
 import static org.springframework.http.HttpStatus.*;
 
 @Getter
@@ -33,7 +34,13 @@ public enum ErrorStatus implements ErrorBaseCode {
     TERMS_ALREADY_EXISTS(FORBIDDEN, "TERMS4031", IS_ALREADY_EXISTS),
 
     // Team
-    TEAM_NOT_FOUND(NOT_FOUND, "TEAM404", entityNotFoundMessage("팀"));
+    TEAM_NOT_FOUND(NOT_FOUND, "TEAM404", entityNotFoundMessage("팀")),
+
+    // S3
+    S3_NOT_FOUND_FROM_BUCKET(NOT_FOUND, "S3_4041", entityNotFoundMessage("S3 버킷에서 파일")),
+
+    // 매핑 테이블
+    TEAM_IMG_NOT_FOUND(NOT_FOUND, "TEAM_IMG_404", entityNotFoundMessage("팀-S3 매핑 테이블"));
 
 
     private final HttpStatus httpStatus;
