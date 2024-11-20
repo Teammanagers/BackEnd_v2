@@ -10,8 +10,9 @@ import java.util.Optional;
 
 public interface NoticeRepository extends JpaRepository<Notice, Long> {
 
-    Optional<Notice> findTopByTeamIdOrderByUpdatedAtDesc(Long teamId);
+    @Query("SELECT n FROM Notice n WHERE n.team.id = :teamId ORDER BY n.updatedAt DESC")
+    Optional<Notice> findTopRecentByTeamId(@Param("teamId") Long teamId);
 
     @Query("SELECT n FROM Notice n WHERE n.team.id = :teamId ORDER BY n.updatedAt DESC")
-    List<Notice> findAllByTeamId(@Param("teamId") Long teamId);
+    List<Notice> findAllRecentByTeamId(@Param("teamId") Long teamId);
 }

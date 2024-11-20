@@ -45,12 +45,12 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     private Notice findRecentByTeamId(Long teamId) {
-        return noticeRepository.findTopByTeamIdOrderByUpdatedAtDesc(teamId)
+        return noticeRepository.findTopRecentByTeamId(teamId)
                 .orElseThrow(() -> new GeneralException(NOTICE_NOT_FOUND));
     }
 
     private List<Notice> findAllByTeamId(Long teamId) {
-        return noticeRepository.findAllByTeamId(teamId);
+        return noticeRepository.findAllRecentByTeamId(teamId);
     }
 
 }
