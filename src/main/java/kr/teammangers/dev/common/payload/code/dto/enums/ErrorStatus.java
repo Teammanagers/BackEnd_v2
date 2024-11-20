@@ -31,19 +31,22 @@ public enum ErrorStatus implements ErrorBaseCode {
     MEMBER_NOT_FOUND(NOT_FOUND, "MEMBER404", entityNotFoundMessage("사용자")),
 
     // Term
-    TERMS_ALREADY_EXISTS(FORBIDDEN, "TERMS4031", IS_ALREADY_EXISTS),
+    TERMS_ALREADY_EXISTS(FORBIDDEN, "TERMS4030", IS_ALREADY_EXISTS),
 
     // Team
     TEAM_NOT_FOUND(NOT_FOUND, "TEAM404", entityNotFoundMessage("팀")),
-    TEAM_MISMATCH_PASSWORD(BAD_REQUEST, "TEAM4001", "비밀번호가 틀렸습니다."),
-    TEAM_ALREADY_JOIN(FORBIDDEN, "TEAM4031", "이미 가입된 사용자입니다."),
+    TEAM_MISMATCH_PASSWORD(BAD_REQUEST, "TEAM4000", "비밀번호가 틀렸습니다."),
+    TEAM_ALREADY_JOIN(FORBIDDEN, "TEAM4030", "이미 가입된 사용자입니다."),
 
     // S3
-    S3_NOT_FOUND_FROM_BUCKET(NOT_FOUND, "S3_4041", entityNotFoundMessage("S3 버킷에서 파일")),
+    S3_NOT_FOUND_FROM_BUCKET(NOT_FOUND, "S34040", entityNotFoundMessage("S3 버킷에서 파일")),
+
+    // Notice
+    NOTICE_NO_AUTHORITY(UNAUTHORIZED, "NOTICE4010", "팀 공지 관리 권한이 없습니다"),
+    NOTICE_NOT_FOUND(NOT_FOUND, "NOTICE4040", entityNotFoundMessage("공지")),
 
     // 매핑 테이블
     TEAM_IMG_NOT_FOUND(NOT_FOUND, "TEAM_IMG_404", entityNotFoundMessage("팀-S3 매핑 테이블"));
-
 
     private final HttpStatus httpStatus;
     private final String code;
