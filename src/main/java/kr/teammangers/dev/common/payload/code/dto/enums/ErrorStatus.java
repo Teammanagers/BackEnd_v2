@@ -43,6 +43,7 @@ public enum ErrorStatus implements ErrorBaseCode {
 
     // Notice
     NOTICE_NO_AUTHORITY(UNAUTHORIZED, "NOTICE4010", "공지 생성 권한이 없습니다"),
+    NOTICE_NOT_FOUND(NOT_FOUND, "NOTICE4040", entityNotFoundMessage("공지")),
 
     // 매핑 테이블
     TEAM_IMG_NOT_FOUND(NOT_FOUND, "TEAM_IMG_404", entityNotFoundMessage("팀-S3 매핑 테이블"));

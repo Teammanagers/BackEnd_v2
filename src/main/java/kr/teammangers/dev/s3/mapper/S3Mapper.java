@@ -18,9 +18,4 @@ public interface S3Mapper {
 
     S3FileInfoDto toDto(S3FileInfo s3FileInfo);
 
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "team", source = "team")
-    @Mapping(target = "s3FileInfo", source = "s3FileInfo")
-    TeamImg toTeamImgEntity(Team team, S3FileInfo s3FileInfo);
-
 }
