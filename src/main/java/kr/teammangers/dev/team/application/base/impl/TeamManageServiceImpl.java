@@ -1,8 +1,8 @@
-package kr.teammangers.dev.team.application.impl;
+package kr.teammangers.dev.team.application.base.impl;
 
 import kr.teammangers.dev.member.domain.Member;
 import kr.teammangers.dev.member.repository.MemberRepository;
-import kr.teammangers.dev.team.application.TeamMangeService;
+import kr.teammangers.dev.team.application.base.TeamManageService;
 import kr.teammangers.dev.team.domain.Team;
 import kr.teammangers.dev.team.mapper.TeamManageMapper;
 import kr.teammangers.dev.team.repository.TeamRepository;
@@ -12,11 +12,16 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class TeamManageServiceImpl implements TeamMangeService {
+public class TeamManageServiceImpl implements TeamManageService {
 
     private final TeamManageRepository teamManageRepository;
     private final TeamRepository teamRepository;
     private final MemberRepository memberRepository;
+
+    @Override
+    public boolean exists(Long teamId, Long memberId) {
+        return teamManageRepository.existsByTeam_IdAndMember_Id(teamId, memberId);
+    }
 
     @Override
     public Long save(Long teamId, Long memberId) {

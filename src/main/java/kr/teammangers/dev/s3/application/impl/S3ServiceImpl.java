@@ -2,6 +2,8 @@ package kr.teammangers.dev.s3.application.impl;
 
 import io.awspring.cloud.s3.ObjectMetadata;
 import io.awspring.cloud.s3.S3Operations;
+import io.awspring.cloud.s3.S3Template;
+import kr.teammangers.dev.common.payload.exception.GeneralException;
 import kr.teammangers.dev.s3.application.S3Service;
 import kr.teammangers.dev.s3.domain.S3FileInfo;
 import kr.teammangers.dev.s3.dto.FileNameParts;
@@ -16,7 +18,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.Duration;
 
+import static kr.teammangers.dev.common.payload.code.dto.enums.ErrorStatus.S3_NOT_FOUND_FROM_BUCKET;
 import static kr.teammangers.dev.s3.mapper.S3Mapper.S3_MAPPER;
 
 @Service
@@ -27,6 +31,7 @@ public class S3ServiceImpl implements S3Service {
     private String bucketName;
 
     private final S3Operations s3Operations;
+    private final S3Template s3Template;
     private final S3Repository s3Repository;
 
     @Override
@@ -53,6 +58,14 @@ public class S3ServiceImpl implements S3Service {
                 .build());
 
         return S3_MAPPER.toDto(s3FileInfo);
+    }
+
+    @Override
+    public String generateUrl(String filePath) {
+        boolean doesObjectExist = s3Operations.objectExists(bucketName, filePath);
+        if(!doesObjectExist) throw new GeneralException(S3_NOT_FOUND_FROM_BUCKET);
+
+        return s3Template.createSignedGetURL(bucketName, filePath, Duration.ofHours(1L)).toString();
     }
 
     private S3FileInfo insert(final S3FileInfo s3FileInfo) {
