@@ -1,6 +1,7 @@
 package kr.teammangers.dev.notice.application;
 
 import kr.teammangers.dev.notice.dto.req.CreateNoticeReq;
+import kr.teammangers.dev.notice.dto.req.DeleteNoticeReq;
 import kr.teammangers.dev.notice.dto.req.UpdateNoticeReq;
 import kr.teammangers.dev.notice.dto.res.GetNoticeRes;
 
@@ -14,4 +15,6 @@ public interface NoticeCrudService {
     List<GetNoticeRes> getNoticeList(Long teamId);
 
     void updateNotice(Long memberId, Long teamId, UpdateNoticeReq req);
+
+    void deleteNotice(Long memberId, Long teamId, DeleteNoticeReq req);
 }

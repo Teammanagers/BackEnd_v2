@@ -4,6 +4,7 @@ import kr.teammangers.dev.auth.dto.AuthInfo;
 import kr.teammangers.dev.common.payload.ApiRes;
 import kr.teammangers.dev.notice.application.NoticeCrudService;
 import kr.teammangers.dev.notice.dto.req.CreateNoticeReq;
+import kr.teammangers.dev.notice.dto.req.DeleteNoticeReq;
 import kr.teammangers.dev.notice.dto.req.UpdateNoticeReq;
 import kr.teammangers.dev.notice.dto.res.GetNoticeRes;
 import lombok.RequiredArgsConstructor;
@@ -52,6 +53,16 @@ public class NoticeController {
             @RequestBody final UpdateNoticeReq req
     ) {
         noticeCrudService.updateNotice(auth.memberDto().id(), teamId, req);
+        return ApiRes.onSuccess();
+    }
+
+    @DeleteMapping
+    public ApiRes<Void> deleteNotice(
+            @AuthenticationPrincipal final AuthInfo auth,
+            @PathVariable("teamId") final Long teamId,
+            @RequestBody final DeleteNoticeReq req
+    ) {
+        noticeCrudService.deleteNotice(auth.memberDto().id(), teamId, req);
         return ApiRes.onSuccess();
     }
 

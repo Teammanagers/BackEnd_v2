@@ -35,6 +35,12 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
+    public Long delete(Long noticeId) {
+        noticeRepository.deleteById(noticeId);
+        return noticeId;
+    }
+
+    @Override
     public NoticeDto findRecentDtoByTeamId(Long teamId) {
         return NOTICE_MAPPER.toDto(findRecentByTeamId(teamId));
     }

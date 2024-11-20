@@ -4,6 +4,7 @@ import kr.teammangers.dev.notice.application.NoticeCrudService;
 import kr.teammangers.dev.notice.application.NoticeService;
 import kr.teammangers.dev.notice.dto.NoticeDto;
 import kr.teammangers.dev.notice.dto.req.CreateNoticeReq;
+import kr.teammangers.dev.notice.dto.req.DeleteNoticeReq;
 import kr.teammangers.dev.notice.dto.req.UpdateNoticeReq;
 import kr.teammangers.dev.notice.dto.res.GetNoticeRes;
 import kr.teammangers.dev.team.application.base.TeamService;
@@ -46,6 +47,13 @@ public class NoticeCrudServiceImpl implements NoticeCrudService {
     public void updateNotice(Long memberId, Long teamId, UpdateNoticeReq req) {
         teamService.validateTeamAdmin(teamId, memberId);
         noticeService.update(req.noticeId(), req.content());
+    }
+
+    @Override
+    @Transactional
+    public void deleteNotice(Long memberId, Long teamId, DeleteNoticeReq req) {
+        teamService.validateTeamAdmin(teamId, memberId);
+        noticeService.delete(req.noticeId());
     }
 
 }

@@ -9,6 +9,8 @@ public interface NoticeService {
 
     NoticeDto update(Long noticeId, String content);
 
+    Long delete(Long noticeId);
+
     NoticeDto findRecentDtoByTeamId(Long teamId);
 
     List<NoticeDto> findAllDtoByTeamId(Long teamId);
