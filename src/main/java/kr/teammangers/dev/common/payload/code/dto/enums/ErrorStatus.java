@@ -42,7 +42,7 @@ public enum ErrorStatus implements ErrorBaseCode {
     S3_NOT_FOUND_FROM_BUCKET(NOT_FOUND, "S34040", entityNotFoundMessage("S3 버킷에서 파일")),
 
     // Notice
-    NOTICE_NO_AUTHORITY(UNAUTHORIZED, "NOTICE4010", "공지 생성 권한이 없습니다"),
+    NOTICE_NO_AUTHORITY(UNAUTHORIZED, "NOTICE4010", "팀 공지 관리 권한이 없습니다"),
     NOTICE_NOT_FOUND(NOT_FOUND, "NOTICE4040", entityNotFoundMessage("공지")),
 
     // 매핑 테이블

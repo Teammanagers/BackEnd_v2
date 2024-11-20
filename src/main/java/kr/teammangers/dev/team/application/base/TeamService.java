@@ -10,4 +10,6 @@ public interface TeamService {
     TeamDto findDtoByTeamCode(String teamCode);
 
     TeamDto findDtoById(Long id);
+
+    void validateTeamAdmin(Long teamId, Long memberId);
 }

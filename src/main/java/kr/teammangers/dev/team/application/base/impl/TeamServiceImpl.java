@@ -10,6 +10,9 @@ import kr.teammangers.dev.team.repository.TeamRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+
+import static kr.teammangers.dev.common.payload.code.dto.enums.ErrorStatus.NOTICE_NO_AUTHORITY;
 import static kr.teammangers.dev.team.mapper.TeamMapper.TEAM_MAPPER;
 import static kr.teammangers.dev.team.mapper.TeamReqMapper.TEAM_REQ_MAPPER;
 
@@ -33,6 +36,13 @@ public class TeamServiceImpl implements TeamService {
     @Override
     public TeamDto findDtoById(Long id) {
         return TEAM_MAPPER.toDto(findById(id));
+    }
+
+    @Override
+    public void validateTeamAdmin(Long teamId, Long memberId) {
+        if(!Objects.equals(findById(teamId).getCreatedBy(), memberId)) {
+            throw new GeneralException(NOTICE_NO_AUTHORITY);
+        }
     }
 
     private Team insert(CreateTeamReq req) {

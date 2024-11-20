@@ -28,6 +28,13 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
+    public NoticeDto update(Long noticeId, String content) {
+        Notice notice = findById(noticeId);
+        notice.updateContent(content);
+        return NOTICE_MAPPER.toDto(notice);
+    }
+
+    @Override
     public NoticeDto findRecentDtoByTeamId(Long teamId) {
         return NOTICE_MAPPER.toDto(findRecentByTeamId(teamId));
     }
@@ -42,6 +49,11 @@ public class NoticeServiceImpl implements NoticeService {
     private Notice insert(Long teamId, String content) {
         Team team = teamRepository.getReferenceById(teamId);
         return noticeRepository.save(NOTICE_MAPPER.toEntity(content, team));
+    }
+
+    private Notice findById(Long id) {
+        return noticeRepository.findById(id)
+                .orElseThrow(() -> new GeneralException(NOTICE_NOT_FOUND));
     }
 
     private Notice findRecentByTeamId(Long teamId) {

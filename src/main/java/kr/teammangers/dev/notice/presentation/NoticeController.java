@@ -4,6 +4,7 @@ import kr.teammangers.dev.auth.dto.AuthInfo;
 import kr.teammangers.dev.common.payload.ApiRes;
 import kr.teammangers.dev.notice.application.NoticeCrudService;
 import kr.teammangers.dev.notice.dto.req.CreateNoticeReq;
+import kr.teammangers.dev.notice.dto.req.UpdateNoticeReq;
 import kr.teammangers.dev.notice.dto.res.GetNoticeRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -42,6 +43,16 @@ public class NoticeController {
     ) {
         List<GetNoticeRes> result = noticeCrudService.getNoticeList(teamId);
         return ApiRes.onSuccess(result);
+    }
+
+    @PatchMapping
+    public ApiRes<Void> updateNotice(
+            @AuthenticationPrincipal final AuthInfo auth,
+            @PathVariable("teamId") final Long teamId,
+            @RequestBody final UpdateNoticeReq req
+    ) {
+        noticeCrudService.updateNotice(auth.memberDto().id(), teamId, req);
+        return ApiRes.onSuccess();
     }
 
 }

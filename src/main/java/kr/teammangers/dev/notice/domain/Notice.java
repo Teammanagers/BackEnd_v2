@@ -28,4 +28,10 @@ public class Notice extends BaseField {
     @JoinColumn(name = "team_id", nullable = false)
     private Team team;
 
+    public void updateContent(String content) {
+        if (content != null && !content.isBlank()) {
+            this.content = content;
+        }
+    }
+
 }
