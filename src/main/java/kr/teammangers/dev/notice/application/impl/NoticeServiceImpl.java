@@ -10,6 +10,8 @@ import kr.teammangers.dev.team.repository.TeamRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 import static kr.teammangers.dev.common.payload.code.dto.enums.ErrorStatus.*;
 import static kr.teammangers.dev.notice.mapper.NoticeMapper.NOTICE_MAPPER;
 
@@ -30,6 +32,13 @@ public class NoticeServiceImpl implements NoticeService {
         return NOTICE_MAPPER.toDto(findRecentByTeamId(teamId));
     }
 
+    @Override
+    public List<NoticeDto> findAllDtoByTeamId(Long teamId) {
+        return findAllByTeamId(teamId).stream()
+                .map(NOTICE_MAPPER::toDto)
+                .toList();
+    }
+
     private Notice insert(Long teamId, String content) {
         Team team = teamRepository.getReferenceById(teamId);
         return noticeRepository.save(NOTICE_MAPPER.toEntity(content, team));
@@ -38,6 +47,10 @@ public class NoticeServiceImpl implements NoticeService {
     private Notice findRecentByTeamId(Long teamId) {
         return noticeRepository.findTopByTeamIdOrderByUpdatedAtDesc(teamId)
                 .orElseThrow(() -> new GeneralException(NOTICE_NOT_FOUND));
+    }
+
+    private List<Notice> findAllByTeamId(Long teamId) {
+        return noticeRepository.findAllByTeamId(teamId);
     }
 
 }

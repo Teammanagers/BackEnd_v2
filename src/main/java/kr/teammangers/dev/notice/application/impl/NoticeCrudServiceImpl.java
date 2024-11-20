@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Objects;
 
 import static kr.teammangers.dev.common.payload.code.dto.enums.ErrorStatus.NOTICE_NO_AUTHORITY;
@@ -36,6 +37,13 @@ public class NoticeCrudServiceImpl implements NoticeCrudService {
     public GetNoticeRes getNotice(Long teamId) {
         NoticeDto noticeDto = noticeService.findRecentDtoByTeamId(teamId);
         return GetNoticeRes.builder().notice(noticeDto).build();
+    }
+
+    @Override
+    public List<GetNoticeRes> getNoticeList(Long teamId) {
+        return noticeService.findAllDtoByTeamId(teamId).stream()
+                .map(noticeDto -> GetNoticeRes.builder().notice(noticeDto).build())
+                .toList();
     }
 
 }

@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v2/team/{teamId}/notice")
@@ -31,6 +33,14 @@ public class NoticeController {
             @PathVariable("teamId") final Long teamId
     ) {
         GetNoticeRes result = noticeCrudService.getNotice(teamId);
+        return ApiRes.onSuccess(result);
+    }
+
+    @GetMapping("/list")
+    public ApiRes<List<GetNoticeRes>> getNoticeList(
+            @PathVariable("teamId") final Long teamId
+    ) {
+        List<GetNoticeRes> result = noticeCrudService.getNoticeList(teamId);
         return ApiRes.onSuccess(result);
     }
 
