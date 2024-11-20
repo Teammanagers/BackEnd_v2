@@ -48,4 +48,5 @@ public class TeamServiceImpl implements TeamService {
         return teamRepository.findById(id)
                 .orElseThrow(() -> new GeneralException(ErrorStatus.TEAM_NOT_FOUND));
     }
+
 }

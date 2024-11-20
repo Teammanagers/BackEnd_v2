@@ -57,7 +57,18 @@ public class TeamCrudServiceImpl implements TeamCrudService {
     @Override
     public GetTeamRes getTeamByTeamCode(String teamCode) {
         TeamDto teamDto = teamService.findDtoByTeamCode(teamCode);
+        return buildGetTeamRes(teamDto);
+    }
 
+    @Override
+    public List<GetTeamRes> getTeamListByMemberId(Long memberId) {
+        List<TeamDto> teamDtoList = teamManageService.findAllTeamDtoByMemberId(memberId);
+        return teamDtoList.stream()
+                .map(this::buildGetTeamRes)
+                .toList();
+    }
+
+    private GetTeamRes buildGetTeamRes(TeamDto teamDto) {
         String filePath = teamImgService.findFilePathByTeamId(teamDto.id());
         String generatedUrl = s3Service.generateUrl(filePath);
 

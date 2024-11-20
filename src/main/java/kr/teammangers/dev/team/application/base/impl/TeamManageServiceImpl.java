@@ -4,11 +4,16 @@ import kr.teammangers.dev.member.domain.Member;
 import kr.teammangers.dev.member.repository.MemberRepository;
 import kr.teammangers.dev.team.application.base.TeamManageService;
 import kr.teammangers.dev.team.domain.Team;
+import kr.teammangers.dev.team.domain.mapping.TeamManage;
+import kr.teammangers.dev.team.dto.TeamDto;
 import kr.teammangers.dev.team.mapper.TeamManageMapper;
+import kr.teammangers.dev.team.mapper.TeamMapper;
 import kr.teammangers.dev.team.repository.TeamRepository;
 import kr.teammangers.dev.team.repository.mapping.TeamManageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +33,14 @@ public class TeamManageServiceImpl implements TeamManageService {
         Team team = teamRepository.getReferenceById(teamId);
         Member member = memberRepository.getReferenceById(memberId);
         return teamManageRepository.save(TeamManageMapper.TEAM_MANAGE_MAPPER.toEntity(team, member)).getId();
+    }
+
+    @Override
+    public List<TeamDto> findAllTeamDtoByMemberId(Long memberId) {
+        List<TeamManage> result = teamManageRepository.findAllByMember_Id(memberId);
+        return result.stream()
+                .map(teamManage -> TeamMapper.TEAM_MAPPER.toDto(teamManage.getTeam()))
+                .toList();
     }
 
 }

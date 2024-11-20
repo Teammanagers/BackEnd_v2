@@ -15,6 +15,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v2/team")
@@ -43,6 +45,14 @@ public class TeamController {
             @RequestParam("teamCode") final String teamCode
     ) {
         GetTeamRes result = teamCrudService.getTeamByTeamCode(teamCode);
+        return ApiRes.onSuccess(result);
+    }
+
+    @GetMapping("/list")
+    public ApiRes<List<GetTeamRes>> getTeamListByMember(
+            @AuthenticationPrincipal final AuthInfo auth
+    ) {
+        List<GetTeamRes> result = teamCrudService.getTeamListByMemberId(auth.memberDto().id());
         return ApiRes.onSuccess(result);
     }
 
