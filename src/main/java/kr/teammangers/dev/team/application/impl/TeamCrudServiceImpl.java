@@ -7,8 +7,8 @@ import kr.teammangers.dev.tag.application.TagService;
 import kr.teammangers.dev.tag.application.TeamTagService;
 import kr.teammangers.dev.tag.dto.TagDto;
 import kr.teammangers.dev.team.application.TeamCrudService;
-import kr.teammangers.dev.team.application.TeamMangeService;
-import kr.teammangers.dev.team.application.TeamService;
+import kr.teammangers.dev.team.application.base.TeamManageService;
+import kr.teammangers.dev.team.application.base.TeamService;
 import kr.teammangers.dev.team.dto.TeamDto;
 import kr.teammangers.dev.team.dto.req.CreateTeamReq;
 import kr.teammangers.dev.team.dto.res.CreateTeamRes;
@@ -29,7 +29,7 @@ import static kr.teammangers.dev.team.mapper.TeamResMapper.TEAM_RES_MAPPER;
 public class TeamCrudServiceImpl implements TeamCrudService {
 
     private final TeamService teamService;
-    private final TeamMangeService teamManageService;
+    private final TeamManageService teamManageService;
     private final TeamImgService teamImgService;
     private final S3Service s3Service;
     private final TagService tagService;
