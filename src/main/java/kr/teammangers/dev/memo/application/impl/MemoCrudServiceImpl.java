@@ -4,14 +4,15 @@ import kr.teammangers.dev.memo.application.MemoCrudService;
 import kr.teammangers.dev.memo.application.MemoService;
 import kr.teammangers.dev.memo.dto.MemoDto;
 import kr.teammangers.dev.memo.dto.req.CreateMemoReq;
+import kr.teammangers.dev.memo.dto.req.DeleteMemoReq;
 import kr.teammangers.dev.memo.dto.req.UpdateMemoReq;
 import kr.teammangers.dev.memo.dto.res.CreateMemoRes;
+import kr.teammangers.dev.memo.dto.res.DeleteMemoRes;
 import kr.teammangers.dev.memo.dto.res.GetMemoRes;
 import kr.teammangers.dev.memo.dto.res.UpdateMemoRes;
 import kr.teammangers.dev.tag.application.MemoTagService;
 import kr.teammangers.dev.tag.application.TagService;
 import kr.teammangers.dev.tag.dto.TagDto;
-import kr.teammangers.dev.team.application.base.TeamService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,12 +30,11 @@ public class MemoCrudServiceImpl implements MemoCrudService {
     private final MemoService memoService;
     private final TagService tagService;
     private final MemoTagService memoTagService;
-    private final TeamService teamService;
 
     @Override
     @Transactional
-    public CreateMemoRes createMemo(Long teamId, CreateMemoReq req) {
-        MemoDto memoDto = memoService.save(teamId, req);
+    public CreateMemoRes createMemo(CreateMemoReq req) {
+        MemoDto memoDto = memoService.save(req);
         Optional.ofNullable(req.memoTagList())
                 .ifPresent(memoTagList -> memoTagList
                         .forEach(tagName -> saveMemoTagFromTagName(memoDto.id(), tagName)));
@@ -54,8 +54,8 @@ public class MemoCrudServiceImpl implements MemoCrudService {
 
     @Override
     @Transactional
-    public UpdateMemoRes updateMemo(Long memberId, Long teamId, UpdateMemoReq req) {
-        teamService.validateTeamAdmin(teamId, memberId);
+    public UpdateMemoRes updateMemo(Long memberId, UpdateMemoReq req) {
+        memoService.validateMemoAdmin(req.memoId(), memberId);
         MemoDto memoDto = memoService.update(req);
 
         List<String> existingTagNames = memoTagService.findAllTagDtoByMemoId(req.memoId()).stream()
@@ -76,6 +76,15 @@ public class MemoCrudServiceImpl implements MemoCrudService {
                 }, () -> memoTagService.deleteAllByMemoId(memoDto.id()));
 
         return MEMO_RES_MAPPER.toUpdate(memoDto);
+    }
+
+    @Override
+    @Transactional
+    public DeleteMemoRes deleteMemo(Long memberId, DeleteMemoReq req) {
+        memoService.validateMemoAdmin(req.memoId(), memberId);
+        memoTagService.deleteAllByMemoId(req.memoId());
+        memoService.deleteById(req.memoId());
+        return MEMO_RES_MAPPER.toDelete(req.memoId());
     }
 
     private void saveMemoTagFromTagName(Long memoId, String tagName) {

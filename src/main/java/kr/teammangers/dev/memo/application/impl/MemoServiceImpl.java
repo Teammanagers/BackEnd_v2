@@ -13,8 +13,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
-import static kr.teammangers.dev.common.payload.code.dto.enums.ErrorStatus.MEMO_NOT_FOUND;
+import static kr.teammangers.dev.common.payload.code.dto.enums.ErrorStatus.*;
 import static kr.teammangers.dev.memo.mapper.MemoMapper.MEMO_MAPPER;
 
 @Service
@@ -25,8 +26,8 @@ public class MemoServiceImpl implements MemoService {
     private final TeamRepository teamRepository;
 
     @Override
-    public MemoDto save(Long teamId, CreateMemoReq req) {
-        Team team = teamRepository.getReferenceById(teamId);
+    public MemoDto save(CreateMemoReq req) {
+        Team team = teamRepository.getReferenceById(req.teamId());
         return MEMO_MAPPER.toDto(insert(req, team));
     }
 
@@ -43,6 +44,18 @@ public class MemoServiceImpl implements MemoService {
         Memo memo = findById(req.memoId());
         memo.update(req);
         return MEMO_MAPPER.toDto(memo);
+    }
+
+    @Override
+    public void deleteById(Long memoId) {
+        memoRepository.deleteById(memoId);
+    }
+
+    @Override
+    public void validateMemoAdmin(Long memoId, Long memberId) {
+        if(!Objects.equals(findById(memoId).getCreatedBy(), memberId)) {
+            throw new GeneralException(MEMO_NO_AUTHORITY);
+        }
     }
 
     private Memo insert(CreateMemoReq req, Team team) {
