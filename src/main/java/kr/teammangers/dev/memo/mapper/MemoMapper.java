@@ -19,7 +19,7 @@ public interface MemoMapper {
     @Mapping(target = "team", source = "team")
     Memo toEntity(CreateMemoReq req, Team team);
 
-    @Mapping(target = "teamManageId", source = "teamManage.id")
+    @Mapping(target = "teamId", source = "team.id")
     MemoDto toDto(Memo memo);
 
 }

@@ -8,7 +8,6 @@ import kr.teammangers.dev.team.application.base.TeamService;
 import kr.teammangers.dev.team.dto.TeamDto;
 import kr.teammangers.dev.team.dto.req.JoinTeamReq;
 import kr.teammangers.dev.team.dto.res.JoinTeamRes;
-import kr.teammangers.dev.team.mapper.TeamResMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

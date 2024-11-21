@@ -18,8 +18,9 @@ public interface MemoResMapper {
     @Mapping(target = "createdMemoId", source = "id")
     CreateMemoRes toCreate(MemoDto memoDto);
 
-    @Mapping(target = "title", source = "title")
-    @Mapping(target = "content", source = "content")
+    @Mapping(target = "title", source = "memoDto.title")
+    @Mapping(target = "content", source = "memoDto.content")
+    @Mapping(target = "memoTagList", source = "memoTagList")
     GetMemoRes toGet(MemoDto memoDto, List<TagDto> memoTagList);
 
 }
