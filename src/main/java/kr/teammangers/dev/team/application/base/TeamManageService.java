@@ -10,4 +10,6 @@ public interface TeamManageService {
     Long save(Long teamId, Long memberId);
 
     List<TeamDto> findAllTeamDtoByMemberId(Long memberId);
+
+    Long findIdByTeamIdAndMemberId(Long teamId, Long memberId);
 }
