@@ -51,7 +51,7 @@ public class TeamCrudServiceImpl implements TeamCrudService {
             teamTagService.save(teamDto.id(), tagDto.id());
         });
 
-        return CreateTeamRes.builder().teamId(teamDto.id()).build();
+        return TEAM_RES_MAPPER.toCreate(teamDto);
     }
 
     @Override
@@ -74,7 +74,7 @@ public class TeamCrudServiceImpl implements TeamCrudService {
 
         List<TagDto> tagDtoList = teamTagService.findAllTagDtoByTeamId(teamDto.id());
 
-        return TEAM_RES_MAPPER.toGetTeamRes(teamDto, generatedUrl, tagDtoList);
+        return TEAM_RES_MAPPER.toGet(teamDto, generatedUrl, tagDtoList);
     }
 
 }

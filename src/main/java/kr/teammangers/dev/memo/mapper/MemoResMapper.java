@@ -11,7 +11,7 @@ public interface MemoResMapper {
 
     MemoResMapper MEMO_RES_MAPPER = Mappers.getMapper(MemoResMapper.class);
 
-    @Mapping(target = "memoId", source = "id")
+    @Mapping(target = "createdMemoId", source = "id")
     CreateMemoRes toCreate(MemoDto memoDto);
 
 }

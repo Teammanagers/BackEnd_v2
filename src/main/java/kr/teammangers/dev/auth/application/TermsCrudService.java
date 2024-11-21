@@ -1,5 +1,7 @@
 package kr.teammangers.dev.auth.application;
 
+import kr.teammangers.dev.auth.dto.res.CreateTermsRes;
+
 public interface TermsCrudService {
-    Long registerTerms(Long memberId);
+    CreateTermsRes registerTerms(Long memberId);
 }

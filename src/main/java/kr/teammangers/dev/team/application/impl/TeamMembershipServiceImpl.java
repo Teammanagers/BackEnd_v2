@@ -7,11 +7,15 @@ import kr.teammangers.dev.team.application.base.TeamManageService;
 import kr.teammangers.dev.team.application.base.TeamService;
 import kr.teammangers.dev.team.dto.TeamDto;
 import kr.teammangers.dev.team.dto.req.JoinTeamReq;
+import kr.teammangers.dev.team.dto.res.JoinTeamRes;
+import kr.teammangers.dev.team.mapper.TeamResMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
+
+import static kr.teammangers.dev.team.mapper.TeamResMapper.TEAM_RES_MAPPER;
 
 @Service
 @Transactional(readOnly = true)
@@ -23,7 +27,7 @@ public class TeamMembershipServiceImpl implements TeamMembershipService {
 
     @Override
     @Transactional
-    public void joinTeam(Long memberId, Long teamId, JoinTeamReq req) {
+    public JoinTeamRes joinTeam(Long memberId, Long teamId, JoinTeamReq req) {
         TeamDto teamDto = teamService.findDtoById(teamId);
 
         if (validPassword(teamDto, req.password())) {
@@ -32,7 +36,8 @@ public class TeamMembershipServiceImpl implements TeamMembershipService {
         if (isAlreadyJoin(teamDto, memberId)) {
             throw new GeneralException(ErrorStatus.TEAM_ALREADY_JOIN);
         }
-        teamManageService.save(teamId, memberId);
+        Long teamManageId = teamManageService.save(teamId, memberId);
+        return TEAM_RES_MAPPER.toJoin(teamManageId);
     }
 
     private boolean validPassword(TeamDto teamDto, String password) {

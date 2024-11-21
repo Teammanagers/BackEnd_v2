@@ -6,13 +6,18 @@ import kr.teammangers.dev.notice.dto.NoticeDto;
 import kr.teammangers.dev.notice.dto.req.CreateNoticeReq;
 import kr.teammangers.dev.notice.dto.req.DeleteNoticeReq;
 import kr.teammangers.dev.notice.dto.req.UpdateNoticeReq;
+import kr.teammangers.dev.notice.dto.res.CreateNoticeRes;
+import kr.teammangers.dev.notice.dto.res.DeleteNoticeRes;
 import kr.teammangers.dev.notice.dto.res.GetNoticeRes;
+import kr.teammangers.dev.notice.dto.res.UpdateNoticeRes;
 import kr.teammangers.dev.team.application.base.TeamService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+
+import static kr.teammangers.dev.notice.mapper.NoticeResMapper.NOTICE_RES_MAPPER;
 
 @Service
 @Transactional(readOnly = true)
@@ -24,36 +29,36 @@ public class NoticeCrudServiceImpl implements NoticeCrudService {
 
     @Override
     @Transactional
-    public void createNotice(Long memberId, Long teamId, CreateNoticeReq req) {
+    public CreateNoticeRes createNotice(Long memberId, Long teamId, CreateNoticeReq req) {
         teamService.validateTeamAdmin(teamId, memberId);
-        noticeService.save(teamId, req.content());
+        return NOTICE_RES_MAPPER.toCreate(noticeService.save(teamId, req.content()));
     }
 
     @Override
     public GetNoticeRes getNotice(Long teamId) {
         NoticeDto noticeDto = noticeService.findRecentDtoByTeamId(teamId);
-        return GetNoticeRes.builder().notice(noticeDto).build();
+        return NOTICE_RES_MAPPER.toGet(noticeDto);
     }
 
     @Override
     public List<GetNoticeRes> getNoticeList(Long teamId) {
         return noticeService.findAllDtoByTeamId(teamId).stream()
-                .map(noticeDto -> GetNoticeRes.builder().notice(noticeDto).build())
+                .map(NOTICE_RES_MAPPER::toGet)
                 .toList();
     }
 
     @Override
     @Transactional
-    public void updateNotice(Long memberId, Long teamId, UpdateNoticeReq req) {
+    public UpdateNoticeRes updateNotice(Long memberId, Long teamId, UpdateNoticeReq req) {
         teamService.validateTeamAdmin(teamId, memberId);
-        noticeService.update(req.noticeId(), req.content());
+        return NOTICE_RES_MAPPER.toUpdate(noticeService.update(req.noticeId(), req.content()));
     }
 
     @Override
     @Transactional
-    public void deleteNotice(Long memberId, Long teamId, DeleteNoticeReq req) {
+    public DeleteNoticeRes deleteNotice(Long memberId, Long teamId, DeleteNoticeReq req) {
         teamService.validateTeamAdmin(teamId, memberId);
-        noticeService.delete(req.noticeId());
+        return NOTICE_RES_MAPPER.toDelete(noticeService.delete(req.noticeId()));
     }
 
 }
