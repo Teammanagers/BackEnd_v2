@@ -46,7 +46,9 @@ public enum ErrorStatus implements ErrorBaseCode {
     NOTICE_NOT_FOUND(NOT_FOUND, "NOTICE4040", entityNotFoundMessage("공지")),
 
     // 매핑 테이블
-    TEAM_IMG_NOT_FOUND(NOT_FOUND, "TEAM_IMG_404", entityNotFoundMessage("팀-S3 매핑 테이블"));
+    TEAM_IMG_NOT_FOUND(NOT_FOUND, "TEAM_IMG404", entityNotFoundMessage("팀-S3 매핑 테이블")),
+    TEAM_MANAGE_NOT_FOUND(NOT_FOUND, "TEAM_MANAGE404", entityNotFoundMessage("팀-사용자 매핑 테이블"));
+
 
     private final HttpStatus httpStatus;
     private final String code;
