@@ -8,4 +8,8 @@ public interface MemoTagService {
     Long save(Long memoId, Long tagId);
 
     List<TagDto> findAllTagDtoByMemoId(Long memoId);
+
+    void deleteByMemoIdAndTagName(Long memoId, String tagName);
+
+    void deleteAllByMemoId(Long memoId);
 }

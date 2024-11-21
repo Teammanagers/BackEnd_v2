@@ -6,8 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
-import static kr.teammangers.dev.common.payload.code.dto.enums.CommonErrorMessage.IS_ALREADY_EXISTS;
-import static kr.teammangers.dev.common.payload.code.dto.enums.CommonErrorMessage.NOT_FOUND_TEMPLATE;
+import static kr.teammangers.dev.common.payload.code.dto.enums.CommonErrorMessage.*;
 import static org.springframework.http.HttpStatus.*;
 
 @Getter
@@ -37,15 +36,17 @@ public enum ErrorStatus implements ErrorBaseCode {
     TEAM_NOT_FOUND(NOT_FOUND, "TEAM404", entityNotFoundMessage("팀")),
     TEAM_MISMATCH_PASSWORD(BAD_REQUEST, "TEAM4000", "비밀번호가 틀렸습니다."),
     TEAM_ALREADY_JOIN(FORBIDDEN, "TEAM4030", "이미 가입된 사용자입니다."),
+    TEAM_NO_AUTHORITY(UNAUTHORIZED, "TEAM4010", "권한이 없습니다."),
 
     // S3
     S3_NOT_FOUND_FROM_BUCKET(NOT_FOUND, "S34040", entityNotFoundMessage("S3 버킷에서 파일")),
 
     // Notice
-    NOTICE_NO_AUTHORITY(UNAUTHORIZED, "NOTICE4010", "팀 공지 관리 권한이 없습니다"),
+    NOTICE_NO_AUTHORITY(UNAUTHORIZED, "NOTICE4010", entityNoAuthorityMessage("팀 공지")),
     NOTICE_NOT_FOUND(NOT_FOUND, "NOTICE4040", entityNotFoundMessage("공지")),
 
     // Memo
+    MEMO_NO_AUTHORITY(UNAUTHORIZED, "MEMO4010", entityNoAuthorityMessage("해당 메모")),
     MEMO_NOT_FOUND(NOT_FOUND, "MEMO4040", entityNotFoundMessage("메모")),
 
     // 매핑 테이블
@@ -76,4 +77,7 @@ public enum ErrorStatus implements ErrorBaseCode {
         return String.format(NOT_FOUND_TEMPLATE, entityName);
     }
 
+    private static String entityNoAuthorityMessage(String entityName) {
+        return String.format(NO_AUTHORITIES, entityName);
+    }
 }

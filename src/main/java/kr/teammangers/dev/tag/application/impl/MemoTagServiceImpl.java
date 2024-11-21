@@ -40,6 +40,16 @@ public class MemoTagServiceImpl implements MemoTagService {
                 .toList();
     }
 
+    @Override
+    public void deleteByMemoIdAndTagName(Long memoId, String tagName) {
+        memoTagRepository.deleteByMemoIdAndTagName(memoId, tagName);
+    }
+
+    @Override
+    public void deleteAllByMemoId(Long memoId) {
+        memoTagRepository.deleteAllByMemoId(memoId);
+    }
+
     private List<MemoTag> findAllByMemoId(Long memoId) {
         return memoTagRepository.findAllByMemoId(memoId);
     }

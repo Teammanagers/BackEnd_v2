@@ -2,6 +2,7 @@ package kr.teammangers.dev.memo.domain;
 
 import jakarta.persistence.*;
 import kr.teammangers.dev.common.entity.BaseField;
+import kr.teammangers.dev.memo.dto.req.UpdateMemoReq;
 import kr.teammangers.dev.team.domain.Team;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
@@ -31,4 +32,8 @@ public class Memo extends BaseField {
     @JoinColumn(name = "team_id", nullable = false)
     private Team team;
 
+    public void update(UpdateMemoReq req) {
+        this.title = req.title();
+        this.content = req.content();
+    }
 }

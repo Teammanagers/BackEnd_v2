@@ -9,4 +9,8 @@ public interface MemoTagRepository extends JpaRepository<MemoTag, Long> {
 
     List<MemoTag> findAllByMemoId(Long memoId);
 
+    void deleteByMemoIdAndTagName(Long memoId, String tagName);
+
+    void deleteAllByMemoId(Long memoId);
+
 }
