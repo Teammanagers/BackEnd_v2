@@ -1,20 +1,20 @@
 package kr.teammangers.dev.tag.mapper;
 
+import kr.teammangers.dev.memo.domain.Memo;
 import kr.teammangers.dev.tag.domain.Tag;
-import kr.teammangers.dev.team.domain.Team;
-import kr.teammangers.dev.tag.domain.mapping.TeamTag;
+import kr.teammangers.dev.tag.domain.mapping.MemoTag;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")
-public interface TeamTagMapper {
+public interface MemoTagMapper {
 
-    TeamTagMapper TEAM_TAG_MAPPER = Mappers.getMapper(TeamTagMapper.class);
+    MemoTagMapper MEMO_TAG_MAPPER = Mappers.getMapper(MemoTagMapper.class);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "team", source = "team")
+    @Mapping(target = "memo", source = "memo")
     @Mapping(target = "tag", source = "tag")
-    TeamTag toEntity(Team team, Tag tag);
+    MemoTag toEntity(Memo memo, Tag tag);
 
 }

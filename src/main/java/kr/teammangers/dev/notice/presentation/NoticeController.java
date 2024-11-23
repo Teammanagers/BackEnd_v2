@@ -6,7 +6,10 @@ import kr.teammangers.dev.notice.application.NoticeCrudService;
 import kr.teammangers.dev.notice.dto.req.CreateNoticeReq;
 import kr.teammangers.dev.notice.dto.req.DeleteNoticeReq;
 import kr.teammangers.dev.notice.dto.req.UpdateNoticeReq;
+import kr.teammangers.dev.notice.dto.res.CreateNoticeRes;
+import kr.teammangers.dev.notice.dto.res.DeleteNoticeRes;
 import kr.teammangers.dev.notice.dto.res.GetNoticeRes;
+import kr.teammangers.dev.notice.dto.res.UpdateNoticeRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -21,13 +24,13 @@ public class NoticeController {
     private final NoticeCrudService noticeCrudService;
 
     @PostMapping
-    public ApiRes<Void> createNotice(
+    public ApiRes<CreateNoticeRes> createNotice(
             @AuthenticationPrincipal final AuthInfo auth,
             @PathVariable("teamId") final Long teamId,
             @RequestBody final CreateNoticeReq req
     ) {
-        noticeCrudService.createNotice(auth.memberDto().id(), teamId, req);
-        return ApiRes.onSuccess();
+        CreateNoticeRes result = noticeCrudService.createNotice(auth.memberDto().id(), teamId, req);
+        return ApiRes.onSuccess(result);
     }
 
     @GetMapping
@@ -47,23 +50,23 @@ public class NoticeController {
     }
 
     @PatchMapping
-    public ApiRes<Void> updateNotice(
+    public ApiRes<UpdateNoticeRes> updateNotice(
             @AuthenticationPrincipal final AuthInfo auth,
             @PathVariable("teamId") final Long teamId,
             @RequestBody final UpdateNoticeReq req
     ) {
-        noticeCrudService.updateNotice(auth.memberDto().id(), teamId, req);
-        return ApiRes.onSuccess();
+        UpdateNoticeRes result = noticeCrudService.updateNotice(auth.memberDto().id(), teamId, req);
+        return ApiRes.onSuccess(result);
     }
 
     @DeleteMapping
-    public ApiRes<Void> deleteNotice(
+    public ApiRes<DeleteNoticeRes> deleteNotice(
             @AuthenticationPrincipal final AuthInfo auth,
             @PathVariable("teamId") final Long teamId,
             @RequestBody final DeleteNoticeReq req
     ) {
-        noticeCrudService.deleteNotice(auth.memberDto().id(), teamId, req);
-        return ApiRes.onSuccess();
+        DeleteNoticeRes result = noticeCrudService.deleteNotice(auth.memberDto().id(), teamId, req);
+        return ApiRes.onSuccess(result);
     }
 
 }

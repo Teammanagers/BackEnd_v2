@@ -3,7 +3,7 @@ package kr.teammangers.dev.memo.mapper;
 import kr.teammangers.dev.memo.domain.Memo;
 import kr.teammangers.dev.memo.dto.MemoDto;
 import kr.teammangers.dev.memo.dto.req.CreateMemoReq;
-import kr.teammangers.dev.team.domain.mapping.TeamManage;
+import kr.teammangers.dev.team.domain.Team;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -16,10 +16,10 @@ public interface MemoMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "title", source = "req.title")
     @Mapping(target = "content", source = "req.content")
-    @Mapping(target = "teamManage", source = "teamManage")
-    Memo toEntity(CreateMemoReq req, TeamManage teamManage);
+    @Mapping(target = "team", source = "team")
+    Memo toEntity(CreateMemoReq req, Team team);
 
-    @Mapping(target = "teamManageId", source = "teamManage.id")
+    @Mapping(target = "teamId", source = "team.id")
     MemoDto toDto(Memo memo);
 
 }

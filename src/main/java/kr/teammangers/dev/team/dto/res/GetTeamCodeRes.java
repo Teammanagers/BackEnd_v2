@@ -3,7 +3,7 @@ package kr.teammangers.dev.team.dto.res;
 import lombok.Builder;
 
 @Builder
-public record CreateTeamRes(
-        Long createdTeamId
+public record GetTeamCodeRes(
+        String teamCode
 ) {
 }
