@@ -1,5 +1,7 @@
 package kr.teammangers.dev.team.application.impl;
 
+import kr.teammangers.dev.memo.application.FolderService;
+import kr.teammangers.dev.memo.dto.FolderDto;
 import kr.teammangers.dev.s3.application.S3Service;
 import kr.teammangers.dev.s3.application.TeamImgService;
 import kr.teammangers.dev.s3.dto.S3FileInfoDto;
@@ -20,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
+import static kr.teammangers.dev.memo.constant.FolderConstant.ROOT_FOLDER;
 import static kr.teammangers.dev.s3.constant.S3Constant.TEAM_PROFILE_PATH;
 import static kr.teammangers.dev.team.mapper.TeamResMapper.TEAM_RES_MAPPER;
 
@@ -34,18 +37,28 @@ public class TeamCrudServiceImpl implements TeamCrudService {
     private final S3Service s3Service;
     private final TagService tagService;
     private final TeamTagService teamTagService;
+    private final FolderService folderService;
 
     @Override
     @Transactional
     public CreateTeamRes createTeam(Long authId, CreateTeamReq req, MultipartFile imageFile) {
-        TeamDto teamDto = teamService.save(req);
+        // root 폴더 생성
+        FolderDto folderDto = FolderDto.builder()
+                .name(ROOT_FOLDER)
+                .depth(1)
+                .build();
+        Long folderId = folderService.save(folderDto).id();
+
+        TeamDto teamDto = teamService.save(req, folderId);
         teamManageService.save(teamDto.id(), authId);
 
+        // 팀 프로필 이미지 저장
         if (imageFile != null) {
             S3FileInfoDto s3FileInfoDto = s3Service.uploadFile(imageFile, TEAM_PROFILE_PATH);
             teamImgService.save(teamDto.id(), s3FileInfoDto.id());
         }
 
+        // Tag 생성
         req.teamTagList().forEach(tagName -> {
             TagDto tagDto = tagService.findDtoOrSave(tagName);
             teamTagService.save(teamDto.id(), tagDto.id());

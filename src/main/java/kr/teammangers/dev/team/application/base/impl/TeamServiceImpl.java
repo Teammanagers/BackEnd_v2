@@ -23,8 +23,8 @@ public class TeamServiceImpl implements TeamService {
     private final TeamRepository teamRepository;
 
     @Override
-    public TeamDto save(CreateTeamReq req) {
-        Team team = insert(req);
+    public TeamDto save(CreateTeamReq req, Long rootFolderId) {
+        Team team = insert(req, rootFolderId);
         return TEAM_MAPPER.toDto(team);
     }
 
@@ -45,8 +45,8 @@ public class TeamServiceImpl implements TeamService {
         }
     }
 
-    private Team insert(CreateTeamReq req) {
-        return teamRepository.save(TEAM_REQ_MAPPER.toEntity(req));
+    private Team insert(CreateTeamReq req, Long rootFolderId) {
+        return teamRepository.save(TEAM_REQ_MAPPER.toEntity(req, rootFolderId));
     }
 
     private Team findByTeamCode(String teamCode) {

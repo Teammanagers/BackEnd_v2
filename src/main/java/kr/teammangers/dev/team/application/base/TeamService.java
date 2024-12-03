@@ -5,7 +5,7 @@ import kr.teammangers.dev.team.dto.req.CreateTeamReq;
 
 public interface TeamService {
 
-    TeamDto save(CreateTeamReq req);
+    TeamDto save(CreateTeamReq req, Long rootFolderId);
 
     TeamDto findDtoByTeamCode(String teamCode);
 
