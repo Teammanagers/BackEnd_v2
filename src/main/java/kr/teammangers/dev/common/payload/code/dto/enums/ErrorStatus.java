@@ -38,6 +38,9 @@ public enum ErrorStatus implements ErrorBaseCode {
     TEAM_MISMATCH_PASSWORD(BAD_REQUEST, "TEAM4000", "비밀번호가 틀렸습니다."),
     TEAM_ALREADY_JOIN(FORBIDDEN, "TEAM4030", "이미 가입된 사용자입니다."),
 
+    // TeamManage
+    TEAMMANAGE_NOT_FOUND(NOT_FOUND, "TEAMMANAGE404", entityNotFoundMessage("TeamManage")),
+
     // S3
     S3_NOT_FOUND_FROM_BUCKET(NOT_FOUND, "S34040", entityNotFoundMessage("S3 버킷에서 파일")),
 
