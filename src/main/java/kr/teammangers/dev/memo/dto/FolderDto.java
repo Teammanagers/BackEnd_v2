@@ -7,12 +7,12 @@ import lombok.Builder;
 import java.time.LocalDateTime;
 
 @Builder
-public record MemoDto(
+public record FolderDto(
         Long id,
-        String title,
-        String content,
+        String name,
+        Integer depth,
 
-        Long folderId,
+        Long parentId,
 
         @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
         LocalDateTime createdAt,

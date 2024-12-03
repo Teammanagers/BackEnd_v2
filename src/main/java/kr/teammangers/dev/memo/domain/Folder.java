@@ -2,7 +2,7 @@ package kr.teammangers.dev.memo.domain;
 
 import jakarta.persistence.*;
 import kr.teammangers.dev.common.entity.BaseField;
-import kr.teammangers.dev.memo.dto.req.UpdateMemoReq;
+import kr.teammangers.dev.memo.dto.req.UpdateFolderReq;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
@@ -10,29 +10,29 @@ import org.hibernate.annotations.SQLRestriction;
 @Entity
 @Getter
 @Builder
-@Table(name = "memo")
+@Table(name = "folder")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @SQLRestriction("use_yn <> 'N'")
-@SQLDelete(sql = "UPDATE memo SET use_yn = 'N' WHERE id = ?")
-public class Memo extends BaseField {
+@SQLDelete(sql = "UPDATE folder SET use_yn = 'N' WHERE id = ?")
+public class Folder extends BaseField {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "title", nullable = false)
-    private String title;
+    @Column(name = "name", nullable = false)
+    private String name;
 
-    @Column(name = "content", nullable = false)
-    private String content;
+    @Column(name = "depth", nullable = false)
+    private Integer depth;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "folder_id", nullable = false)
-    private Folder folder;
+    @JoinColumn(name = "parent_id")
+    private Folder parent;
 
-    public void update(UpdateMemoReq req) {
-        this.title = req.title();
-        this.content = req.content();
+    public void update(UpdateFolderReq req) {
+        this.name = req.name();
     }
+
 }

@@ -49,6 +49,10 @@ public enum ErrorStatus implements ErrorBaseCode {
     MEMO_NO_AUTHORITY(UNAUTHORIZED, "MEMO4010", entityNoAuthorityMessage("해당 메모")),
     MEMO_NOT_FOUND(NOT_FOUND, "MEMO4040", entityNotFoundMessage("메모")),
 
+    // Folder
+    FOLDER_PARAMETER(BAD_REQUEST, "FOLDER4000", "올바르지 않은 요청입니다. (folderId, teamId 중 적어도 하나의 파라미터가 필요합니다.)"),
+    FOLDER_NOT_FOUND(NOT_FOUND, "FOLDER4040", entityNotFoundMessage("폴더")),
+
     // 매핑 테이블
     TEAM_IMG_NOT_FOUND(NOT_FOUND, "TEAM_IMG404", entityNotFoundMessage("팀-S3 매핑 테이블")),
     TEAM_MANAGE_NOT_FOUND(NOT_FOUND, "TEAM_MANAGE404", entityNotFoundMessage("팀-사용자 매핑 테이블"));
