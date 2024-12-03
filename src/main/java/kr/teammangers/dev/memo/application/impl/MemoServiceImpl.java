@@ -2,20 +2,21 @@ package kr.teammangers.dev.memo.application.impl;
 
 import kr.teammangers.dev.common.payload.exception.GeneralException;
 import kr.teammangers.dev.memo.application.MemoService;
+import kr.teammangers.dev.memo.domain.Folder;
 import kr.teammangers.dev.memo.domain.Memo;
 import kr.teammangers.dev.memo.dto.MemoDto;
 import kr.teammangers.dev.memo.dto.req.CreateMemoReq;
 import kr.teammangers.dev.memo.dto.req.UpdateMemoReq;
+import kr.teammangers.dev.memo.repository.FolderRepository;
 import kr.teammangers.dev.memo.repository.MemoRepository;
-import kr.teammangers.dev.team.domain.Team;
-import kr.teammangers.dev.team.repository.TeamRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
 
-import static kr.teammangers.dev.common.payload.code.dto.enums.ErrorStatus.*;
+import static kr.teammangers.dev.common.payload.code.dto.enums.ErrorStatus.MEMO_NOT_FOUND;
+import static kr.teammangers.dev.common.payload.code.dto.enums.ErrorStatus.MEMO_NO_AUTHORITY;
 import static kr.teammangers.dev.memo.mapper.MemoMapper.MEMO_MAPPER;
 
 @Service
@@ -23,18 +24,17 @@ import static kr.teammangers.dev.memo.mapper.MemoMapper.MEMO_MAPPER;
 public class MemoServiceImpl implements MemoService {
 
     private final MemoRepository memoRepository;
-    private final TeamRepository teamRepository;
+    private final FolderRepository folderRepository;
 
     @Override
     public MemoDto save(CreateMemoReq req) {
-        Team team = teamRepository.getReferenceById(req.teamId());
-        return MEMO_MAPPER.toDto(insert(req, team));
+        Folder folder = folderRepository.getReferenceById(req.folderId());
+        return MEMO_MAPPER.toDto(insert(req, folder));
     }
 
-
     @Override
-    public List<MemoDto> findAllDtoById(Long teamId) {
-        return memoRepository.findAllByTeam_Id(teamId).stream()
+    public List<MemoDto> findAllDtoByFolderId(Long folderId) {
+        return memoRepository.findAllByFolder_Id(folderId).stream()
                 .map(MEMO_MAPPER::toDto)
                 .toList();
     }
@@ -58,8 +58,8 @@ public class MemoServiceImpl implements MemoService {
         }
     }
 
-    private Memo insert(CreateMemoReq req, Team team) {
-        return memoRepository.save(MEMO_MAPPER.toEntity(req, team));
+    private Memo insert(CreateMemoReq req, Folder folder) {
+        return memoRepository.save(MEMO_MAPPER.toEntity(req, folder));
     }
 
     private Memo findById(Long id) {

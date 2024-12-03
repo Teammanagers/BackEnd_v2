@@ -32,10 +32,10 @@ public class MemoController {
     }
 
     @GetMapping("/list")
-    public ApiRes<List<GetMemoRes>> getMemoListByTeam(
-            @RequestParam("teamId") final Long teamId
+    public ApiRes<List<GetMemoRes>> getMemoListByFolder(
+            @RequestParam("folderId") final Long folderId
     ) {
-        List<GetMemoRes> result = memoCrudService.getMemoList(teamId);
+        List<GetMemoRes> result = memoCrudService.getMemoList(folderId);
         return ApiRes.onSuccess(result);
     }
 

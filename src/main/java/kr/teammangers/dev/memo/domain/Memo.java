@@ -3,7 +3,6 @@ package kr.teammangers.dev.memo.domain;
 import jakarta.persistence.*;
 import kr.teammangers.dev.common.entity.BaseField;
 import kr.teammangers.dev.memo.dto.req.UpdateMemoReq;
-import kr.teammangers.dev.team.domain.Team;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
@@ -29,8 +28,8 @@ public class Memo extends BaseField {
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "team_id", nullable = false)
-    private Team team;
+    @JoinColumn(name = "folder_id", nullable = false)
+    private Folder folder;
 
     public void update(UpdateMemoReq req) {
         this.title = req.title();

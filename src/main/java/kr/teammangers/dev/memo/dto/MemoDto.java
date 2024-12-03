@@ -12,7 +12,7 @@ public record MemoDto(
         String title,
         String content,
 
-        Long teamId,
+        Long folderId,
 
         @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
         LocalDateTime createdAt,
