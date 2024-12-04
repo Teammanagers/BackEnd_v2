@@ -37,6 +37,7 @@ public enum ErrorStatus implements ErrorBaseCode {
     TEAM_NOT_FOUND(NOT_FOUND, "TEAM404", entityNotFoundMessage("팀")),
     TEAM_MISMATCH_PASSWORD(BAD_REQUEST, "TEAM4000", "비밀번호가 틀렸습니다."),
     TEAM_ALREADY_JOIN(FORBIDDEN, "TEAM4030", "이미 가입된 사용자입니다."),
+    TEAM_FORBIDDEN(FORBIDDEN, "TEAM4031", "해당 팀 소속이 아닙니다."),
 
     // TeamManage
     TEAMMANAGE_NOT_FOUND(NOT_FOUND, "TEAMMANAGE404", entityNotFoundMessage("TeamManage")),
