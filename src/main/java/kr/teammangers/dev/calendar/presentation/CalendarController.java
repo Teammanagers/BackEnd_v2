@@ -29,11 +29,12 @@ public class CalendarController {
         return ApiRes.onSuccess(result);
     }
 
-    @GetMapping("/recent")
+    @GetMapping
     public ApiRes<List<GetPlanRes>> getRecentPlanList(
-            @RequestParam final Long teamId
+            @RequestParam("teamId") final Long teamId,
+            @RequestParam(value = "yearMonth", required = false) final String yearMonth
     ) {
-        List<GetPlanRes> result = calendarService.getRecentPlanList(teamId);
+        List<GetPlanRes> result = calendarService.getRecentPlanList(teamId, yearMonth);
         return ApiRes.onSuccess(result);
     }
 

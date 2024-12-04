@@ -34,8 +34,10 @@ public class CalendarServiceImpl implements CalendarService {
     }
 
     @Override
-    public List<GetPlanRes> getRecentPlanList(Long teamId) {
-        List<PlanDto> recentDtoList = planService.findAllRecentDtoByTeamId(teamId);
+    public List<GetPlanRes> getRecentPlanList(Long teamId, String yearMonth) {
+        List<PlanDto> recentDtoList = yearMonth == null
+                ? planService.findAllRecentDtoByTeamId(teamId)
+                : planService.findAllDtoByMonth(teamId, yearMonth);
         return recentDtoList.stream()
                 .map(PLAN_RES_MAPPER::toGet)
                 .toList();

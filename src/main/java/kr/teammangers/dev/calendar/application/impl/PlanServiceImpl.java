@@ -10,6 +10,8 @@ import kr.teammangers.dev.common.payload.exception.GeneralException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.YearMonth;
 import java.util.List;
 
 import static kr.teammangers.dev.calendar.mapper.PlanMapper.PLAN_MAPPER;
@@ -29,6 +31,16 @@ public class PlanServiceImpl implements PlanService {
     @Override
     public List<PlanDto> findAllRecentDtoByTeamId(Long teamId) {
         return planRepository.findAllRecentPlanByTeamId(teamId).stream()
+                .map(PLAN_MAPPER::toDto)
+                .toList();
+    }
+
+    @Override
+    public List<PlanDto> findAllDtoByMonth(Long teamId, String yearMonth) {
+        YearMonth parseYearMonth = YearMonth.parse(yearMonth);
+        LocalDateTime startDate = parseYearMonth.atDay(1).atStartOfDay();
+        LocalDateTime endDate = parseYearMonth.plusMonths(1).atDay(1).atStartOfDay();
+        return planRepository.findAllPlanByMonth(teamId, startDate, endDate).stream()
                 .map(PLAN_MAPPER::toDto)
                 .toList();
     }

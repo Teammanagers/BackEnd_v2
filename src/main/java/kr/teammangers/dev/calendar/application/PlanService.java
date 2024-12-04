@@ -10,7 +10,10 @@ public interface PlanService {
 
     List<PlanDto> findAllRecentDtoByTeamId(Long teamId);
 
+    List<PlanDto> findAllDtoByMonth(Long teamId, String yearMonth);
+
     PlanDto update(UpdatePlanReq req);
 
     void deleteByPlanId(Long planId);
+
 }

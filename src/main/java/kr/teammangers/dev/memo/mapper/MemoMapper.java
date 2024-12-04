@@ -14,8 +14,6 @@ public interface MemoMapper {
     MemoMapper MEMO_MAPPER = Mappers.getMapper(MemoMapper.class);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "title", source = "req.title")
-    @Mapping(target = "content", source = "req.content")
     @Mapping(target = "folder", source = "folder")
     Memo toEntity(CreateMemoReq req, Folder folder);
 

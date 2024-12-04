@@ -13,9 +13,10 @@ import java.util.List;
 public interface CalendarService {
     CreatePlanRes createPlan(CreatePlanReq req);
 
-    List<GetPlanRes> getRecentPlanList(Long teamId);
+    List<GetPlanRes> getRecentPlanList(Long teamId, String yearMonth);
 
     UpdatePlanRes updatePlan(UpdatePlanReq req);
 
     DeletePlanRes deletePlan(DeletePlanReq req);
+
 }
