@@ -29,7 +29,7 @@ public class CalendarController {
         return ApiRes.onSuccess(result);
     }
 
-    @GetMapping
+    @GetMapping("/recent")
     public ApiRes<List<GetPlanRes>> getRecentPlanList(
             @RequestParam final Long teamId
     ) {
