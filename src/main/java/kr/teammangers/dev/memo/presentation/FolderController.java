@@ -32,7 +32,7 @@ public class FolderController {
     }
 
     @GetMapping("/{folderId}/list")
-    public ApiRes<List<GetFolderRes>> getFolderListByTeamId(
+    public ApiRes<List<GetFolderRes>> getFolderListByFolderId(
             @PathVariable("folderId") final Long folderId
     ) {
         List<GetFolderRes> result = folderCrudService.getFolderList(folderId);
