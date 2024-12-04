@@ -69,7 +69,8 @@ public class FolderServiceImpl implements FolderService {
     }
 
     private Folder findById(Long id) {
-        return folderRepository.findById(id).orElse(null);
+        return folderRepository.findById(id)
+                .orElseThrow(() -> new GeneralException(FOLDER_NOT_FOUND));
     }
 
 }
