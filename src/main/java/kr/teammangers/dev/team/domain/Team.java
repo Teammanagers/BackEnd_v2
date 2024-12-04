@@ -29,4 +29,7 @@ public class Team extends BaseField {
     @Column(name = "code")
     private String code;
 
+    @Column(name = "root_folder_id", nullable = false)
+    private Long rootFolderId;
+
 }

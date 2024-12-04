@@ -9,7 +9,9 @@ import kr.teammangers.dev.team.application.TeamUtilService;
 import kr.teammangers.dev.team.dto.req.CreateTeamReq;
 import kr.teammangers.dev.team.dto.req.JoinTeamReq;
 import kr.teammangers.dev.team.dto.res.CreateTeamRes;
+import kr.teammangers.dev.team.dto.res.GetTeamCodeRes;
 import kr.teammangers.dev.team.dto.res.GetTeamRes;
+import kr.teammangers.dev.team.dto.res.JoinTeamRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -36,7 +38,7 @@ public class TeamController {
     }
 
     @GetMapping("/code")
-    public ApiRes<String> generateTeamCode() {
+    public ApiRes<GetTeamCodeRes> generateTeamCode() {
         return ApiRes.onSuccess(teamUtilService.generateTeamCode());
     }
 
@@ -57,13 +59,13 @@ public class TeamController {
     }
 
     @PostMapping("/{teamId}")
-    public ApiRes<Void> joinTeam(
+    public ApiRes<JoinTeamRes> joinTeam(
             @AuthenticationPrincipal final AuthInfo auth,
             @PathVariable("teamId") final Long teamId,
             @RequestBody final JoinTeamReq req
     ) {
-        teamMembershipService.joinTeam(auth.memberDto().id(), teamId, req);
-        return ApiRes.onSuccess();
+        JoinTeamRes result = teamMembershipService.joinTeam(auth.memberDto().id(), teamId, req);
+        return ApiRes.onSuccess(result);
     }
 
 }

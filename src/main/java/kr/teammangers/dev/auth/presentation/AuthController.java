@@ -2,6 +2,7 @@ package kr.teammangers.dev.auth.presentation;
 
 import kr.teammangers.dev.auth.application.TermsCrudService;
 import kr.teammangers.dev.auth.dto.AuthInfo;
+import kr.teammangers.dev.auth.dto.res.CreateTermsRes;
 import kr.teammangers.dev.common.payload.ApiRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -17,10 +18,10 @@ public class AuthController {
     private final TermsCrudService termsCrudService;
 
     @PostMapping("/terms")
-    public ApiRes<Void> registerTerms(
+    public ApiRes<CreateTermsRes> registerTerms(
             @AuthenticationPrincipal AuthInfo authInfo
     ) {
-        termsCrudService.registerTerms(authInfo.memberDto().id());
-        return ApiRes.onSuccess();
+        CreateTermsRes result = termsCrudService.registerTerms(authInfo.memberDto().id());
+        return ApiRes.onSuccess(result);
     }
 }

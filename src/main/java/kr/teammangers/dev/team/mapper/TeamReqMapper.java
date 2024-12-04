@@ -12,6 +12,7 @@ public interface TeamReqMapper {
     TeamReqMapper TEAM_REQ_MAPPER = Mappers.getMapper(TeamReqMapper.class);
 
     @Mapping(target = "id", ignore = true)
-    Team toEntity(CreateTeamReq req);
+    @Mapping(target = "rootFolderId", source = "rootFolderId")
+    Team toEntity(CreateTeamReq req, Long rootFolderId);
 
 }

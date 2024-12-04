@@ -4,6 +4,7 @@ import kr.teammangers.dev.team.domain.mapping.TeamManage;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface TeamManageRepository extends JpaRepository<TeamManage, Long> {
 
@@ -12,5 +13,7 @@ public interface TeamManageRepository extends JpaRepository<TeamManage, Long> {
     List<TeamManage> findAllByMember_Id(Long memberId);
 
     List<TeamManage> findAllByTeam_Id(Long teamId);
+
+    Optional<TeamManage> findByTeam_IdAndMember_Id(Long teamId, Long memberId);
 
 }
