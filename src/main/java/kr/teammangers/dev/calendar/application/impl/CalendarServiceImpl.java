@@ -35,7 +35,7 @@ public class CalendarServiceImpl implements CalendarService {
 
     @Override
     public List<GetPlanRes> getRecentPlanList(Long teamId, String yearMonth) {
-        List<PlanDto> recentDtoList = yearMonth == null
+        List<PlanDto> recentDtoList = yearMonth == null || yearMonth.isEmpty()
                 ? planService.findAllRecentDtoByTeamId(teamId)
                 : planService.findAllDtoByMonth(teamId, yearMonth);
         return recentDtoList.stream()

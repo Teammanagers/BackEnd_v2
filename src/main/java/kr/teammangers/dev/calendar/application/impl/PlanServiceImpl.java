@@ -10,7 +10,7 @@ import kr.teammangers.dev.common.payload.exception.GeneralException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.List;
 
@@ -38,8 +38,8 @@ public class PlanServiceImpl implements PlanService {
     @Override
     public List<PlanDto> findAllDtoByMonth(Long teamId, String yearMonth) {
         YearMonth parseYearMonth = YearMonth.parse(yearMonth);
-        LocalDateTime startDate = parseYearMonth.atDay(1).atStartOfDay();
-        LocalDateTime endDate = parseYearMonth.plusMonths(1).atDay(1).atStartOfDay();
+        LocalDate startDate = parseYearMonth.atDay(1);
+        LocalDate endDate = parseYearMonth.plusMonths(1).atDay(1);
         return planRepository.findAllPlanByMonth(teamId, startDate, endDate).stream()
                 .map(PLAN_MAPPER::toDto)
                 .toList();

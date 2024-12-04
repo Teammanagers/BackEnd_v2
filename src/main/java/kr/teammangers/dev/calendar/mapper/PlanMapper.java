@@ -18,9 +18,6 @@ public interface PlanMapper {
     PlanDto toDto(Plan plan);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "title", source = "req.title")
-    @Mapping(target = "content", source = "req.content")
-    @Mapping(target = "teamId", source = "req.teamId")
     PlanDto toDto(CreatePlanReq req);
 
 }

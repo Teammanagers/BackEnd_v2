@@ -4,11 +4,13 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import kr.teammangers.dev.common.enums.EntityStatus;
 import lombok.Builder;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Builder
 public record PlanDto(
         Long id,
+        LocalDate date,
         String title,
         String content,
 

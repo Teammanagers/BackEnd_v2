@@ -7,6 +7,8 @@ import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
+import java.time.LocalDate;
+
 @Entity
 @Getter
 @Builder
@@ -21,6 +23,9 @@ public class Plan extends BaseField {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "date", nullable = false)
+    private LocalDate date;
+
     @Column(name = "title", nullable = false)
     private String title;
 
@@ -34,4 +39,5 @@ public class Plan extends BaseField {
         this.title = req.title();
         this.content = req.content();
     }
+
 }
