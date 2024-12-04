@@ -30,7 +30,7 @@ public class TodoCrudService {
         long newTodoId = todoRepository.save(newTodo).getId();
 
         return CreateTodoRes.builder()
-                .todoId(newTodoId)
+                .createdTodoId(newTodoId)
                 .build();
     }
 
@@ -41,10 +41,19 @@ public class TodoCrudService {
         todoForUpdate.updateTitle(request.title());
 
         return UpdateTodoRes.builder()
-                .todoId(todoId)
+                .updatedTodoId(todoId)
                 .build();
-
     }
 
+    public void deleteTodo(Long memberId, Long todoId) {
+        Todo todoForDelete = todoRepository.findById(todoId)
+                .orElseThrow(() -> new GeneralException(ErrorStatus.TODO_NOT_FOUND));
+
+        if (!teamManageRepository.existsByTeam_IdAndMember_Id(memberId, todoForDelete.getTeamManage().getTeam().getId())) {
+            throw new GeneralException(ErrorStatus.TODO_FORBIDDEN);
+        }
+
+        todoRepository.deleteById(todoId);
+    }
 
 }

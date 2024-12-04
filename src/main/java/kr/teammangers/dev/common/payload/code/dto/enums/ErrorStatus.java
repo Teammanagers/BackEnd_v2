@@ -41,7 +41,8 @@ public enum ErrorStatus implements ErrorBaseCode {
     // TeamManage
     TEAMMANAGE_NOT_FOUND(NOT_FOUND, "TEAMMANAGE404", entityNotFoundMessage("TeamManage")),
 
-    TODO_NOT_FOUND(NOT_FOUND, "TODO404", entityNotFoundMessage("Todo")),
+    TODO_NOT_FOUND(NOT_FOUND, "TODO404", entityNotFoundMessage("TODO")),
+    TODO_FORBIDDEN(FORBIDDEN, "TODO403", "TODO에 접근 권한이 없습니다."),
 
     // S3
     S3_NOT_FOUND_FROM_BUCKET(NOT_FOUND, "S34040", entityNotFoundMessage("S3 버킷에서 파일")),

@@ -40,4 +40,16 @@ public class TodoRestController {
 
     }
 
+    @DeleteMapping("/{todoId}")
+    public ApiRes<Void> deleteTodo(
+            @AuthenticationPrincipal final AuthInfo auth,
+            @PathVariable(name = "todoId") final Long todoId
+    ) {
+
+        todoCrudService.deleteTodo(auth.memberDto().id(), todoId);
+        return ApiRes.onSuccess();
+
+    }
+
+
 }
