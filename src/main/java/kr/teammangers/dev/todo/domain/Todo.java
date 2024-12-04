@@ -33,4 +33,8 @@ public class Todo extends BaseField {
     @ManyToOne(fetch = FetchType.LAZY)
     private TeamManage teamManage;
 
+    public void updateTitle(String newTitle) {
+        this.title = newTitle;
+    }
+
 }
