@@ -37,14 +37,14 @@ public class CalendarController {
         return ApiRes.onSuccess(result);
     }
 
-//    @PatchMapping
-//    public ApiRes<UpdatePlanRes> updatePlan(
-//            @RequestBody final UpdatePlanReq req
-//    ) {
-//        UpdatePlanRes result = calendarService.updatePlan(req);
-//        return ApiRes.onSuccess(result);
-//    }
-//
+    @PatchMapping
+    public ApiRes<UpdatePlanRes> updatePlan(
+            @RequestBody final UpdatePlanReq req
+    ) {
+        UpdatePlanRes result = calendarService.updatePlan(req);
+        return ApiRes.onSuccess(result);
+    }
+
 //    @DeleteMapping
 //    public ApiRes<DeletePlanRes> deletePlan(
 //            @RequestBody final DeletePlanReq req
