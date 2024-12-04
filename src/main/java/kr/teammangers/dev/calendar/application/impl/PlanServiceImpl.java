@@ -40,6 +40,11 @@ public class PlanServiceImpl implements PlanService {
         return PLAN_MAPPER.toDto(plan);
     }
 
+    @Override
+    public void deleteByPlanId(Long planId) {
+        planRepository.deleteById(planId);
+    }
+
     private Plan findById(Long id) {
         return planRepository.findById(id)
                 .orElseThrow(() -> new GeneralException(ErrorStatus.PLAN_NOT_FOUND));

@@ -2,6 +2,7 @@ package kr.teammangers.dev.calendar.mapper;
 
 import kr.teammangers.dev.calendar.dto.PlanDto;
 import kr.teammangers.dev.calendar.dto.res.CreatePlanRes;
+import kr.teammangers.dev.calendar.dto.res.DeletePlanRes;
 import kr.teammangers.dev.calendar.dto.res.GetPlanRes;
 import kr.teammangers.dev.calendar.dto.res.UpdatePlanRes;
 import org.mapstruct.Mapper;
@@ -21,4 +22,7 @@ public interface PlanResMapper {
 
     @Mapping(target = "updatedPlanId", source = "planDto.id")
     UpdatePlanRes toUpdate(PlanDto planDto);
+
+    @Mapping(target = "deletedPlanId", source = "planId")
+    DeletePlanRes toDelete(Long planId);
 }

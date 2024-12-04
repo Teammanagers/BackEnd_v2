@@ -45,12 +45,12 @@ public class CalendarController {
         return ApiRes.onSuccess(result);
     }
 
-//    @DeleteMapping
-//    public ApiRes<DeletePlanRes> deletePlan(
-//            @RequestBody final DeletePlanReq req
-//    ) {
-//        DeletePlanRes result = calendarService.deletePlan(req);
-//        return ApiRes.onSuccess(result);
-//    }
+    @DeleteMapping
+    public ApiRes<DeletePlanRes> deletePlan(
+            @RequestBody final DeletePlanReq req
+    ) {
+        DeletePlanRes result = calendarService.deletePlan(req);
+        return ApiRes.onSuccess(result);
+    }
 
 }

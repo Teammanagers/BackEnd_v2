@@ -11,4 +11,6 @@ public interface PlanService {
     List<PlanDto> findAllRecentDtoByTeamId(Long teamId);
 
     PlanDto update(UpdatePlanReq req);
+
+    void deleteByPlanId(Long planId);
 }

@@ -4,8 +4,10 @@ import kr.teammangers.dev.calendar.application.CalendarService;
 import kr.teammangers.dev.calendar.application.PlanService;
 import kr.teammangers.dev.calendar.dto.PlanDto;
 import kr.teammangers.dev.calendar.dto.req.CreatePlanReq;
+import kr.teammangers.dev.calendar.dto.req.DeletePlanReq;
 import kr.teammangers.dev.calendar.dto.req.UpdatePlanReq;
 import kr.teammangers.dev.calendar.dto.res.CreatePlanRes;
+import kr.teammangers.dev.calendar.dto.res.DeletePlanRes;
 import kr.teammangers.dev.calendar.dto.res.GetPlanRes;
 import kr.teammangers.dev.calendar.dto.res.UpdatePlanRes;
 import kr.teammangers.dev.calendar.mapper.PlanMapper;
@@ -45,4 +47,12 @@ public class CalendarServiceImpl implements CalendarService {
         PlanDto planDto = planService.update(req);
         return PLAN_RES_MAPPER.toUpdate(planDto);
     }
+
+    @Override
+    @Transactional
+    public DeletePlanRes deletePlan(DeletePlanReq req) {
+        planService.deleteByPlanId(req.planId());
+        return PLAN_RES_MAPPER.toDelete(req.planId());
+    }
+
 }
