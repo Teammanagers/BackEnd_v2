@@ -70,7 +70,7 @@ public class TodoCrudService {
         List<MemberTodoListDto> teamTodoList = teamManageRepository.findAllByTeam_Id(teamId)
                 .stream().map(teamManage -> {
                     String name = teamManage.getMember().getName();
-                    // TagList 추가 필요
+                    // TODO: TagList 추가 필요
                     List<TodoDto> todoList = todoRepository.findAllByTeamManage_Id(teamManage.getId())
                             .stream().map(TodoDto::from).toList();
                     return MemberTodoListDto.builder()
