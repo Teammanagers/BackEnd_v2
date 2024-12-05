@@ -3,6 +3,8 @@ package kr.teammangers.dev.todo.domain;
 import jakarta.persistence.*;
 import kr.teammangers.dev.common.entity.BaseField;
 import kr.teammangers.dev.common.enums.TodoStatus;
+import kr.teammangers.dev.common.payload.code.dto.enums.ErrorStatus;
+import kr.teammangers.dev.common.payload.exception.GeneralException;
 import kr.teammangers.dev.team.domain.mapping.TeamManage;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
@@ -39,9 +41,10 @@ public class Todo extends BaseField {
 
     public void updateStatus(int option) {
         this.status = switch (option) {
+            case 0 -> TodoStatus.PENDING;
             case 1 -> TodoStatus.IN_PROGRESS;
             case 2 -> TodoStatus.COMPLETED;
-            default -> TodoStatus.PENDING;
+            default -> throw new GeneralException(ErrorStatus.OPTION_OUT_OF_RANGE);
         };
     }
 
