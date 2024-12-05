@@ -58,6 +58,13 @@ public class MemoServiceImpl implements MemoService {
         }
     }
 
+    @Override
+    public Boolean updateFixStatus(Long memoId) {
+        Memo memo = findById(memoId);
+        memo.updateFixStatus();
+        return memo.getIsFixed();
+    }
+
     private Memo insert(CreateMemoReq req, Folder folder) {
         return memoRepository.save(MEMO_MAPPER.toEntity(req, folder));
     }

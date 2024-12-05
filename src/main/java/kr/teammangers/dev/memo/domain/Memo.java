@@ -27,6 +27,9 @@ public class Memo extends BaseField {
     @Column(name = "content", nullable = false)
     private String content;
 
+    @Column(name = "is_fixed", nullable = false)
+    private Boolean isFixed;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "folder_id", nullable = false)
     private Folder folder;
@@ -34,5 +37,9 @@ public class Memo extends BaseField {
     public void update(UpdateMemoReq req) {
         this.title = req.title();
         this.content = req.content();
+    }
+
+    public void updateFixStatus() {
+        this.isFixed = !this.isFixed;
     }
 }

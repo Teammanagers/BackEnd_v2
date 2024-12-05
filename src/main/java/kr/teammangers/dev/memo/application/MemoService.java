@@ -16,4 +16,6 @@ public interface MemoService {
     void deleteById(Long memoId);
 
     void validateMemoAdmin(Long memoId, Long memberId);
+
+    Boolean updateFixStatus(Long memoId);
 }

@@ -1,10 +1,7 @@
 package kr.teammangers.dev.memo.mapper;
 
 import kr.teammangers.dev.memo.dto.MemoDto;
-import kr.teammangers.dev.memo.dto.res.CreateMemoRes;
-import kr.teammangers.dev.memo.dto.res.DeleteMemoRes;
-import kr.teammangers.dev.memo.dto.res.GetMemoRes;
-import kr.teammangers.dev.memo.dto.res.UpdateMemoRes;
+import kr.teammangers.dev.memo.dto.res.*;
 import kr.teammangers.dev.tag.dto.TagDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -26,6 +23,10 @@ public interface MemoResMapper {
 
     @Mapping(target = "updatedMemoId", source = "id")
     UpdateMemoRes toUpdate(MemoDto memoDto);
+
+    @Mapping(target = "memoId", source = "memoId")
+    @Mapping(target = "isFixed", source = "isFixed")
+    FixMemoRes toFix(Long memoId, Boolean isFixed);
 
     @Mapping(target = "deletedMemoId", source = "memoId")
     DeleteMemoRes toDelete(Long memoId);

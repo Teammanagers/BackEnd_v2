@@ -5,11 +5,9 @@ import kr.teammangers.dev.memo.application.MemoService;
 import kr.teammangers.dev.memo.dto.MemoDto;
 import kr.teammangers.dev.memo.dto.req.CreateMemoReq;
 import kr.teammangers.dev.memo.dto.req.DeleteMemoReq;
+import kr.teammangers.dev.memo.dto.req.FixMemoReq;
 import kr.teammangers.dev.memo.dto.req.UpdateMemoReq;
-import kr.teammangers.dev.memo.dto.res.CreateMemoRes;
-import kr.teammangers.dev.memo.dto.res.DeleteMemoRes;
-import kr.teammangers.dev.memo.dto.res.GetMemoRes;
-import kr.teammangers.dev.memo.dto.res.UpdateMemoRes;
+import kr.teammangers.dev.memo.dto.res.*;
 import kr.teammangers.dev.tag.application.MemoTagService;
 import kr.teammangers.dev.tag.application.TagService;
 import kr.teammangers.dev.tag.dto.TagDto;
@@ -85,6 +83,13 @@ public class MemoCrudServiceImpl implements MemoCrudService {
         memoTagService.deleteAllByMemoId(req.memoId());
         memoService.deleteById(req.memoId());
         return MEMO_RES_MAPPER.toDelete(req.memoId());
+    }
+
+    @Override
+    @Transactional
+    public FixMemoRes fixMemo(FixMemoReq req) {
+        Boolean isFixed = memoService.updateFixStatus(req.memoId());
+        return MEMO_RES_MAPPER.toFix(req.memoId(), isFixed);
     }
 
     private void saveMemoTagFromTagName(Long memoId, String tagName) {
