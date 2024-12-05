@@ -13,6 +13,7 @@ import kr.teammangers.dev.todo.dto.req.UpdateTodoReq;
 import kr.teammangers.dev.todo.dto.res.CreateTodoRes;
 import kr.teammangers.dev.todo.dto.res.GetTeamTodoRes;
 import kr.teammangers.dev.todo.dto.res.UpdateTodoRes;
+import kr.teammangers.dev.todo.dto.res.UpdateTodoStatusRes;
 import kr.teammangers.dev.todo.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -82,6 +83,17 @@ public class TodoCrudService {
 
         return GetTeamTodoRes.builder()
                 .teamTodoList(teamTodoList)
+                .build();
+    }
+
+    public UpdateTodoStatusRes updateTodoStatus(Long memberId, Long todoId, Integer option) {
+        Todo todoForUpdate = todoRepository.findById(todoId)
+                .orElseThrow(() -> new GeneralException(ErrorStatus.TODO_NOT_FOUND));
+
+        todoForUpdate.updateStatus(option);
+
+        return UpdateTodoStatusRes.builder()
+                .updatedTodoId(todoId)
                 .build();
     }
 

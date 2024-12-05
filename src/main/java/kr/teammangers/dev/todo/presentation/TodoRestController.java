@@ -8,6 +8,7 @@ import kr.teammangers.dev.todo.dto.req.UpdateTodoReq;
 import kr.teammangers.dev.todo.dto.res.CreateTodoRes;
 import kr.teammangers.dev.todo.dto.res.GetTeamTodoRes;
 import kr.teammangers.dev.todo.dto.res.UpdateTodoRes;
+import kr.teammangers.dev.todo.dto.res.UpdateTodoStatusRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -62,4 +63,14 @@ public class TodoRestController {
 
     }
 
+    @PatchMapping("/{todoId}")
+    public ApiRes<UpdateTodoStatusRes> updateTodoStatus(
+            @AuthenticationPrincipal final AuthInfo auth,
+            @PathVariable(name = "todoId") final Long todoId,
+            @RequestParam(name = "option") final Integer option
+    ) {
+
+        return ApiRes.onSuccess(todoCrudService.updateTodoStatus(auth.memberDto().id(), todoId, option));
+
+    }
 }
