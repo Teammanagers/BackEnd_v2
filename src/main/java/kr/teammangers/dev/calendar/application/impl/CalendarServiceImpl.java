@@ -10,13 +10,13 @@ import kr.teammangers.dev.calendar.dto.res.CreatePlanRes;
 import kr.teammangers.dev.calendar.dto.res.DeletePlanRes;
 import kr.teammangers.dev.calendar.dto.res.GetPlanRes;
 import kr.teammangers.dev.calendar.dto.res.UpdatePlanRes;
-import kr.teammangers.dev.calendar.mapper.PlanMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static kr.teammangers.dev.calendar.mapper.PlanMapper.PLAN_MAPPER;
 import static kr.teammangers.dev.calendar.mapper.PlanResMapper.PLAN_RES_MAPPER;
 
 @Service
@@ -29,7 +29,7 @@ public class CalendarServiceImpl implements CalendarService {
     @Override
     @Transactional
     public CreatePlanRes createPlan(CreatePlanReq req) {
-        PlanDto planDto = PlanMapper.PLAN_MAPPER.toDto(req);
+        PlanDto planDto = PLAN_MAPPER.toDto(req);
         return PLAN_RES_MAPPER.toCreate(planService.save(planDto));
     }
 
