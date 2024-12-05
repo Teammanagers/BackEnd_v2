@@ -9,11 +9,13 @@ import java.util.List;
 public interface MemoService {
     MemoDto save(CreateMemoReq req);
 
-    List<MemoDto> findAllDtoByFolderId(Long folderId);
+    List<MemoDto> findAllDtoByFolderId(Long folderId, Boolean isFixed);
 
     MemoDto update(UpdateMemoReq req);
 
     void deleteById(Long memoId);
 
     void validateMemoAdmin(Long memoId, Long memberId);
+
+    Boolean updateFixStatus(Long memoId);
 }

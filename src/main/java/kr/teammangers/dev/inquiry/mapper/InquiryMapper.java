@@ -18,6 +18,11 @@ public interface InquiryMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "inquiryType", source = "req.inquiryType")
     @Mapping(target = "content", source = "req.content")
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "createdBy", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
+    @Mapping(target = "updatedBy", ignore = true)
+    @Mapping(target = "useYn", ignore = true)
     InquiryDto toDto(Long memberId, CreateInquiryReq req);
 
     InquiryDto toDto(Inquiry inquiry);
