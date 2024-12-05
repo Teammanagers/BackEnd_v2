@@ -30,4 +30,9 @@ public class InquiryServiceImpl implements InquiryService {
                 .map(INQUIRY_MAPPER::toDto)
                 .toList();
     }
+
+    @Override
+    public void deleteByInquiryId(Long inquiryId) {
+        inquiryRepository.deleteById(inquiryId);
+    }
 }

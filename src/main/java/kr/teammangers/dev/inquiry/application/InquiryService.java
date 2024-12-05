@@ -8,4 +8,6 @@ public interface InquiryService {
     InquiryDto save(InquiryDto inquiryDto);
 
     List<InquiryDto> findAllDtoByMemberId(Long memberId);
+
+    void deleteByInquiryId(Long inquiryId);
 }

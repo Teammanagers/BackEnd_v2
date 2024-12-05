@@ -4,7 +4,9 @@ import kr.teammangers.dev.inquiry.application.InquiryCrudService;
 import kr.teammangers.dev.inquiry.application.InquiryService;
 import kr.teammangers.dev.inquiry.dto.InquiryDto;
 import kr.teammangers.dev.inquiry.dto.req.CreateInquiryReq;
+import kr.teammangers.dev.inquiry.dto.req.DeleteInquiryReq;
 import kr.teammangers.dev.inquiry.dto.res.CreateInquiryRes;
+import kr.teammangers.dev.inquiry.dto.res.DeleteInquiryRes;
 import kr.teammangers.dev.inquiry.dto.res.GetInquiryRes;
 import kr.teammangers.dev.inquiry.mapper.InquiryMapper;
 import lombok.RequiredArgsConstructor;
@@ -35,6 +37,13 @@ public class InquiryCrudServiceImpl implements InquiryCrudService {
         return dtoList.stream()
                 .map(INQUIRY_RES_MAPPER::toGet)
                 .toList();
+    }
+
+    @Override
+    @Transactional
+    public DeleteInquiryRes deleteInquiry(DeleteInquiryReq req) {
+        inquiryService.deleteByInquiryId(req.inquiryId());
+        return INQUIRY_RES_MAPPER.toDelete(req.inquiryId());
     }
 
 }
