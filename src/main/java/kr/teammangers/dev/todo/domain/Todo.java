@@ -38,17 +38,11 @@ public class Todo extends BaseField {
     }
 
     public void updateStatus(int option) {
-        switch (option) {
-            case 0:
-                this.status = TodoStatus.PENDING;
-                break;
-            case 1:
-                this.status = TodoStatus.IN_PROGRESS;
-                break;
-            case 2:
-                this.status = TodoStatus.COMPLETED;
-                break;
-        }
+        this.status = switch (option) {
+            case 1 -> TodoStatus.IN_PROGRESS;
+            case 2 -> TodoStatus.COMPLETED;
+            default -> TodoStatus.PENDING;
+        };
     }
 
 }
