@@ -7,6 +7,8 @@ import kr.teammangers.dev.inquiry.repository.InquiryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 import static kr.teammangers.dev.inquiry.mapper.InquiryMapper.INQUIRY_MAPPER;
 
 @Service
@@ -19,5 +21,13 @@ public class InquiryServiceImpl implements InquiryService {
     public InquiryDto save(InquiryDto inquiryDto) {
         Inquiry inquiry = INQUIRY_MAPPER.toEntity(inquiryDto);
         return INQUIRY_MAPPER.toDto(inquiryRepository.save(inquiry));
+    }
+
+    @Override
+    public List<InquiryDto> findAllDtoByMemberId(Long memberId) {
+        List<Inquiry> inquiryList = inquiryRepository.findAllByMemberId(memberId);
+        return inquiryList.stream()
+                .map(INQUIRY_MAPPER::toDto)
+                .toList();
     }
 }

@@ -5,12 +5,12 @@ import kr.teammangers.dev.common.payload.ApiRes;
 import kr.teammangers.dev.inquiry.application.InquiryCrudService;
 import kr.teammangers.dev.inquiry.dto.req.CreateInquiryReq;
 import kr.teammangers.dev.inquiry.dto.res.CreateInquiryRes;
+import kr.teammangers.dev.inquiry.dto.res.GetInquiryRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,6 +25,14 @@ public class InquiryController {
             @RequestBody final CreateInquiryReq req
     ) {
         CreateInquiryRes result = inquiryCrudService.createInquiry(auth.memberDto().id(), req);
+        return ApiRes.onSuccess(result);
+    }
+
+    @GetMapping
+    public ApiRes<List<GetInquiryRes>> getInquiryList(
+            @AuthenticationPrincipal final AuthInfo auth
+    ) {
+        List<GetInquiryRes> result = inquiryCrudService.getInquiryList(auth.memberDto().id());
         return ApiRes.onSuccess(result);
     }
 
