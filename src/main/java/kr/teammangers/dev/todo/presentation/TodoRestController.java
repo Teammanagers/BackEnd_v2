@@ -31,7 +31,7 @@ public class TodoRestController {
 
     }
 
-    @PatchMapping("/{todoId}")
+    @PostMapping("/{todoId}")
     public ApiRes<UpdateTodoRes> updateTodo(
             @AuthenticationPrincipal final AuthInfo auth,
             @PathVariable(name = "todoId") final Long todoId,

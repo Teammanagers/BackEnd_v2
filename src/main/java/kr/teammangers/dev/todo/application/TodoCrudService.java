@@ -17,16 +17,19 @@ import kr.teammangers.dev.todo.dto.res.UpdateTodoStatusRes;
 import kr.teammangers.dev.todo.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class TodoCrudService {
 
     private final TodoRepository todoRepository;
     private final TeamManageRepository teamManageRepository;
 
+    @Transactional
     public CreateTodoRes createTodo(Long teamManageId, CreateTodoReq request) {
         TeamManage teamManage = teamManageRepository.findById(teamManageId)
                 .orElseThrow(() -> new GeneralException(ErrorStatus.TEAMMANAGE_NOT_FOUND));
@@ -41,6 +44,7 @@ public class TodoCrudService {
                 .build();
     }
 
+    @Transactional
     public UpdateTodoRes updateTodoContent(Long todoId, UpdateTodoReq request) {
         Todo todoForUpdate = todoRepository.findById(todoId)
                 .orElseThrow(() -> new GeneralException(ErrorStatus.TODO_NOT_FOUND));
@@ -52,6 +56,7 @@ public class TodoCrudService {
                 .build();
     }
 
+    @Transactional
     public void deleteTodo(Long memberId, Long todoId) {
         Todo todoForDelete = todoRepository.findById(todoId)
                 .orElseThrow(() -> new GeneralException(ErrorStatus.TODO_NOT_FOUND));
@@ -86,6 +91,7 @@ public class TodoCrudService {
                 .build();
     }
 
+    @Transactional
     public UpdateTodoStatusRes updateTodoStatus(Long memberId, Long todoId, Integer option) {
         Todo todoForUpdate = todoRepository.findById(todoId)
                 .orElseThrow(() -> new GeneralException(ErrorStatus.TODO_NOT_FOUND));
