@@ -33,8 +33,8 @@ public class MemoServiceImpl implements MemoService {
     }
 
     @Override
-    public List<MemoDto> findAllDtoByFolderId(Long folderId) {
-        return memoRepository.findAllByFolder_Id(folderId).stream()
+    public List<MemoDto> findAllDtoByFolderId(Long folderId, Boolean isFixed) {
+        return memoRepository.findAllByOptions(folderId, isFixed).stream()
                 .map(MEMO_MAPPER::toDto)
                 .toList();
     }
@@ -53,7 +53,7 @@ public class MemoServiceImpl implements MemoService {
 
     @Override
     public void validateMemoAdmin(Long memoId, Long memberId) {
-        if(!Objects.equals(findById(memoId).getCreatedBy(), memberId)) {
+        if (!Objects.equals(findById(memoId).getCreatedBy(), memberId)) {
             throw new GeneralException(MEMO_NO_AUTHORITY);
         }
     }

@@ -13,7 +13,7 @@ public interface MemoCrudService {
     @Transactional
     CreateMemoRes createMemo(CreateMemoReq req);
 
-    List<GetMemoRes> getMemoList(Long teamId);
+    List<GetMemoRes> getMemoList(Long teamId, Boolean isFixed);
 
     UpdateMemoRes updateMemo(Long memberId, UpdateMemoReq req);
 

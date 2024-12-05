@@ -9,7 +9,7 @@ import java.util.List;
 public interface MemoService {
     MemoDto save(CreateMemoReq req);
 
-    List<MemoDto> findAllDtoByFolderId(Long folderId);
+    List<MemoDto> findAllDtoByFolderId(Long folderId, Boolean isFixed);
 
     MemoDto update(UpdateMemoReq req);
 

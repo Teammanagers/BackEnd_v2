@@ -31,9 +31,10 @@ public class MemoController {
 
     @GetMapping("/list")
     public ApiRes<List<GetMemoRes>> getMemoListByFolder(
-            @RequestParam("folderId") final Long folderId
+            @RequestParam("folderId") final Long folderId,
+            @RequestParam(value = "isFixed", required = false) final Boolean isFixed
     ) {
-        List<GetMemoRes> result = memoCrudService.getMemoList(folderId);
+        List<GetMemoRes> result = memoCrudService.getMemoList(folderId, isFixed);
         return ApiRes.onSuccess(result);
     }
 

@@ -41,8 +41,8 @@ public class MemoCrudServiceImpl implements MemoCrudService {
     }
 
     @Override
-    public List<GetMemoRes> getMemoList(Long folderId) {
-        List<MemoDto> memoDtoList = memoService.findAllDtoByFolderId(folderId);
+    public List<GetMemoRes> getMemoList(Long folderId, Boolean isFixed) {
+        List<MemoDto> memoDtoList = memoService.findAllDtoByFolderId(folderId, isFixed);
         return memoDtoList.stream()
                 .map(memoDto -> {
                     List<TagDto> tagDtoList = memoTagService.findAllTagDtoByMemoId(memoDto.id());
