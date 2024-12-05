@@ -30,7 +30,7 @@ public class InquiryController {
         return ApiRes.onSuccess(result);
     }
 
-    @GetMapping
+    @GetMapping("/list")
     public ApiRes<List<GetInquiryRes>> getInquiryList(
             @AuthenticationPrincipal final AuthInfo auth
     ) {
