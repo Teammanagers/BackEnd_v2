@@ -10,8 +10,6 @@ public interface MemberService {
     @Transactional
     MemberDto findDtoOrSave(OAuth2UserInfo oAuth2UserInfo);
 
-    MemberDto findDtoByProviderId(String providerId);
-
     MemberDto findDtoById(Long id);
 
     MemberDto update(Long memberId, UpdateProfileReq req);
