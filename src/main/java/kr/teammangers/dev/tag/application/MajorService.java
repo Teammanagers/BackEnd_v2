@@ -34,11 +34,7 @@ public class MajorService {
         return majorRepository.save(MajorMapper.MAJOR_MAPPER.toEntity(member, tag)).getId();
     }
 
-    public void deleteByMemberIdAndTagName(Long memberId, String tagName) {
-        majorRepository.deleteByMemberIdAndTagName(memberId, tagName);
-    }
-
-    public void deleteByMemberId(Long memberId) {
-        majorRepository.deleteAllByMemberId(memberId);
+    public void deleteAllByOptions(Long memberId, String tagName) {
+        majorRepository.deleteAllByOptions(memberId, tagName);
     }
 }
