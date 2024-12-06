@@ -26,13 +26,6 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public MemberDto findDtoByProviderId(final String providerId) {
-        return memberRepository.findByProviderInfo_ProviderId(providerId)
-                .map(MEMBER_MAPPER::toDto)
-                .orElseThrow(() -> new GeneralException(ErrorStatus.MEMBER_NOT_FOUND));
-    }
-
-    @Override
     public MemberDto findDtoById(final Long id) {
         return MEMBER_MAPPER.toDto(findById(id));
     }
