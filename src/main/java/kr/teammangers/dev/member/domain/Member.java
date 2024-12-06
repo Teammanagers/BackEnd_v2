@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import kr.teammangers.dev.auth.domain.embed.ProviderInfo;
 import kr.teammangers.dev.common.entity.BaseField;
 import kr.teammangers.dev.member.dto.enums.Role;
+import kr.teammangers.dev.member.dto.req.UpdateProfileReq;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
@@ -45,4 +46,10 @@ public class Member extends BaseField {
     @Column(name = "role", nullable = false)
     private Role role = Role.GUEST;
 
+    public void update(UpdateProfileReq req) {
+        this.name = req.name();
+        this.birth = req.birth();
+        this.telNum = req.telNum();
+        this.belong = req.belong();
+    }
 }

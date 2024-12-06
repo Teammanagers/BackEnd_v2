@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface MemoRepository extends JpaRepository<Memo, Long>, MemoQueryDslRepository {
+public interface MemoRepository extends JpaRepository<Memo, Long>, MemoQueryDsl {
 
     @Modifying
     @Query("DELETE FROM Memo m WHERE m.folder.id IN :folderIds")
