@@ -3,13 +3,13 @@ package kr.teammangers.dev.memo.repository.impl;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import kr.teammangers.dev.memo.domain.Memo;
 import kr.teammangers.dev.memo.domain.QMemo;
-import kr.teammangers.dev.memo.repository.MemoQueryDslRepository;
+import kr.teammangers.dev.memo.repository.MemoQueryDsl;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
 @RequiredArgsConstructor
-public class MemoQueryDslRepositoryImpl implements MemoQueryDslRepository {
+public class MemoQueryDslImpl implements MemoQueryDsl {
 
     private final JPAQueryFactory queryFactory;
 

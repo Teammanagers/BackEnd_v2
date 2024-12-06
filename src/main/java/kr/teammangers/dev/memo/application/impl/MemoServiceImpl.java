@@ -3,7 +3,6 @@ package kr.teammangers.dev.memo.application.impl;
 import kr.teammangers.dev.common.payload.exception.GeneralException;
 import kr.teammangers.dev.memo.application.MemoService;
 import kr.teammangers.dev.memo.domain.Folder;
-import kr.teammangers.dev.memo.domain.Memo;
 import kr.teammangers.dev.memo.dto.MemoDto;
 import kr.teammangers.dev.memo.dto.req.CreateMemoReq;
 import kr.teammangers.dev.memo.dto.req.UpdateMemoReq;
@@ -41,7 +40,7 @@ public class MemoServiceImpl implements MemoService {
 
     @Override
     public MemoDto update(UpdateMemoReq req) {
-        Memo memo = findById(req.memoId());
+        kr.teammangers.dev.memo.domain.Memo memo = findById(req.memoId());
         memo.update(req);
         return MEMO_MAPPER.toDto(memo);
     }
@@ -60,16 +59,16 @@ public class MemoServiceImpl implements MemoService {
 
     @Override
     public Boolean updateFixStatus(Long memoId) {
-        Memo memo = findById(memoId);
+        kr.teammangers.dev.memo.domain.Memo memo = findById(memoId);
         memo.updateFixStatus();
         return memo.getIsFixed();
     }
 
-    private Memo insert(CreateMemoReq req, Folder folder) {
+    private kr.teammangers.dev.memo.domain.Memo insert(CreateMemoReq req, Folder folder) {
         return memoRepository.save(MEMO_MAPPER.toEntity(req, folder));
     }
 
-    private Memo findById(Long id) {
+    private kr.teammangers.dev.memo.domain.Memo findById(Long id) {
         return memoRepository.findById(id)
                 .orElseThrow(() -> new GeneralException(MEMO_NOT_FOUND));
     }

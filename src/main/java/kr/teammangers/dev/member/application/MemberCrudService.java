@@ -42,8 +42,8 @@ public class MemberCrudService {
                             .toList();
 
                     tagsToAdd.forEach(tagName -> saveMajorFromTagName(memberDto.id(), tagName));
-                    tagsToRemove.forEach(tagName -> majorService.deleteByMemberIdAndTagName(memberDto.id(), tagName));
-                }, () -> majorService.deleteByMemberId(memberDto.id()));
+                    tagsToRemove.forEach(tagName -> majorService.deleteAllByOptions(memberDto.id(), tagName));
+                }, () -> majorService.deleteAllByOptions(memberDto.id(), null));
 
         return MEMBER_RES_MAPPER.toUpdateProfile(memberDto);
     }

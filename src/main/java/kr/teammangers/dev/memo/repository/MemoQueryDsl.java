@@ -4,6 +4,6 @@ import kr.teammangers.dev.memo.domain.Memo;
 
 import java.util.List;
 
-public interface MemoQueryDslRepository {
+public interface MemoQueryDsl {
     List<Memo> findAllByOptions(Long folderId, Boolean isFixed);
 }
