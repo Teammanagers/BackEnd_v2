@@ -6,6 +6,7 @@ import kr.teammangers.dev.common.payload.exception.GeneralException;
 import kr.teammangers.dev.member.application.MemberService;
 import kr.teammangers.dev.member.domain.Member;
 import kr.teammangers.dev.member.dto.MemberDto;
+import kr.teammangers.dev.member.dto.req.UpdateProfileReq;
 import kr.teammangers.dev.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -34,6 +35,13 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public MemberDto findDtoById(final Long id) {
         return MEMBER_MAPPER.toDto(findById(id));
+    }
+
+    @Override
+    public MemberDto update(Long memberId, UpdateProfileReq req) {
+        Member member = findById(memberId);
+        member.update(req);
+        return MEMBER_MAPPER.toDto(member);
     }
 
     private Member findById(final Long id) {
