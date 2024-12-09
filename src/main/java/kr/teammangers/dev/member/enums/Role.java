@@ -1,4 +1,4 @@
-package kr.teammangers.dev.member.dto.enums;
+package kr.teammangers.dev.member.enums;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -12,5 +12,10 @@ public enum Role {
     GUEST("ROLE_GUEST");
 
     private final String value;
+
+    @Override
+    public String toString() {
+        return value;
+    }
 
 }

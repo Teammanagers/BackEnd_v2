@@ -3,7 +3,7 @@ package kr.teammangers.dev.member.domain;
 import jakarta.persistence.*;
 import kr.teammangers.dev.auth.domain.embed.ProviderInfo;
 import kr.teammangers.dev.common.entity.BaseField;
-import kr.teammangers.dev.member.dto.enums.Role;
+import kr.teammangers.dev.member.enums.Role;
 import kr.teammangers.dev.member.dto.req.UpdateProfileReq;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
