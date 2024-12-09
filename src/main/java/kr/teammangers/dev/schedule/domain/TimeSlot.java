@@ -22,13 +22,16 @@ public class TimeSlot extends BaseField {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "day_nm")
+    @Column(name = "day_nm", nullable = false)
     private DayOfWeek dayOfWeek;
 
-    @Column(name = "start_tm")
+    @Column(name = "start_tm", nullable = false)
     private String startTime;
 
-    @Column(name = "end_tm")
+    @Column(name = "end_tm", nullable = false)
     private String endTime;
+
+    @Column(name = "member_id", nullable = false)
+    private Long memberId;
 
 }
