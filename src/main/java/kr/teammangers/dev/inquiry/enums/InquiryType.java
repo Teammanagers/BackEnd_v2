@@ -6,6 +6,5 @@ public enum InquiryType {
     TERMS,      // 약관 문의
     SERVICE,    // 서비스 문의
     ETC,        // 그 외
-    ;
 
 }
