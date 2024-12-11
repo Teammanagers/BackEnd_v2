@@ -3,6 +3,8 @@ package kr.teammangers.dev.team.application.base.impl;
 import kr.teammangers.dev.common.payload.exception.GeneralException;
 import kr.teammangers.dev.member.domain.Member;
 import kr.teammangers.dev.member.repository.MemberRepository;
+import kr.teammangers.dev.schedule.domain.TimeSlot;
+import kr.teammangers.dev.schedule.repository.TimeSlotRepository;
 import kr.teammangers.dev.team.application.base.TeamManageService;
 import kr.teammangers.dev.team.domain.Team;
 import kr.teammangers.dev.team.domain.mapping.TeamManage;
@@ -16,7 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static kr.teammangers.dev.common.payload.code.dto.enums.ErrorStatus.*;
+import static kr.teammangers.dev.common.payload.code.dto.enums.ErrorStatus.TEAM_MANAGE_NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +27,7 @@ public class TeamManageServiceImpl implements TeamManageService {
     private final TeamManageRepository teamManageRepository;
     private final TeamRepository teamRepository;
     private final MemberRepository memberRepository;
+    private final TimeSlotRepository timeSlotRepository;
 
     @Override
     public boolean exists(Long teamId, Long memberId) {
@@ -35,7 +38,8 @@ public class TeamManageServiceImpl implements TeamManageService {
     public Long save(Long teamId, Long memberId) {
         Team team = teamRepository.getReferenceById(teamId);
         Member member = memberRepository.getReferenceById(memberId);
-        return teamManageRepository.save(TeamManageMapper.TEAM_MANAGE_MAPPER.toEntity(team, member)).getId();
+        TimeSlot timeSlot = timeSlotRepository.save(TimeSlot.builder().build());
+        return teamManageRepository.save(TeamManageMapper.TEAM_MANAGE_MAPPER.toEntity(team, member, timeSlot)).getId();
     }
 
     @Override
@@ -50,6 +54,13 @@ public class TeamManageServiceImpl implements TeamManageService {
     public Long findIdByTeamIdAndMemberId(Long teamId, Long memberId) {
         return teamManageRepository.findByTeam_IdAndMember_Id(teamId, memberId)
                 .orElseThrow(() -> new GeneralException(TEAM_MANAGE_NOT_FOUND)).getId();
+    }
+
+    @Override
+    public List<Long> findAllIdByTeamId(Long teamId) {
+        return teamManageRepository.findAllByTeam_Id(teamId).stream()
+                .map(TeamManage::getId)
+                .toList();
     }
 
 }

@@ -9,7 +9,6 @@ import java.util.Map;
 public record TimeSlotDto(
         Long id,
         Map<DayOfWeek, Long> dailySlots,
-
-        Long teamManageId
+        Boolean isConfigured
 ) {
 }

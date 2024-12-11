@@ -2,6 +2,7 @@ package kr.teammangers.dev.schedule.util;
 
 import kr.teammangers.dev.common.payload.exception.GeneralException;
 import kr.teammangers.dev.schedule.dto.TimeRangeDto;
+import kr.teammangers.dev.schedule.dto.TimeSlotDto;
 import lombok.experimental.UtilityClass;
 
 import java.time.LocalTime;
@@ -59,6 +60,12 @@ public class TimeSlotBitUtils {
             ranges.add(createTimeRange(start, TOTAL_SLOTS));
         }
         return ranges;
+    }
+
+    public static TimeSlotDto calculateCommonTimeSlot(List<TimeSlotDto> timeSlotDtoList) {
+
+
+        return null;
     }
 
     private static TimeRangeDto createTimeRange(int startSlot, int endSlot) {

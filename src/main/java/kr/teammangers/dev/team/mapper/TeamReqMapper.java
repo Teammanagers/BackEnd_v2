@@ -1,5 +1,6 @@
 package kr.teammangers.dev.team.mapper;
 
+import kr.teammangers.dev.schedule.domain.TimeSlot;
 import kr.teammangers.dev.team.domain.Team;
 import kr.teammangers.dev.team.dto.req.CreateTeamReq;
 import org.mapstruct.Mapper;
@@ -13,6 +14,7 @@ public interface TeamReqMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "rootFolderId", source = "rootFolderId")
-    Team toEntity(CreateTeamReq req, Long rootFolderId);
+    @Mapping(target = "timeSlot", source = "timeSlot")
+    Team toEntity(CreateTeamReq req, Long rootFolderId, TimeSlot timeSlot);
 
 }

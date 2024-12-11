@@ -10,6 +10,7 @@ import org.hibernate.annotations.SQLRestriction;
 
 import java.util.Arrays;
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.Map;
 
 import static kr.teammangers.dev.common.payload.code.dto.enums.ErrorStatus.TIME_SLOT_BAD_REQUEST;
@@ -19,7 +20,6 @@ import static kr.teammangers.dev.schedule.util.TimeSlotBitUtils.createTimeSlot;
 @Entity
 @Getter
 @Table(name = "time_slot")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @SQLRestriction("use_yn <> 'N'")
 @SQLDelete(sql = "UPDATE time_slot SET use_yn = 'N' WHERE id = ?")
@@ -36,21 +36,30 @@ public class TimeSlot extends BaseField {
     )
     @MapKeyEnumerated(EnumType.STRING)
     @Column(name = "time_bits")
-    private Map<DayOfWeek, Long> dailySlots = new EnumMap<>(DayOfWeek.class);
+    private Map<DayOfWeek, Long> dailySlots;
 
-    @Column(name = "team_mn_id", nullable = false)
-    private Long teamManageId;
+    @Column(name = "is_config", nullable = false)
+    private Boolean isConfigured;
 
     @Builder
-    public TimeSlot(Long teamManageId) {
+    protected TimeSlot() {
         this.dailySlots = new EnumMap<>(DayOfWeek.class);
-        this.teamManageId = teamManageId;
+        this.isConfigured = false;
         Arrays.stream(DayOfWeek.values()).forEach(day -> dailySlots.put(day, 0L));
     }
 
     public void setTimeSlot(DayOfWeek day, int startHour, int startMinute, int endHour, int endMinute) {
         Long bitMask = createTimeSlot(startHour, startMinute, endHour, endMinute);
         dailySlots.merge(day, bitMask, (existing, newValue) -> existing | newValue);
+    }
+
+    public void update(TimeSlot schedule) {
+        this.dailySlots = new HashMap<>();
+        this.dailySlots.putAll(schedule.dailySlots);
+    }
+
+    public void updateConfig() {
+        this.isConfigured = true;
     }
 
     @PrePersist
@@ -62,5 +71,6 @@ public class TimeSlot extends BaseField {
             }
         });
     }
+
 
 }
