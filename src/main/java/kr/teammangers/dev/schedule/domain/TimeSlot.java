@@ -38,13 +38,13 @@ public class TimeSlot extends BaseField {
     @Column(name = "time_bits")
     private Map<DayOfWeek, Long> dailySlots = new EnumMap<>(DayOfWeek.class);
 
-    @Column(name = "member_id", nullable = false)
-    private Long memberId;
+    @Column(name = "team_mn_id", nullable = false)
+    private Long teamManageId;
 
     @Builder
-    public TimeSlot(Long memberId) {
+    public TimeSlot(Long teamManageId) {
         this.dailySlots = new EnumMap<>(DayOfWeek.class);
-        this.memberId = memberId;
+        this.teamManageId = teamManageId;
         Arrays.stream(DayOfWeek.values()).forEach(day -> dailySlots.put(day, 0L));
     }
 

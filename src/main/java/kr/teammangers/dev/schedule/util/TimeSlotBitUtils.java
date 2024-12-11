@@ -1,7 +1,7 @@
 package kr.teammangers.dev.schedule.util;
 
 import kr.teammangers.dev.common.payload.exception.GeneralException;
-import kr.teammangers.dev.schedule.dto.TimeRange;
+import kr.teammangers.dev.schedule.dto.TimeRangeDto;
 import lombok.experimental.UtilityClass;
 
 import java.time.LocalTime;
@@ -42,8 +42,8 @@ public class TimeSlotBitUtils {
         return leftPad(Long.toBinaryString(value));
     }
 
-    public static List<TimeRange> getTimeRanges(Long bits) {
-        List<TimeRange> ranges = new ArrayList<>();
+    public static List<TimeRangeDto> getTimeRangeDtoList(Long bits) {
+        List<TimeRangeDto> ranges = new ArrayList<>();
         int start = -1;
 
         for (int i = 0; i < TOTAL_SLOTS; i++) {
@@ -61,10 +61,13 @@ public class TimeSlotBitUtils {
         return ranges;
     }
 
-    private static TimeRange createTimeRange(int startSlot, int endSlot) {
+    private static TimeRangeDto createTimeRange(int startSlot, int endSlot) {
         LocalTime start = LocalTime.of(startSlot / SLOTS_PER_HOUR, (startSlot % SLOTS_PER_HOUR) * (60 / SLOTS_PER_HOUR));
         LocalTime end = LocalTime.of(endSlot / SLOTS_PER_HOUR, (endSlot % SLOTS_PER_HOUR) * (60 / SLOTS_PER_HOUR));
-        return new TimeRange(start, end);
+        return TimeRangeDto.builder()
+                .startTime(start)
+                .endTime(end)
+                .build();
     }
 
     private static String leftPad(String str) {

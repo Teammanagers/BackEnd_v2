@@ -1,8 +1,11 @@
 package kr.teammangers.dev.schedule.dto;
 
+import lombok.Builder;
+
 import java.time.LocalTime;
 
-public record TimeRange(
+@Builder
+public record TimeRangeDto(
         LocalTime startTime,
         LocalTime endTime
 ) {

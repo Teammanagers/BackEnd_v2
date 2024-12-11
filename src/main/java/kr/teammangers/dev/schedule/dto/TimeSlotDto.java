@@ -10,6 +10,6 @@ public record TimeSlotDto(
         Long id,
         Map<DayOfWeek, Long> dailySlots,
 
-        Long memberId
+        Long teamManageId
 ) {
 }
