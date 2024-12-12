@@ -11,6 +11,7 @@ public record MemoDto(
         Long id,
         String title,
         String content,
+        Boolean isFixed,
 
         Long folderId,
 
