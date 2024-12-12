@@ -1,7 +1,28 @@
 package kr.teammangers.dev.auth.application;
 
-public interface TermsService {
-    Long save(Long memberId);
+import kr.teammangers.dev.auth.domain.Terms;
+import kr.teammangers.dev.auth.repository.TermsRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
-    boolean existsByMemberId(Long memberId);
+import static kr.teammangers.dev.auth.mapper.TermsMapper.TERMS_MAPPER;
+
+@Service
+@RequiredArgsConstructor
+public class TermsService {
+
+    private final TermsRepository termsRepository;
+
+    public Long save(Long memberId) {
+        return insert(memberId).getMemberId();
+    }
+
+    public boolean existsByMemberId(Long memberId) {
+        return termsRepository.existsByMemberId(memberId);
+    }
+
+    private Terms insert(Long memberId) {
+        return termsRepository.save(TERMS_MAPPER.toEntity(memberId));
+    }
+
 }

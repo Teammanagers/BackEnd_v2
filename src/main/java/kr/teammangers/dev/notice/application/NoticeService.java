@@ -1,17 +1,68 @@
 package kr.teammangers.dev.notice.application;
 
+import kr.teammangers.dev.common.payload.exception.GeneralException;
+import kr.teammangers.dev.notice.domain.Notice;
 import kr.teammangers.dev.notice.dto.NoticeDto;
+import kr.teammangers.dev.notice.repository.NoticeRepository;
+import kr.teammangers.dev.team.domain.Team;
+import kr.teammangers.dev.team.repository.TeamRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public interface NoticeService {
-    NoticeDto save(Long teamId, String content);
+import static kr.teammangers.dev.common.payload.code.dto.enums.ErrorStatus.NOTICE_NOT_FOUND;
+import static kr.teammangers.dev.notice.mapper.NoticeMapper.NOTICE_MAPPER;
 
-    NoticeDto update(Long noticeId, String content);
+@Service
+@RequiredArgsConstructor
+public class NoticeService {
 
-    Long delete(Long noticeId);
+    private final NoticeRepository noticeRepository;
+    private final TeamRepository teamRepository;
 
-    NoticeDto findRecentDtoByTeamId(Long teamId);
+    public NoticeDto save(Long teamId, String content) {
+        return NOTICE_MAPPER.toDto(insert(teamId, content));
+    }
 
-    List<NoticeDto> findAllDtoByTeamId(Long teamId);
+    public NoticeDto update(Long noticeId, String content) {
+        Notice notice = findById(noticeId);
+        notice.updateContent(content);
+        return NOTICE_MAPPER.toDto(notice);
+    }
+
+    public Long delete(Long noticeId) {
+        noticeRepository.deleteById(noticeId);
+        return noticeId;
+    }
+
+    public NoticeDto findRecentDtoByTeamId(Long teamId) {
+        return NOTICE_MAPPER.toDto(findRecentByTeamId(teamId));
+    }
+
+    public List<NoticeDto> findAllDtoByTeamId(Long teamId) {
+        return findAllByTeamId(teamId).stream()
+                .map(NOTICE_MAPPER::toDto)
+                .toList();
+    }
+
+    private Notice insert(Long teamId, String content) {
+        Team team = teamRepository.getReferenceById(teamId);
+        return noticeRepository.save(NOTICE_MAPPER.toEntity(content, team));
+    }
+
+    private Notice findById(Long id) {
+        return noticeRepository.findById(id)
+                .orElseThrow(() -> new GeneralException(NOTICE_NOT_FOUND));
+    }
+
+    private Notice findRecentByTeamId(Long teamId) {
+        return noticeRepository.findTopRecentByTeamId(teamId)
+                .orElseThrow(() -> new GeneralException(NOTICE_NOT_FOUND));
+    }
+
+    private List<Notice> findAllByTeamId(Long teamId) {
+        return noticeRepository.findAllRecentByTeamId(teamId);
+    }
+
 }

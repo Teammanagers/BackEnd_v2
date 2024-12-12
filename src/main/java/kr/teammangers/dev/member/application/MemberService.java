@@ -1,16 +1,45 @@
 package kr.teammangers.dev.member.application;
 
 import kr.teammangers.dev.auth.dto.OAuth2UserInfo;
+import kr.teammangers.dev.common.payload.code.dto.enums.ErrorStatus;
+import kr.teammangers.dev.common.payload.exception.GeneralException;
+import kr.teammangers.dev.member.domain.Member;
 import kr.teammangers.dev.member.dto.MemberDto;
 import kr.teammangers.dev.member.dto.req.UpdateProfileReq;
-import org.springframework.transaction.annotation.Transactional;
+import kr.teammangers.dev.member.repository.MemberRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
-public interface MemberService {
+import static kr.teammangers.dev.member.mapper.MemberMapper.MEMBER_MAPPER;
 
-    @Transactional
-    MemberDto findDtoOrSave(OAuth2UserInfo oAuth2UserInfo);
+@Service
+@RequiredArgsConstructor
+public class MemberService {
 
-    MemberDto findDtoById(Long id);
+    private final MemberRepository memberRepository;
 
-    MemberDto update(Long memberId, UpdateProfileReq req);
+    public MemberDto findDtoOrSave(final OAuth2UserInfo oAuth2UserInfo) {
+        return MEMBER_MAPPER.toDto(memberRepository.findByProviderInfo_ProviderId(oAuth2UserInfo.providerInfo().getProviderId())
+                .orElseGet(() -> insertMember(MEMBER_MAPPER.toEntity(oAuth2UserInfo))));
+    }
+
+    public MemberDto findDtoById(final Long id) {
+        return MEMBER_MAPPER.toDto(findById(id));
+    }
+
+    public MemberDto update(Long memberId, UpdateProfileReq req) {
+        Member member = findById(memberId);
+        member.update(req);
+        return MEMBER_MAPPER.toDto(member);
+    }
+
+    private Member findById(final Long id) {
+        return memberRepository.findById(id)
+                .orElseThrow(() -> new GeneralException(ErrorStatus.MEMBER_NOT_FOUND));
+    }
+
+    private Member insertMember(final Member member) {
+        return memberRepository.save(member);
+    }
+
 }
