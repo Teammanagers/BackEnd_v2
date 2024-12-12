@@ -1,7 +1,7 @@
 package kr.teammangers.dev.auth.dto;
 
 import kr.teammangers.dev.member.dto.MemberDto;
-import kr.teammangers.dev.member.dto.enums.Role;
+import kr.teammangers.dev.member.enums.Role;
 import lombok.Builder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -43,26 +43,6 @@ public record AuthInfo(
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singletonList(new SimpleGrantedAuthority(Role.USER.getValue()));
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
     }
 
 }

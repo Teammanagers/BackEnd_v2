@@ -2,6 +2,8 @@ package kr.teammangers.dev.team.application.base.impl;
 
 import kr.teammangers.dev.common.payload.code.dto.enums.ErrorStatus;
 import kr.teammangers.dev.common.payload.exception.GeneralException;
+import kr.teammangers.dev.schedule.domain.TimeSlot;
+import kr.teammangers.dev.schedule.repository.TimeSlotRepository;
 import kr.teammangers.dev.team.application.base.TeamService;
 import kr.teammangers.dev.team.domain.Team;
 import kr.teammangers.dev.team.dto.TeamDto;
@@ -21,6 +23,7 @@ import static kr.teammangers.dev.team.mapper.TeamReqMapper.TEAM_REQ_MAPPER;
 public class TeamServiceImpl implements TeamService {
 
     private final TeamRepository teamRepository;
+    private final TimeSlotRepository timeSlotRepository;
 
     @Override
     public TeamDto save(CreateTeamReq req, Long rootFolderId) {
@@ -40,13 +43,14 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public void validateTeamAdmin(Long teamId, Long memberId) {
-        if(!Objects.equals(findById(teamId).getCreatedBy(), memberId)) {
+        if (!Objects.equals(findById(teamId).getCreatedBy(), memberId)) {
             throw new GeneralException(TEAM_NO_AUTHORITY);
         }
     }
 
     private Team insert(CreateTeamReq req, Long rootFolderId) {
-        return teamRepository.save(TEAM_REQ_MAPPER.toEntity(req, rootFolderId));
+        TimeSlot timeSlot = timeSlotRepository.save(TimeSlot.builder().build());
+        return teamRepository.save(TEAM_REQ_MAPPER.toEntity(req, rootFolderId, timeSlot));
     }
 
     private Team findByTeamCode(String teamCode) {

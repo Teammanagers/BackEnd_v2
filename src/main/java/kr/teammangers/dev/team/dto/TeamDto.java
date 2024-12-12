@@ -13,6 +13,7 @@ public record TeamDto(
         String password,
         String code,
         Long rootFolderId,
+        Long timeSlotId,
 
         @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
         LocalDateTime createdAt,

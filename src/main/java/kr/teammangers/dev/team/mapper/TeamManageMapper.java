@@ -1,6 +1,7 @@
 package kr.teammangers.dev.team.mapper;
 
 import kr.teammangers.dev.member.domain.Member;
+import kr.teammangers.dev.schedule.domain.TimeSlot;
 import kr.teammangers.dev.team.domain.Team;
 import kr.teammangers.dev.team.domain.mapping.TeamManage;
 import org.mapstruct.Mapper;
@@ -15,6 +16,7 @@ public interface TeamManageMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "team", source = "team")
     @Mapping(target = "member", source = "member")
-    TeamManage toEntity(Team team, Member member);
+    @Mapping(target = "timeSlot", source = "timeSlot")
+    TeamManage toEntity(Team team, Member member, TimeSlot timeSlot);
 
 }

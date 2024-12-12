@@ -3,6 +3,7 @@ package kr.teammangers.dev.team.domain.mapping;
 import jakarta.persistence.*;
 import kr.teammangers.dev.common.entity.BaseField;
 import kr.teammangers.dev.member.domain.Member;
+import kr.teammangers.dev.schedule.domain.TimeSlot;
 import kr.teammangers.dev.team.domain.Team;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
@@ -22,12 +23,16 @@ public class TeamManage extends BaseField {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id", nullable = false)
     private Team team;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "time_slot_id", nullable = false)
+    private TimeSlot timeSlot;
 
 }

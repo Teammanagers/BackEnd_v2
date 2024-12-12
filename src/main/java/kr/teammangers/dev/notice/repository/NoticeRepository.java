@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface NoticeRepository extends JpaRepository<Notice, Long> {
 
-    @Query("SELECT n FROM Notice n WHERE n.team.id = :teamId ORDER BY n.updatedAt DESC")
+    @Query("SELECT n FROM Notice n WHERE n.team.id = :teamId ORDER BY n.updatedAt DESC LIMIT 1")
     Optional<Notice> findTopRecentByTeamId(@Param("teamId") Long teamId);
 
     @Query("SELECT n FROM Notice n WHERE n.team.id = :teamId ORDER BY n.updatedAt DESC")
