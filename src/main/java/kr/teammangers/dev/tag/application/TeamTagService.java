@@ -39,4 +39,7 @@ public class TeamTagService {
         return teamTagRepository.findAllByTeam_Id(teamId);
     }
 
+    public void deleteAllByOptions(Long teamId, String tagName) {
+        teamTagRepository.deleteAllByOptions(teamId, tagName);
+    }
 }

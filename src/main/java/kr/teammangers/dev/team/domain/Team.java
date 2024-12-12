@@ -3,6 +3,7 @@ package kr.teammangers.dev.team.domain;
 import jakarta.persistence.*;
 import kr.teammangers.dev.common.entity.BaseField;
 import kr.teammangers.dev.schedule.domain.TimeSlot;
+import kr.teammangers.dev.team.dto.req.UpdateTeamReq;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
@@ -37,4 +38,7 @@ public class Team extends BaseField {
     @JoinColumn(name = "time_slot_id", nullable = false)
     private TimeSlot timeSlot;
 
+    public void update(UpdateTeamReq req) {
+        this.title = req.title();
+    }
 }

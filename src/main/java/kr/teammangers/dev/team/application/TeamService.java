@@ -7,6 +7,7 @@ import kr.teammangers.dev.schedule.repository.TimeSlotRepository;
 import kr.teammangers.dev.team.domain.Team;
 import kr.teammangers.dev.team.dto.TeamDto;
 import kr.teammangers.dev.team.dto.req.CreateTeamReq;
+import kr.teammangers.dev.team.dto.req.UpdateTeamReq;
 import kr.teammangers.dev.team.repository.TeamRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -35,6 +36,12 @@ public class TeamService {
 
     public TeamDto findDtoById(Long id) {
         return TEAM_MAPPER.toDto(findById(id));
+    }
+
+    public TeamDto update(UpdateTeamReq req) {
+        Team team = findById(req.teamId());
+        team.update(req);
+        return TEAM_MAPPER.toDto(team);
     }
 
     public void validateTeamAdmin(Long teamId, Long memberId) {
