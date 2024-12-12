@@ -34,4 +34,7 @@ public class TeamImgService {
                 .orElseThrow(() -> new GeneralException(ErrorStatus.TEAM_IMG_NOT_FOUND));
     }
 
+    public void delete(Long teamId) {
+        teamImgRepository.deleteByTeam_Id(teamId);
+    }
 }

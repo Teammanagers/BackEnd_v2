@@ -10,14 +10,17 @@ import kr.teammangers.dev.tag.application.TeamTagService;
 import kr.teammangers.dev.tag.dto.TagDto;
 import kr.teammangers.dev.team.dto.TeamDto;
 import kr.teammangers.dev.team.dto.req.CreateTeamReq;
+import kr.teammangers.dev.team.dto.req.UpdateTeamReq;
 import kr.teammangers.dev.team.dto.res.CreateTeamRes;
 import kr.teammangers.dev.team.dto.res.GetTeamRes;
+import kr.teammangers.dev.team.dto.res.UpdateTeamRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Optional;
 
 import static kr.teammangers.dev.memo.constant.FolderConstant.ROOT_FOLDER;
 import static kr.teammangers.dev.s3.constant.S3Constant.TEAM_PROFILE_PATH;
@@ -82,6 +85,43 @@ public class TeamCrudService {
         List<TagDto> tagDtoList = teamTagService.findAllTagDtoByTeamId(teamDto.id());
 
         return TEAM_RES_MAPPER.toGet(teamDto, generatedUrl, tagDtoList);
+    }
+
+    @Transactional
+    public UpdateTeamRes updateTeam(UpdateTeamReq req, MultipartFile imageFile) {
+        TeamDto teamDto = teamService.update(req);
+
+        // 팀 프로필 이미지 수정
+        if (imageFile != null) {
+            teamImgService.delete(req.teamId());        // TODO: 스케줄링으로 일정 기간마다 벌크로 제거해야 할듯
+            S3FileInfoDto s3FileInfoDto = s3Service.uploadFile(imageFile, TEAM_PROFILE_PATH);
+            teamImgService.save(req.teamId(), s3FileInfoDto.id());
+        }
+
+        // 태그 수정
+        List<String> existingTagNames = teamTagService.findAllTagDtoByTeamId(req.teamId()).stream()
+                .map(TagDto::name).toList();
+
+        Optional.ofNullable(req.tagList())
+                .ifPresentOrElse(requestTagNames -> {
+                    List<String> tagsToAdd = requestTagNames.stream()
+                            .filter(tagName -> !existingTagNames.contains(tagName))
+                            .toList();
+
+                    List<String> tagsToRemove = existingTagNames.stream()
+                            .filter(tagName -> !req.tagList().contains(tagName))
+                            .toList();
+
+                    tagsToAdd.forEach(tagName -> saveTeamTagFromTagName(req.teamId(), tagName));
+                    tagsToRemove.forEach(tagName -> teamTagService.deleteAllByOptions(req.teamId(), tagName));
+                }, () -> teamTagService.deleteAllByOptions(req.teamId(), null));
+
+        return TEAM_RES_MAPPER.toUpdate(teamDto);
+    }
+
+    private void saveTeamTagFromTagName(Long teamId, String tagName) {
+        TagDto tagDto = tagService.findDtoOrSave(tagName);
+        teamTagService.save(teamId, tagDto.id());
     }
 
 }

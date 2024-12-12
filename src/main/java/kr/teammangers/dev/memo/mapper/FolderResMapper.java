@@ -14,9 +14,8 @@ public interface FolderResMapper {
 
     FolderResMapper FOLDER_RES_MAPPER = Mappers.getMapper(FolderResMapper.class);
 
-    @Mapping(target = "currentFolderId", source = "currentFolderId")
     @Mapping(target = "folderDto", source = "folderDto")
-    GetFolderRes toGet(Long currentFolderId, FolderDto folderDto);
+    GetFolderRes toGet(FolderDto folderDto);
 
     @Mapping(target = "createdFolderId", source = "folderDto.id")
     CreateFolderRes toCreate(FolderDto folderDto);

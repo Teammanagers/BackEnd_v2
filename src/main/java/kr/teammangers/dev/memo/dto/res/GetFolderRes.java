@@ -5,7 +5,6 @@ import lombok.Builder;
 
 @Builder
 public record GetFolderRes(
-        Long currentFolderId,
         FolderDto folderDto
 ) {
 }

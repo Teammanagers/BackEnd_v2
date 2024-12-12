@@ -9,4 +9,6 @@ public interface TeamImgRepository extends JpaRepository<TeamImg, Long> {
 
     Optional<TeamImg> findByTeam_Id(Long teamId);
 
+    void deleteByTeam_Id(Long teamId);
+
 }

@@ -8,10 +8,8 @@ import kr.teammangers.dev.team.application.TeamMembershipService;
 import kr.teammangers.dev.team.application.TeamUtilService;
 import kr.teammangers.dev.team.dto.req.CreateTeamReq;
 import kr.teammangers.dev.team.dto.req.JoinTeamReq;
-import kr.teammangers.dev.team.dto.res.CreateTeamRes;
-import kr.teammangers.dev.team.dto.res.GetTeamCodeRes;
-import kr.teammangers.dev.team.dto.res.GetTeamRes;
-import kr.teammangers.dev.team.dto.res.JoinTeamRes;
+import kr.teammangers.dev.team.dto.req.UpdateTeamReq;
+import kr.teammangers.dev.team.dto.res.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -34,12 +32,14 @@ public class TeamController {
             @RequestPart(name = "createTeam") @Valid final CreateTeamReq req,
             @RequestPart(name = "imageFile", required = false) final MultipartFile imageFile
     ) {
-        return ApiRes.onSuccess(teamCrudService.createTeam(auth.memberDto().id(), req, imageFile));
+        CreateTeamRes result = teamCrudService.createTeam(auth.memberDto().id(), req, imageFile);
+        return ApiRes.onSuccess(result);
     }
 
     @GetMapping("/code")
     public ApiRes<GetTeamCodeRes> generateTeamCode() {
-        return ApiRes.onSuccess(teamUtilService.generateTeamCode());
+        GetTeamCodeRes result = teamUtilService.generateTeamCode();
+        return ApiRes.onSuccess(result);
     }
 
     @GetMapping
@@ -55,6 +55,15 @@ public class TeamController {
             @AuthenticationPrincipal final AuthInfo auth
     ) {
         List<GetTeamRes> result = teamCrudService.getTeamListByMemberId(auth.memberDto().id());
+        return ApiRes.onSuccess(result);
+    }
+
+    @PatchMapping
+    public ApiRes<UpdateTeamRes> updateTeam(
+            @RequestPart(name = "updateTeam") final UpdateTeamReq req,
+            @RequestPart(name = "imageFile", required = false) final MultipartFile imageFile
+    ) {
+        UpdateTeamRes result = teamCrudService.updateTeam(req, imageFile);
         return ApiRes.onSuccess(result);
     }
 

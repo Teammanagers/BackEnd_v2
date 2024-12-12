@@ -1,6 +1,5 @@
 package kr.teammangers.dev.memo.application;
 
-import kr.teammangers.dev.memo.application.FolderService;
 import kr.teammangers.dev.memo.dto.FolderDto;
 import kr.teammangers.dev.memo.dto.req.CreateFolderReq;
 import kr.teammangers.dev.memo.dto.req.DeleteFolderReq;
@@ -33,20 +32,25 @@ public class FolderCrudService {
         return FOLDER_RES_MAPPER.toCreate(folderService.save(folderDto));
     }
 
+    public GetFolderRes getRootFolderByTeamId(Long teamId) {
+        FolderDto folderDto = folderService.findDtoByTeamId(teamId);
+        return FOLDER_RES_MAPPER.toGet(folderDto);
+    }
+
     public List<GetFolderRes> getFolderList(Long folderId) {
         return folderService.findAllDtoByParentId(folderId).stream()
-                .map(folderDto -> FOLDER_RES_MAPPER.toGet(folderId, folderDto))
+                .map(FOLDER_RES_MAPPER::toGet)
                 .toList();
     }
 
     @Transactional
-    public UpdateFolderRes updateFolder(Long memberId, UpdateFolderReq req) {
+    public UpdateFolderRes updateFolder(UpdateFolderReq req) {
         FolderDto folderDto = folderService.update(req);
         return FOLDER_RES_MAPPER.toUpdate(folderDto);
     }
 
     @Transactional
-    public DeleteFolderRes deleteFolder(Long memberId, DeleteFolderReq req) {
+    public DeleteFolderRes deleteFolder(DeleteFolderReq req) {
         folderService.deleteAllByFolderId(req.folderId());
         return FOLDER_RES_MAPPER.toDelete(req.folderId());
     }
