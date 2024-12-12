@@ -1,6 +1,6 @@
 package kr.teammangers.dev.calendar.presentation;
 
-import kr.teammangers.dev.calendar.application.CalendarService;
+import kr.teammangers.dev.calendar.application.CalendarCrudService;
 import kr.teammangers.dev.calendar.dto.req.CreatePlanReq;
 import kr.teammangers.dev.calendar.dto.req.DeletePlanReq;
 import kr.teammangers.dev.calendar.dto.req.UpdatePlanReq;
@@ -19,7 +19,7 @@ import java.util.List;
 @RequestMapping("/api/v2/calendar")
 public class CalendarController {
 
-    private final CalendarService calendarService;
+    private final CalendarCrudService calendarService;
 
     @PostMapping
     public ApiRes<CreatePlanRes> createPlan(

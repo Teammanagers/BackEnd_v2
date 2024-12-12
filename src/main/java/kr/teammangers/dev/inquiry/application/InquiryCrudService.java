@@ -1,17 +1,44 @@
 package kr.teammangers.dev.inquiry.application;
 
+import kr.teammangers.dev.inquiry.dto.InquiryDto;
 import kr.teammangers.dev.inquiry.dto.req.CreateInquiryReq;
 import kr.teammangers.dev.inquiry.dto.req.DeleteInquiryReq;
 import kr.teammangers.dev.inquiry.dto.res.CreateInquiryRes;
 import kr.teammangers.dev.inquiry.dto.res.DeleteInquiryRes;
 import kr.teammangers.dev.inquiry.dto.res.GetInquiryRes;
+import kr.teammangers.dev.inquiry.mapper.InquiryMapper;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-public interface InquiryCrudService {
-    CreateInquiryRes createInquiry(Long memberId, CreateInquiryReq req);
+import static kr.teammangers.dev.inquiry.mapper.InquiryResMapper.INQUIRY_RES_MAPPER;
 
-    List<GetInquiryRes> getInquiryList(Long memberId);
+@Service
+@Transactional(readOnly = true)
+@RequiredArgsConstructor
+public class InquiryCrudService {
 
-    DeleteInquiryRes deleteInquiry(DeleteInquiryReq req);
+    private final InquiryService inquiryService;
+
+    @Transactional
+    public CreateInquiryRes createInquiry(Long memberId, CreateInquiryReq req) {
+        InquiryDto inquiryDto = InquiryMapper.INQUIRY_MAPPER.toDto(memberId, req);
+        return INQUIRY_RES_MAPPER.toCreate(inquiryService.save(inquiryDto));
+    }
+
+    public List<GetInquiryRes> getInquiryList(Long memberId) {
+        List<InquiryDto> dtoList = inquiryService.findAllDtoByMemberId(memberId);
+        return dtoList.stream()
+                .map(INQUIRY_RES_MAPPER::toGet)
+                .toList();
+    }
+
+    @Transactional
+    public DeleteInquiryRes deleteInquiry(DeleteInquiryReq req) {
+        inquiryService.deleteByInquiryId(req.inquiryId());
+        return INQUIRY_RES_MAPPER.toDelete(req.inquiryId());
+    }
+
 }

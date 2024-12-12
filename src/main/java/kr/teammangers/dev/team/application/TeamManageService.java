@@ -1,10 +1,9 @@
-package kr.teammangers.dev.team.application.base.impl;
+package kr.teammangers.dev.team.application;
 
 import kr.teammangers.dev.member.domain.Member;
 import kr.teammangers.dev.member.repository.MemberRepository;
 import kr.teammangers.dev.schedule.domain.TimeSlot;
 import kr.teammangers.dev.schedule.repository.TimeSlotRepository;
-import kr.teammangers.dev.team.application.base.TeamManageService;
 import kr.teammangers.dev.team.domain.Team;
 import kr.teammangers.dev.team.domain.mapping.TeamManage;
 import kr.teammangers.dev.team.dto.TeamDto;
@@ -19,19 +18,17 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class TeamManageServiceImpl implements TeamManageService {
+public class TeamManageService {
 
     private final TeamManageRepository teamManageRepository;
     private final TeamRepository teamRepository;
     private final MemberRepository memberRepository;
     private final TimeSlotRepository timeSlotRepository;
 
-    @Override
     public boolean exists(Long teamId, Long memberId) {
         return teamManageRepository.existsByTeam_IdAndMember_Id(teamId, memberId);
     }
 
-    @Override
     public Long save(Long teamId, Long memberId) {
         Team team = teamRepository.getReferenceById(teamId);
         Member member = memberRepository.getReferenceById(memberId);
@@ -39,7 +36,6 @@ public class TeamManageServiceImpl implements TeamManageService {
         return teamManageRepository.save(TeamManageMapper.TEAM_MANAGE_MAPPER.toEntity(team, member, timeSlot)).getId();
     }
 
-    @Override
     public List<TeamDto> findAllTeamDtoByMemberId(Long memberId) {
         List<TeamManage> result = teamManageRepository.findAllByMember_Id(memberId);
         return result.stream()

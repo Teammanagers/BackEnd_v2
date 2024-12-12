@@ -1,7 +1,5 @@
-package kr.teammangers.dev.calendar.application.impl;
+package kr.teammangers.dev.calendar.application;
 
-import kr.teammangers.dev.calendar.application.CalendarService;
-import kr.teammangers.dev.calendar.application.PlanService;
 import kr.teammangers.dev.calendar.dto.PlanDto;
 import kr.teammangers.dev.calendar.dto.req.CreatePlanReq;
 import kr.teammangers.dev.calendar.dto.req.DeletePlanReq;
@@ -22,18 +20,16 @@ import static kr.teammangers.dev.calendar.mapper.PlanResMapper.PLAN_RES_MAPPER;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class CalendarServiceImpl implements CalendarService {
+public class CalendarCrudService {
 
     private final PlanService planService;
 
-    @Override
     @Transactional
     public CreatePlanRes createPlan(CreatePlanReq req) {
         PlanDto planDto = PLAN_MAPPER.toDto(req);
         return PLAN_RES_MAPPER.toCreate(planService.save(planDto));
     }
 
-    @Override
     public List<GetPlanRes> getRecentPlanList(Long teamId, String yearMonth) {
         List<PlanDto> recentDtoList = yearMonth == null || yearMonth.isEmpty()
                 ? planService.findAllRecentDtoByTeamId(teamId)
@@ -43,14 +39,12 @@ public class CalendarServiceImpl implements CalendarService {
                 .toList();
     }
 
-    @Override
     @Transactional
     public UpdatePlanRes updatePlan(UpdatePlanReq req) {
         PlanDto planDto = planService.update(req);
         return PLAN_RES_MAPPER.toUpdate(planDto);
     }
 
-    @Override
     @Transactional
     public DeletePlanRes deletePlan(DeletePlanReq req) {
         planService.deleteByPlanId(req.planId());
