@@ -1,6 +1,5 @@
 package kr.teammangers.dev.team.application.base.impl;
 
-import kr.teammangers.dev.common.payload.exception.GeneralException;
 import kr.teammangers.dev.member.domain.Member;
 import kr.teammangers.dev.member.repository.MemberRepository;
 import kr.teammangers.dev.schedule.domain.TimeSlot;
@@ -17,8 +16,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
-import static kr.teammangers.dev.common.payload.code.dto.enums.ErrorStatus.TEAM_MANAGE_NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor
@@ -47,19 +44,6 @@ public class TeamManageServiceImpl implements TeamManageService {
         List<TeamManage> result = teamManageRepository.findAllByMember_Id(memberId);
         return result.stream()
                 .map(teamManage -> TeamMapper.TEAM_MAPPER.toDto(teamManage.getTeam()))
-                .toList();
-    }
-
-    @Override
-    public Long findIdByTeamIdAndMemberId(Long teamId, Long memberId) {
-        return teamManageRepository.findByTeam_IdAndMember_Id(teamId, memberId)
-                .orElseThrow(() -> new GeneralException(TEAM_MANAGE_NOT_FOUND)).getId();
-    }
-
-    @Override
-    public List<Long> findAllIdByTeamId(Long teamId) {
-        return teamManageRepository.findAllByTeam_Id(teamId).stream()
-                .map(TeamManage::getId)
                 .toList();
     }
 
