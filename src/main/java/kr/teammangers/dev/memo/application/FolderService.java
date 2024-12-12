@@ -6,12 +6,14 @@ import kr.teammangers.dev.memo.dto.FolderDto;
 import kr.teammangers.dev.memo.dto.req.UpdateFolderReq;
 import kr.teammangers.dev.memo.repository.FolderRepository;
 import kr.teammangers.dev.memo.repository.MemoRepository;
+import kr.teammangers.dev.team.repository.TeamRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 import static kr.teammangers.dev.common.payload.code.dto.enums.ErrorStatus.FOLDER_NOT_FOUND;
+import static kr.teammangers.dev.common.payload.code.dto.enums.ErrorStatus.TEAM_NOT_FOUND;
 import static kr.teammangers.dev.memo.mapper.FolderMapper.FOLDER_MAPPER;
 
 @Service
@@ -20,6 +22,7 @@ public class FolderService {
 
     private final FolderRepository folderRepository;
     private final MemoRepository memoRepository;
+    private final TeamRepository teamRepository;
 
     public FolderDto save(FolderDto folderDto) {
         Folder parent = folderDto.parentId() != null ? folderRepository.getReferenceById(folderDto.parentId()) : null;
@@ -33,19 +36,24 @@ public class FolderService {
                 .toList();
     }
 
+    public FolderDto findDtoByTeamId(Long teamId) {
+        Long rootFolderId = teamRepository.findById(teamId)
+                .orElseThrow(() -> new GeneralException(TEAM_NOT_FOUND))
+                .getRootFolderId();
+        return findDtoById(rootFolderId);
+    }
+
     public FolderDto findDtoById(Long folderId) {
         return folderRepository.findById(folderId)
                 .map(FOLDER_MAPPER::toDto)
                 .orElseThrow(() -> new GeneralException(FOLDER_NOT_FOUND));
     }
 
-
     public FolderDto update(UpdateFolderReq req) {
         Folder folder = findById(req.folderId());
         folder.update(req);
         return FOLDER_MAPPER.toDto(folder);
     }
-
 
     public void deleteAllByFolderId(Long folderId) {
         // 모든 자식 폴더 ID를 가져옴
