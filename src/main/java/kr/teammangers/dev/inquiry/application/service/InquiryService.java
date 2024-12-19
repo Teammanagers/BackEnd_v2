@@ -1,8 +1,8 @@
-package kr.teammangers.dev.inquiry.application;
+package kr.teammangers.dev.inquiry.application.service;
 
-import kr.teammangers.dev.inquiry.domain.Inquiry;
+import kr.teammangers.dev.inquiry.domain.entity.Inquiry;
 import kr.teammangers.dev.inquiry.dto.InquiryDto;
-import kr.teammangers.dev.inquiry.repository.InquiryRepository;
+import kr.teammangers.dev.inquiry.domain.repository.InquiryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

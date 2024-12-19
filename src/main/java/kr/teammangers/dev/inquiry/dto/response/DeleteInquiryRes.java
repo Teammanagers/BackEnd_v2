@@ -1,4 +1,4 @@
-package kr.teammangers.dev.inquiry.dto.res;
+package kr.teammangers.dev.inquiry.dto.response;
 
 import lombok.Builder;
 

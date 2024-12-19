@@ -1,6 +1,6 @@
-package kr.teammangers.dev.inquiry.repository;
+package kr.teammangers.dev.inquiry.domain.repository;
 
-import kr.teammangers.dev.inquiry.domain.Inquiry;
+import kr.teammangers.dev.inquiry.domain.entity.Inquiry;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

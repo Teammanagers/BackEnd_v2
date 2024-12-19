@@ -1,8 +1,8 @@
-package kr.teammangers.dev.inquiry.domain;
+package kr.teammangers.dev.inquiry.domain.entity;
 
 import jakarta.persistence.*;
 import kr.teammangers.dev.global.common.base.BaseField;
-import kr.teammangers.dev.inquiry.enums.InquiryType;
+import kr.teammangers.dev.inquiry.domain.enums.InquiryType;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;

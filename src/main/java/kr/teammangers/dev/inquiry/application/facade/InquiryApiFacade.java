@@ -1,11 +1,12 @@
-package kr.teammangers.dev.inquiry.application;
+package kr.teammangers.dev.inquiry.application.facade;
 
+import kr.teammangers.dev.inquiry.application.service.InquiryService;
 import kr.teammangers.dev.inquiry.dto.InquiryDto;
-import kr.teammangers.dev.inquiry.dto.req.CreateInquiryReq;
-import kr.teammangers.dev.inquiry.dto.req.DeleteInquiryReq;
-import kr.teammangers.dev.inquiry.dto.res.CreateInquiryRes;
-import kr.teammangers.dev.inquiry.dto.res.DeleteInquiryRes;
-import kr.teammangers.dev.inquiry.dto.res.GetInquiryRes;
+import kr.teammangers.dev.inquiry.dto.request.CreateInquiryReq;
+import kr.teammangers.dev.inquiry.dto.request.DeleteInquiryReq;
+import kr.teammangers.dev.inquiry.dto.response.CreateInquiryRes;
+import kr.teammangers.dev.inquiry.dto.response.DeleteInquiryRes;
+import kr.teammangers.dev.inquiry.dto.response.GetInquiryRes;
 import kr.teammangers.dev.inquiry.mapper.InquiryMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ import static kr.teammangers.dev.inquiry.mapper.InquiryResMapper.INQUIRY_RES_MAP
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class InquiryCrudService {
+public class InquiryApiFacade {
 
     private final InquiryService inquiryService;
 
