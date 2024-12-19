@@ -1,9 +1,9 @@
-package kr.teammangers.dev.calendar.application;
+package kr.teammangers.dev.calendar.application.service;
 
-import kr.teammangers.dev.calendar.domain.Plan;
+import kr.teammangers.dev.calendar.domain.entity.Plan;
 import kr.teammangers.dev.calendar.dto.PlanDto;
-import kr.teammangers.dev.calendar.dto.req.UpdatePlanReq;
-import kr.teammangers.dev.calendar.repository.PlanRepository;
+import kr.teammangers.dev.calendar.dto.request.UpdatePlanReq;
+import kr.teammangers.dev.calendar.domain.repository.PlanRepository;
 import kr.teammangers.dev.global.common.payload.code.dto.enums.ErrorStatus;
 import kr.teammangers.dev.global.common.payload.exception.GeneralException;
 import lombok.RequiredArgsConstructor;

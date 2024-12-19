@@ -1,7 +1,7 @@
-package kr.teammangers.dev.calendar.domain;
+package kr.teammangers.dev.calendar.domain.entity;
 
 import jakarta.persistence.*;
-import kr.teammangers.dev.calendar.dto.req.UpdatePlanReq;
+import kr.teammangers.dev.calendar.dto.request.UpdatePlanReq;
 import kr.teammangers.dev.global.common.entity.BaseField;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;

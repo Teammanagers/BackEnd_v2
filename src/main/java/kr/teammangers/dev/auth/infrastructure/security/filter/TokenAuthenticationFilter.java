@@ -16,7 +16,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.Arrays;
 
-import static kr.teammangers.dev.auth.dto.enums.TokenRule.ACCESS_PREFIX;
+import static kr.teammangers.dev.auth.domain.enums.TokenRule.ACCESS_PREFIX;
 import static kr.teammangers.dev.global.common.payload.exception.ExceptionUtil.handleAuthException;
 
 @Service

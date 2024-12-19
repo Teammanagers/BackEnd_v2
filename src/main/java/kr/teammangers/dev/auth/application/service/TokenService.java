@@ -4,8 +4,8 @@ import io.jsonwebtoken.Jwts;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import kr.teammangers.dev.auth.dto.enums.TokenRule;
-import kr.teammangers.dev.auth.dto.enums.TokenStatus;
+import kr.teammangers.dev.auth.domain.enums.TokenRule;
+import kr.teammangers.dev.auth.domain.enums.TokenStatus;
 import kr.teammangers.dev.auth.infrastructure.security.provider.TokenProvider;
 import kr.teammangers.dev.member.dto.MemberDto;
 import kr.teammangers.dev.member.enums.Role;
@@ -21,7 +21,7 @@ import org.springframework.util.ObjectUtils;
 import java.security.Key;
 
 import static kr.teammangers.dev.auth.constant.AuthConstant.TOKEN_PREFIX;
-import static kr.teammangers.dev.auth.dto.enums.TokenRule.*;
+import static kr.teammangers.dev.auth.domain.enums.TokenRule.*;
 
 @Slf4j
 @Component

@@ -1,6 +1,6 @@
-package kr.teammangers.dev.calendar.repository;
+package kr.teammangers.dev.calendar.domain.repository;
 
-import kr.teammangers.dev.calendar.domain.Plan;
+import kr.teammangers.dev.calendar.domain.entity.Plan;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

@@ -1,13 +1,14 @@
-package kr.teammangers.dev.calendar.application;
+package kr.teammangers.dev.calendar.application.facade;
 
+import kr.teammangers.dev.calendar.application.service.PlanService;
 import kr.teammangers.dev.calendar.dto.PlanDto;
-import kr.teammangers.dev.calendar.dto.req.CreatePlanReq;
-import kr.teammangers.dev.calendar.dto.req.DeletePlanReq;
-import kr.teammangers.dev.calendar.dto.req.UpdatePlanReq;
-import kr.teammangers.dev.calendar.dto.res.CreatePlanRes;
-import kr.teammangers.dev.calendar.dto.res.DeletePlanRes;
-import kr.teammangers.dev.calendar.dto.res.GetPlanRes;
-import kr.teammangers.dev.calendar.dto.res.UpdatePlanRes;
+import kr.teammangers.dev.calendar.dto.request.CreatePlanReq;
+import kr.teammangers.dev.calendar.dto.request.DeletePlanReq;
+import kr.teammangers.dev.calendar.dto.request.UpdatePlanReq;
+import kr.teammangers.dev.calendar.dto.response.CreatePlanRes;
+import kr.teammangers.dev.calendar.dto.response.DeletePlanRes;
+import kr.teammangers.dev.calendar.dto.response.GetPlanRes;
+import kr.teammangers.dev.calendar.dto.response.UpdatePlanRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +21,7 @@ import static kr.teammangers.dev.calendar.mapper.PlanResMapper.PLAN_RES_MAPPER;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class CalendarCrudService {
+public class PlanApiFacade {
 
     private final PlanService planService;
 

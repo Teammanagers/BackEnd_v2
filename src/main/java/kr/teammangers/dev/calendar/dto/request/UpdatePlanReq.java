@@ -1,4 +1,4 @@
-package kr.teammangers.dev.calendar.dto.req;
+package kr.teammangers.dev.calendar.dto.request;
 
 public record UpdatePlanReq(
         Long planId,

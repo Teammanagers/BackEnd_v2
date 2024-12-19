@@ -1,4 +1,4 @@
-package kr.teammangers.dev.calendar.dto.req;
+package kr.teammangers.dev.calendar.dto.request;
 
 import java.time.LocalDate;
 

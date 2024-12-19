@@ -1,4 +1,4 @@
-package kr.teammangers.dev.auth.dto.enums;
+package kr.teammangers.dev.auth.domain.enums;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

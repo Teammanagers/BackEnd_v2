@@ -1,13 +1,13 @@
 package kr.teammangers.dev.calendar.presentation;
 
-import kr.teammangers.dev.calendar.application.CalendarCrudService;
-import kr.teammangers.dev.calendar.dto.req.CreatePlanReq;
-import kr.teammangers.dev.calendar.dto.req.DeletePlanReq;
-import kr.teammangers.dev.calendar.dto.req.UpdatePlanReq;
-import kr.teammangers.dev.calendar.dto.res.CreatePlanRes;
-import kr.teammangers.dev.calendar.dto.res.DeletePlanRes;
-import kr.teammangers.dev.calendar.dto.res.GetPlanRes;
-import kr.teammangers.dev.calendar.dto.res.UpdatePlanRes;
+import kr.teammangers.dev.calendar.application.facade.PlanApiFacade;
+import kr.teammangers.dev.calendar.dto.request.CreatePlanReq;
+import kr.teammangers.dev.calendar.dto.request.DeletePlanReq;
+import kr.teammangers.dev.calendar.dto.request.UpdatePlanReq;
+import kr.teammangers.dev.calendar.dto.response.CreatePlanRes;
+import kr.teammangers.dev.calendar.dto.response.DeletePlanRes;
+import kr.teammangers.dev.calendar.dto.response.GetPlanRes;
+import kr.teammangers.dev.calendar.dto.response.UpdatePlanRes;
 import kr.teammangers.dev.global.common.payload.ApiRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +19,7 @@ import java.util.List;
 @RequestMapping("/api/v2/calendar")
 public class CalendarController {
 
-    private final CalendarCrudService calendarService;
+    private final PlanApiFacade calendarService;
 
     @PostMapping
     public ApiRes<CreatePlanRes> createPlan(
