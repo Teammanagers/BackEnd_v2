@@ -1,9 +1,9 @@
 package kr.teammangers.dev.memo.mapper;
 
-import kr.teammangers.dev.memo.domain.Folder;
-import kr.teammangers.dev.memo.domain.Memo;
+import kr.teammangers.dev.memo.domain.entity.Folder;
+import kr.teammangers.dev.memo.domain.entity.Memo;
 import kr.teammangers.dev.memo.dto.MemoDto;
-import kr.teammangers.dev.memo.dto.req.CreateMemoReq;
+import kr.teammangers.dev.memo.dto.request.CreateMemoReq;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;

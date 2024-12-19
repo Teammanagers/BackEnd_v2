@@ -2,12 +2,12 @@ package kr.teammangers.dev.memo.presentation;
 
 import kr.teammangers.dev.auth.infrastructure.security.AuthInfo;
 import kr.teammangers.dev.global.common.response.ApiRes;
-import kr.teammangers.dev.memo.application.MemoCrudService;
-import kr.teammangers.dev.memo.dto.req.CreateMemoReq;
-import kr.teammangers.dev.memo.dto.req.DeleteMemoReq;
-import kr.teammangers.dev.memo.dto.req.FixMemoReq;
-import kr.teammangers.dev.memo.dto.req.UpdateMemoReq;
-import kr.teammangers.dev.memo.dto.res.*;
+import kr.teammangers.dev.memo.application.facade.MemoApiFacade;
+import kr.teammangers.dev.memo.dto.request.CreateMemoReq;
+import kr.teammangers.dev.memo.dto.request.DeleteMemoReq;
+import kr.teammangers.dev.memo.dto.request.FixMemoReq;
+import kr.teammangers.dev.memo.dto.request.UpdateMemoReq;
+import kr.teammangers.dev.memo.dto.response.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -19,13 +19,13 @@ import java.util.List;
 @RequestMapping("/api/v2/memo")
 public class MemoController {
 
-    private final MemoCrudService memoCrudService;
+    private final MemoApiFacade memoApiFacade;
 
     @PostMapping
     public ApiRes<CreateMemoRes> createMemo(
             @RequestBody final CreateMemoReq req
     ) {
-        CreateMemoRes result = memoCrudService.createMemo(req);
+        CreateMemoRes result = memoApiFacade.createMemo(req);
         return ApiRes.onSuccess(result);
     }
 
@@ -34,7 +34,7 @@ public class MemoController {
             @RequestParam("folderId") final Long folderId,
             @RequestParam(value = "isFixed", required = false) final Boolean isFixed
     ) {
-        List<GetMemoRes> result = memoCrudService.getMemoList(folderId, isFixed);
+        List<GetMemoRes> result = memoApiFacade.getMemoList(folderId, isFixed);
         return ApiRes.onSuccess(result);
     }
 
@@ -43,7 +43,7 @@ public class MemoController {
             @AuthenticationPrincipal final AuthInfo auth,
             @RequestBody final UpdateMemoReq req
     ) {
-        UpdateMemoRes result = memoCrudService.updateMemo(auth.memberDto().id(), req);
+        UpdateMemoRes result = memoApiFacade.updateMemo(auth.memberDto().id(), req);
         return ApiRes.onSuccess(result);
     }
 
@@ -51,7 +51,7 @@ public class MemoController {
     public ApiRes<FixMemoRes> fixMemo(
             @RequestBody final FixMemoReq req
     ) {
-        FixMemoRes result = memoCrudService.fixMemo(req);
+        FixMemoRes result = memoApiFacade.fixMemo(req);
         return ApiRes.onSuccess(result);
     }
 
@@ -60,7 +60,7 @@ public class MemoController {
             @AuthenticationPrincipal final AuthInfo auth,
             @RequestBody final DeleteMemoReq req
     ) {
-        DeleteMemoRes result = memoCrudService.deleteMemo(auth.memberDto().id(), req);
+        DeleteMemoRes result = memoApiFacade.deleteMemo(auth.memberDto().id(), req);
         return ApiRes.onSuccess(result);
     }
 

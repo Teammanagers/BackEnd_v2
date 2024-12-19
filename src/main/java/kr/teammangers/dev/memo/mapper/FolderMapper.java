@@ -1,8 +1,8 @@
 package kr.teammangers.dev.memo.mapper;
 
-import kr.teammangers.dev.memo.domain.Folder;
+import kr.teammangers.dev.memo.domain.entity.Folder;
 import kr.teammangers.dev.memo.dto.FolderDto;
-import kr.teammangers.dev.memo.dto.req.CreateFolderReq;
+import kr.teammangers.dev.memo.dto.request.CreateFolderReq;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;

@@ -1,7 +1,7 @@
 package kr.teammangers.dev.team.application;
 
 import kr.teammangers.dev.member.dto.MemberDto;
-import kr.teammangers.dev.memo.application.FolderService;
+import kr.teammangers.dev.memo.application.service.FolderService;
 import kr.teammangers.dev.memo.dto.FolderDto;
 import kr.teammangers.dev.s3.application.MemberImgService;
 import kr.teammangers.dev.s3.application.S3Service;

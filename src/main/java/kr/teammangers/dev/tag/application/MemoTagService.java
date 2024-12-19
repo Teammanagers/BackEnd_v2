@@ -1,7 +1,7 @@
 package kr.teammangers.dev.tag.application;
 
-import kr.teammangers.dev.memo.domain.Memo;
-import kr.teammangers.dev.memo.repository.MemoRepository;
+import kr.teammangers.dev.memo.domain.entity.Memo;
+import kr.teammangers.dev.memo.domain.repository.MemoRepository;
 import kr.teammangers.dev.tag.domain.Tag;
 import kr.teammangers.dev.tag.domain.mapping.MemoTag;
 import kr.teammangers.dev.tag.dto.TagDto;

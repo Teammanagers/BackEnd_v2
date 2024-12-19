@@ -1,10 +1,10 @@
 package kr.teammangers.dev.notice.mapper;
 
 import kr.teammangers.dev.notice.dto.NoticeDto;
-import kr.teammangers.dev.notice.dto.res.CreateNoticeRes;
-import kr.teammangers.dev.notice.dto.res.DeleteNoticeRes;
-import kr.teammangers.dev.notice.dto.res.GetNoticeRes;
-import kr.teammangers.dev.notice.dto.res.UpdateNoticeRes;
+import kr.teammangers.dev.notice.dto.response.CreateNoticeRes;
+import kr.teammangers.dev.notice.dto.response.DeleteNoticeRes;
+import kr.teammangers.dev.notice.dto.response.GetNoticeRes;
+import kr.teammangers.dev.notice.dto.response.UpdateNoticeRes;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
