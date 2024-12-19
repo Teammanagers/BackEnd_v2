@@ -1,7 +1,7 @@
 package kr.teammangers.dev.tag.application;
 
 import kr.teammangers.dev.member.domain.entity.Member;
-import kr.teammangers.dev.member.repository.MemberRepository;
+import kr.teammangers.dev.member.domain.repository.MemberRepository;
 import kr.teammangers.dev.tag.domain.Tag;
 import kr.teammangers.dev.tag.dto.TagDto;
 import kr.teammangers.dev.tag.mapper.MajorMapper;

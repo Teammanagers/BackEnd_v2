@@ -1,12 +1,12 @@
-package kr.teammangers.dev.member.application;
+package kr.teammangers.dev.member.application.service;
 
 import kr.teammangers.dev.auth.infrastructure.oauth.OAuth2UserInfo;
 import kr.teammangers.dev.global.error.code.ErrorStatus;
 import kr.teammangers.dev.global.error.exception.GeneralException;
 import kr.teammangers.dev.member.domain.entity.Member;
 import kr.teammangers.dev.member.dto.MemberDto;
-import kr.teammangers.dev.member.dto.req.UpdateProfileReq;
-import kr.teammangers.dev.member.repository.MemberRepository;
+import kr.teammangers.dev.member.dto.request.UpdateProfileReq;
+import kr.teammangers.dev.member.domain.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

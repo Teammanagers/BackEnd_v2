@@ -1,9 +1,9 @@
 package kr.teammangers.dev.auth.application.service;
 
 import kr.teammangers.dev.auth.infrastructure.oauth.OAuth2UserInfo;
-import kr.teammangers.dev.member.application.MemberService;
+import kr.teammangers.dev.member.application.service.MemberService;
 import kr.teammangers.dev.member.dto.MemberDto;
-import kr.teammangers.dev.member.enums.Role;
+import kr.teammangers.dev.member.domain.enums.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

@@ -8,7 +8,7 @@ import kr.teammangers.dev.auth.domain.enums.TokenRule;
 import kr.teammangers.dev.auth.domain.enums.TokenStatus;
 import kr.teammangers.dev.auth.infrastructure.security.provider.TokenProvider;
 import kr.teammangers.dev.member.dto.MemberDto;
-import kr.teammangers.dev.member.enums.Role;
+import kr.teammangers.dev.member.domain.enums.Role;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseCookie;

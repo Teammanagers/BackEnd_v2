@@ -3,7 +3,7 @@ package kr.teammangers.dev.s3.application;
 import kr.teammangers.dev.global.error.code.ErrorStatus;
 import kr.teammangers.dev.global.error.exception.GeneralException;
 import kr.teammangers.dev.member.domain.entity.Member;
-import kr.teammangers.dev.member.repository.MemberRepository;
+import kr.teammangers.dev.member.domain.repository.MemberRepository;
 import kr.teammangers.dev.s3.domain.S3FileInfo;
 import kr.teammangers.dev.s3.domain.mapping.MemberImg;
 import kr.teammangers.dev.s3.repository.S3Repository;

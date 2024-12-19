@@ -1,8 +1,9 @@
-package kr.teammangers.dev.member.application;
+package kr.teammangers.dev.member.application.facade;
 
+import kr.teammangers.dev.member.application.service.MemberService;
 import kr.teammangers.dev.member.dto.MemberDto;
-import kr.teammangers.dev.member.dto.req.UpdateProfileReq;
-import kr.teammangers.dev.member.dto.res.UpdateProfileRes;
+import kr.teammangers.dev.member.dto.request.UpdateProfileReq;
+import kr.teammangers.dev.member.dto.response.UpdateProfileRes;
 import kr.teammangers.dev.tag.application.MajorService;
 import kr.teammangers.dev.tag.application.TagService;
 import kr.teammangers.dev.tag.dto.TagDto;
@@ -18,7 +19,7 @@ import static kr.teammangers.dev.member.mapper.MemberResMapper.MEMBER_RES_MAPPER
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class MemberCrudService {
+public class MemberApiFacade {
 
     private final MemberService memberService;
     private final MajorService majorService;

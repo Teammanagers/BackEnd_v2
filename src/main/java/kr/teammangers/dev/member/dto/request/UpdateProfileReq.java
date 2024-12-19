@@ -1,4 +1,4 @@
-package kr.teammangers.dev.member.dto.req;
+package kr.teammangers.dev.member.dto.request;
 
 import java.util.List;
 

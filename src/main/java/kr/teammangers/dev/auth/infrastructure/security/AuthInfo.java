@@ -1,7 +1,7 @@
 package kr.teammangers.dev.auth.infrastructure.security;
 
 import kr.teammangers.dev.member.dto.MemberDto;
-import kr.teammangers.dev.member.enums.Role;
+import kr.teammangers.dev.member.domain.enums.Role;
 import lombok.Builder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

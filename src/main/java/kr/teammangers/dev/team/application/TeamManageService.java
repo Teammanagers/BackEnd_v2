@@ -3,7 +3,7 @@ package kr.teammangers.dev.team.application;
 import kr.teammangers.dev.global.error.exception.GeneralException;
 import kr.teammangers.dev.member.domain.entity.Member;
 import kr.teammangers.dev.member.dto.MemberDto;
-import kr.teammangers.dev.member.repository.MemberRepository;
+import kr.teammangers.dev.member.domain.repository.MemberRepository;
 import kr.teammangers.dev.schedule.domain.TimeSlot;
 import kr.teammangers.dev.schedule.repository.TimeSlotRepository;
 import kr.teammangers.dev.team.domain.Team;

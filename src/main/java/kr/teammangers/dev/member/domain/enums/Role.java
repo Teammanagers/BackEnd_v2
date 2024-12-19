@@ -1,4 +1,4 @@
-package kr.teammangers.dev.member.enums;
+package kr.teammangers.dev.member.domain.enums;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

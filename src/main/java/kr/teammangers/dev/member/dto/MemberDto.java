@@ -3,7 +3,7 @@ package kr.teammangers.dev.member.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import kr.teammangers.dev.member.domain.embed.ProviderInfo;
 import kr.teammangers.dev.global.common.enums.EntityStatus;
-import kr.teammangers.dev.member.enums.Role;
+import kr.teammangers.dev.member.domain.enums.Role;
 import lombok.Builder;
 
 import java.time.LocalDateTime;

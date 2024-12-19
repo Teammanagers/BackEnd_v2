@@ -1,7 +1,7 @@
 package kr.teammangers.dev.member.mapper;
 
 import kr.teammangers.dev.member.dto.MemberDto;
-import kr.teammangers.dev.member.dto.res.UpdateProfileRes;
+import kr.teammangers.dev.member.dto.response.UpdateProfileRes;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
