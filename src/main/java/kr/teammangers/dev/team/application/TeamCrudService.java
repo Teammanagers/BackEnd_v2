@@ -1,10 +1,13 @@
 package kr.teammangers.dev.team.application;
 
+import kr.teammangers.dev.member.dto.MemberDto;
 import kr.teammangers.dev.memo.application.FolderService;
 import kr.teammangers.dev.memo.dto.FolderDto;
+import kr.teammangers.dev.s3.application.MemberImgService;
 import kr.teammangers.dev.s3.application.S3Service;
 import kr.teammangers.dev.s3.application.TeamImgService;
 import kr.teammangers.dev.s3.dto.S3FileInfoDto;
+import kr.teammangers.dev.tag.application.GrantedRoleService;
 import kr.teammangers.dev.tag.application.TagService;
 import kr.teammangers.dev.tag.application.TeamTagService;
 import kr.teammangers.dev.tag.dto.TagDto;
@@ -12,6 +15,7 @@ import kr.teammangers.dev.team.dto.TeamDto;
 import kr.teammangers.dev.team.dto.req.CreateTeamReq;
 import kr.teammangers.dev.team.dto.req.UpdateTeamReq;
 import kr.teammangers.dev.team.dto.res.CreateTeamRes;
+import kr.teammangers.dev.team.dto.res.GetMemberRes;
 import kr.teammangers.dev.team.dto.res.GetTeamRes;
 import kr.teammangers.dev.team.dto.res.UpdateTeamRes;
 import lombok.RequiredArgsConstructor;
@@ -38,6 +42,8 @@ public class TeamCrudService {
     private final TagService tagService;
     private final TeamTagService teamTagService;
     private final FolderService folderService;
+    private final GrantedRoleService grantedRoleService;
+    private final MemberImgService memberImgService;
 
     @Transactional
     public CreateTeamRes createTeam(Long authId, CreateTeamReq req, MultipartFile imageFile) {
@@ -78,6 +84,12 @@ public class TeamCrudService {
                 .toList();
     }
 
+    public List<GetMemberRes> getMemberListByTeamId(Long teamId) {
+        return teamManageService.findAllTeamManageIdByTeamId(teamId).stream()
+                .map(this::buildGetMemberRes)
+                .toList();
+    }
+
     private GetTeamRes buildGetTeamRes(TeamDto teamDto) {
         String filePath = teamImgService.findFilePathByTeamId(teamDto.id());
         String generatedUrl = s3Service.generateUrl(filePath);
@@ -85,6 +97,16 @@ public class TeamCrudService {
         List<TagDto> tagDtoList = teamTagService.findAllTagDtoByTeamId(teamDto.id());
 
         return TEAM_RES_MAPPER.toGet(teamDto, generatedUrl, tagDtoList);
+    }
+
+    private GetMemberRes buildGetMemberRes(Long teamManageId) {
+        MemberDto memberDto = teamManageService.findMemberDtoByTeamManageId(teamManageId);
+
+        String filePath = memberImgService.findFilePahtByMemberId(memberDto.id());
+        String generatedUrl = s3Service.generateUrl(filePath);
+
+        List<TagDto> tagDtoList = grantedRoleService.findAllTagDtoByTeamManageId(teamManageId);
+        return TEAM_RES_MAPPER.toGetMember(memberDto, generatedUrl, tagDtoList);
     }
 
     @Transactional

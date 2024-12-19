@@ -58,6 +58,14 @@ public class TeamController {
         return ApiRes.onSuccess(result);
     }
 
+    @GetMapping("/{teamId}/member")
+    public ApiRes<List<GetMemberRes>> getMemberListByTeam(
+            @PathVariable("teamId") final Long teamId
+    ) {
+        List<GetMemberRes> result = teamCrudService.getMemberListByTeamId(teamId);
+        return ApiRes.onSuccess(result);
+    }
+
     @PatchMapping
     public ApiRes<UpdateTeamRes> updateTeam(
             @RequestPart(name = "updateTeam") final UpdateTeamReq req,

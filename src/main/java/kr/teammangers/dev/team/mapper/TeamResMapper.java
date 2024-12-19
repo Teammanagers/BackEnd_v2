@@ -1,5 +1,6 @@
 package kr.teammangers.dev.team.mapper;
 
+import kr.teammangers.dev.member.dto.MemberDto;
 import kr.teammangers.dev.tag.dto.TagDto;
 import kr.teammangers.dev.team.dto.TeamDto;
 import kr.teammangers.dev.team.dto.res.*;
@@ -21,6 +22,11 @@ public interface TeamResMapper {
     @Mapping(target = "imgUrl", source = "imgUrl")
     @Mapping(target = "teamTagList", source = "teamTagList")
     GetTeamRes toGet(TeamDto teamDto, String imgUrl, List<TagDto> teamTagList);
+
+    @Mapping(target = "member", source = "memberDto")
+    @Mapping(target = "imgUrl", source = "imgUrl")
+    @Mapping(target = "grantedRoleList", source = "grantedRoleList")
+    GetMemberRes toGetMember(MemberDto memberDto, String generatedUrl, List<TagDto> grantedRoleList);
 
     GetTeamCodeRes toGetTeamCode(String teamCode);
 
