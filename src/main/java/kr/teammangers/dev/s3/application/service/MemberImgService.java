@@ -1,13 +1,13 @@
-package kr.teammangers.dev.s3.application;
+package kr.teammangers.dev.s3.application.service;
 
 import kr.teammangers.dev.global.error.code.ErrorStatus;
 import kr.teammangers.dev.global.error.exception.GeneralException;
 import kr.teammangers.dev.member.domain.entity.Member;
 import kr.teammangers.dev.member.domain.repository.MemberRepository;
-import kr.teammangers.dev.s3.domain.S3FileInfo;
-import kr.teammangers.dev.s3.domain.mapping.MemberImg;
-import kr.teammangers.dev.s3.repository.S3Repository;
-import kr.teammangers.dev.s3.repository.mapping.MemberImgRepository;
+import kr.teammangers.dev.s3.domain.entity.S3FileInfo;
+import kr.teammangers.dev.s3.domain.entity.MemberImg;
+import kr.teammangers.dev.s3.domain.repository.S3Repository;
+import kr.teammangers.dev.s3.domain.repository.MemberImgRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

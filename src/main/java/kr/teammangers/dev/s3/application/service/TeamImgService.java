@@ -1,11 +1,11 @@
-package kr.teammangers.dev.s3.application;
+package kr.teammangers.dev.s3.application.service;
 
 import kr.teammangers.dev.global.error.code.ErrorStatus;
 import kr.teammangers.dev.global.error.exception.GeneralException;
-import kr.teammangers.dev.s3.domain.S3FileInfo;
-import kr.teammangers.dev.s3.domain.mapping.TeamImg;
-import kr.teammangers.dev.s3.repository.S3Repository;
-import kr.teammangers.dev.s3.repository.mapping.TeamImgRepository;
+import kr.teammangers.dev.s3.domain.entity.S3FileInfo;
+import kr.teammangers.dev.s3.domain.entity.TeamImg;
+import kr.teammangers.dev.s3.domain.repository.S3Repository;
+import kr.teammangers.dev.s3.domain.repository.TeamImgRepository;
 import kr.teammangers.dev.team.domain.Team;
 import kr.teammangers.dev.team.repository.TeamRepository;
 import lombok.RequiredArgsConstructor;

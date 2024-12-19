@@ -1,8 +1,8 @@
 package kr.teammangers.dev.s3.mapper;
 
 import kr.teammangers.dev.member.domain.entity.Member;
-import kr.teammangers.dev.s3.domain.S3FileInfo;
-import kr.teammangers.dev.s3.domain.mapping.MemberImg;
+import kr.teammangers.dev.s3.domain.entity.S3FileInfo;
+import kr.teammangers.dev.s3.domain.entity.MemberImg;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;

@@ -1,6 +1,6 @@
 package kr.teammangers.dev.s3.mapper;
 
-import kr.teammangers.dev.s3.domain.S3FileInfo;
+import kr.teammangers.dev.s3.domain.entity.S3FileInfo;
 import kr.teammangers.dev.s3.dto.S3FileInfoDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

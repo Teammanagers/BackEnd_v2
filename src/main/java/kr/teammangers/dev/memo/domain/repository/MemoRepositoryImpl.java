@@ -2,7 +2,7 @@ package kr.teammangers.dev.memo.domain.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import kr.teammangers.dev.memo.domain.entity.Memo;
-import kr.teammangers.dev.memo.domain.QMemo;
+import kr.teammangers.dev.memo.domain.entity.QMemo;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;

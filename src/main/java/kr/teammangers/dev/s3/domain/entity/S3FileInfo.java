@@ -1,4 +1,4 @@
-package kr.teammangers.dev.s3.domain;
+package kr.teammangers.dev.s3.domain.entity;
 
 import jakarta.persistence.*;
 import kr.teammangers.dev.global.common.base.BaseField;

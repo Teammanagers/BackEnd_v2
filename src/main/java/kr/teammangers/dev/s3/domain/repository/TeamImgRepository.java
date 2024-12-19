@@ -1,6 +1,6 @@
-package kr.teammangers.dev.s3.repository.mapping;
+package kr.teammangers.dev.s3.domain.repository;
 
-import kr.teammangers.dev.s3.domain.mapping.TeamImg;
+import kr.teammangers.dev.s3.domain.entity.TeamImg;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

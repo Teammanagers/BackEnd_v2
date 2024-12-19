@@ -1,13 +1,13 @@
-package kr.teammangers.dev.s3.application;
+package kr.teammangers.dev.s3.application.service;
 
 import io.awspring.cloud.s3.ObjectMetadata;
 import io.awspring.cloud.s3.S3Operations;
 import io.awspring.cloud.s3.S3Template;
 import kr.teammangers.dev.global.error.exception.GeneralException;
-import kr.teammangers.dev.s3.domain.S3FileInfo;
+import kr.teammangers.dev.s3.domain.entity.S3FileInfo;
 import kr.teammangers.dev.s3.dto.FileNameParts;
 import kr.teammangers.dev.s3.dto.S3FileInfoDto;
-import kr.teammangers.dev.s3.repository.S3Repository;
+import kr.teammangers.dev.s3.domain.repository.S3Repository;
 import kr.teammangers.dev.s3.util.S3Util;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
