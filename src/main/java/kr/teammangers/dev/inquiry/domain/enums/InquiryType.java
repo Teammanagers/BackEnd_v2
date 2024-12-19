@@ -1,4 +1,4 @@
-package kr.teammangers.dev.inquiry.enums;
+package kr.teammangers.dev.inquiry.domain.enums;
 
 public enum InquiryType {
 
