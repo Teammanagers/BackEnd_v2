@@ -9,7 +9,7 @@ import kr.teammangers.dev.notice.dto.response.CreateNoticeRes;
 import kr.teammangers.dev.notice.dto.response.DeleteNoticeRes;
 import kr.teammangers.dev.notice.dto.response.GetNoticeRes;
 import kr.teammangers.dev.notice.dto.response.UpdateNoticeRes;
-import kr.teammangers.dev.team.application.TeamService;
+import kr.teammangers.dev.team.application.service.TeamService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

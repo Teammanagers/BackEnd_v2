@@ -2,7 +2,7 @@ package kr.teammangers.dev.notice.mapper;
 
 import kr.teammangers.dev.notice.domain.entity.Notice;
 import kr.teammangers.dev.notice.dto.NoticeDto;
-import kr.teammangers.dev.team.domain.Team;
+import kr.teammangers.dev.team.domain.entity.Team;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;

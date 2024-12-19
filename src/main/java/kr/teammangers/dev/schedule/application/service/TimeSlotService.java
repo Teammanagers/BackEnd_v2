@@ -6,16 +6,16 @@ import kr.teammangers.dev.schedule.dto.TimeSlotDto;
 import kr.teammangers.dev.schedule.dto.request.UpdateScheduleReq;
 import kr.teammangers.dev.schedule.domain.enums.DayOfWeek;
 import kr.teammangers.dev.schedule.domain.repository.TimeSlotRepository;
-import kr.teammangers.dev.team.domain.mapping.TeamManage;
-import kr.teammangers.dev.team.repository.TeamRepository;
-import kr.teammangers.dev.team.repository.mapping.TeamManageRepository;
+import kr.teammangers.dev.team.domain.entity.TeamMember;
+import kr.teammangers.dev.team.domain.repository.TeamRepository;
+import kr.teammangers.dev.team.domain.repository.TeamMemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static kr.teammangers.dev.global.error.code.ErrorStatus.TEAM_MANAGE_NOT_FOUND;
+import static kr.teammangers.dev.global.error.code.ErrorStatus.TEAM_MEMBER_NOT_FOUND;
 import static kr.teammangers.dev.global.error.code.ErrorStatus.TEAM_NOT_FOUND;
 import static kr.teammangers.dev.schedule.mapper.TimeSlotMapper.TIME_SLOT_MAPPER;
 
@@ -24,7 +24,7 @@ import static kr.teammangers.dev.schedule.mapper.TimeSlotMapper.TIME_SLOT_MAPPER
 public class TimeSlotService {
 
     private final TimeSlotRepository timeSlotRepository;
-    private final TeamManageRepository teamManageRepository;
+    private final TeamMemberRepository teamMemberRepository;
     private final TeamRepository teamRepository;
 
     public TimeSlotDto findDtoByTeamIdAndMemberId(Long teamId, Long memberId) {
@@ -37,9 +37,9 @@ public class TimeSlotService {
         return TIME_SLOT_MAPPER.toDto(timeSlot);
     }
 
-    public List<TimeSlotDto> findDtoByTeamManageIds(List<Long> teamManageIds) {
-        return teamManageRepository.findAllByIds(teamManageIds).stream()
-                .map(TeamManage::getTimeSlot)
+    public List<TimeSlotDto> findDtoByTeamMemberIds(List<Long> teamMemberIds) {
+        return teamMemberRepository.findAllByIds(teamMemberIds).stream()
+                .map(TeamMember::getTimeSlot)
                 .filter(TimeSlot::getIsConfigured)
                 .map(TIME_SLOT_MAPPER::toDto)
                 .toList();
@@ -90,8 +90,8 @@ public class TimeSlotService {
     }
 
     private TimeSlot findByTeamIdAndMemberId(Long teamId, Long memberId) {
-        return teamManageRepository.findByTeam_IdAndMember_Id(teamId, memberId)
-                .orElseThrow(() -> new GeneralException(TEAM_MANAGE_NOT_FOUND))
+        return teamMemberRepository.findByTeam_IdAndMember_Id(teamId, memberId)
+                .orElseThrow(() -> new GeneralException(TEAM_MEMBER_NOT_FOUND))
                 .getTimeSlot();
     }
 

@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface GrantedRoleRepository extends JpaRepository<GrantedRole, Long> {
 
-    List<GrantedRole> findAllByTeamManage_Id(Long teamManageId);
+    List<GrantedRole> findAllByTeamMember_Id(Long teamMemberId);
 }

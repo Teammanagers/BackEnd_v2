@@ -3,7 +3,7 @@ package kr.teammangers.dev.tag.domain.mapping;
 import jakarta.persistence.*;
 import kr.teammangers.dev.global.common.base.BaseField;
 import kr.teammangers.dev.tag.domain.Tag;
-import kr.teammangers.dev.team.domain.mapping.TeamManage;
+import kr.teammangers.dev.team.domain.entity.TeamMember;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
@@ -28,7 +28,7 @@ public class GrantedRole extends BaseField {
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "team_mn_id", nullable = false)
-    private TeamManage teamManage;
+    @JoinColumn(name = "team_member_id", nullable = false)
+    private TeamMember teamMember;
 
 }

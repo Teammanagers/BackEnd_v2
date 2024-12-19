@@ -6,7 +6,7 @@ import kr.teammangers.dev.memo.dto.FolderDto;
 import kr.teammangers.dev.memo.dto.request.UpdateFolderReq;
 import kr.teammangers.dev.memo.domain.repository.FolderRepository;
 import kr.teammangers.dev.memo.domain.repository.MemoRepository;
-import kr.teammangers.dev.team.repository.TeamRepository;
+import kr.teammangers.dev.team.domain.repository.TeamRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

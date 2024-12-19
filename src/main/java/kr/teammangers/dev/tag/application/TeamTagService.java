@@ -5,8 +5,8 @@ import kr.teammangers.dev.tag.domain.mapping.TeamTag;
 import kr.teammangers.dev.tag.dto.TagDto;
 import kr.teammangers.dev.tag.repository.TagRepository;
 import kr.teammangers.dev.tag.repository.mapping.TeamTagRepository;
-import kr.teammangers.dev.team.domain.Team;
-import kr.teammangers.dev.team.repository.TeamRepository;
+import kr.teammangers.dev.team.domain.entity.Team;
+import kr.teammangers.dev.team.domain.repository.TeamRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

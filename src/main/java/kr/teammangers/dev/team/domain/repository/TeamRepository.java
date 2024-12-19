@@ -1,6 +1,6 @@
-package kr.teammangers.dev.team.repository;
+package kr.teammangers.dev.team.domain.repository;
 
-import kr.teammangers.dev.team.domain.Team;
+import kr.teammangers.dev.team.domain.entity.Team;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

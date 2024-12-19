@@ -1,5 +1,7 @@
-package kr.teammangers.dev.team.application;
+package kr.teammangers.dev.team.application.facade;
 
+import kr.teammangers.dev.global.error.code.ErrorStatus;
+import kr.teammangers.dev.global.error.exception.GeneralException;
 import kr.teammangers.dev.member.dto.MemberDto;
 import kr.teammangers.dev.memo.application.service.FolderService;
 import kr.teammangers.dev.memo.dto.FolderDto;
@@ -11,20 +13,22 @@ import kr.teammangers.dev.tag.application.GrantedRoleService;
 import kr.teammangers.dev.tag.application.TagService;
 import kr.teammangers.dev.tag.application.TeamTagService;
 import kr.teammangers.dev.tag.dto.TagDto;
+import kr.teammangers.dev.team.application.service.TeamMemberService;
+import kr.teammangers.dev.team.application.service.TeamService;
 import kr.teammangers.dev.team.dto.TeamDto;
-import kr.teammangers.dev.team.dto.req.CreateTeamReq;
-import kr.teammangers.dev.team.dto.req.UpdateTeamReq;
-import kr.teammangers.dev.team.dto.res.CreateTeamRes;
-import kr.teammangers.dev.team.dto.res.GetMemberRes;
-import kr.teammangers.dev.team.dto.res.GetTeamRes;
-import kr.teammangers.dev.team.dto.res.UpdateTeamRes;
+import kr.teammangers.dev.team.dto.request.CreateTeamReq;
+import kr.teammangers.dev.team.dto.request.JoinTeamReq;
+import kr.teammangers.dev.team.dto.request.UpdateTeamReq;
+import kr.teammangers.dev.team.dto.response.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 
 import static kr.teammangers.dev.memo.constant.FolderConstant.ROOT_FOLDER;
 import static kr.teammangers.dev.s3.constant.S3Constant.TEAM_PROFILE_PATH;
@@ -33,10 +37,10 @@ import static kr.teammangers.dev.team.mapper.TeamResMapper.TEAM_RES_MAPPER;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class TeamCrudService {
+public class TeamApiFacade {
 
     private final TeamService teamService;
-    private final TeamManageService teamManageService;
+    private final TeamMemberService teamMemberService;
     private final TeamImgService teamImgService;
     private final S3Service s3Service;
     private final TagService tagService;
@@ -55,7 +59,7 @@ public class TeamCrudService {
         Long folderId = folderService.save(folderDto).id();
 
         TeamDto teamDto = teamService.save(req, folderId);
-        teamManageService.save(teamDto.id(), authId);
+        teamMemberService.save(teamDto.id(), authId);
 
         // 팀 프로필 이미지 저장
         if (imageFile != null) {
@@ -72,13 +76,18 @@ public class TeamCrudService {
         return TEAM_RES_MAPPER.toCreate(teamDto);
     }
 
+    public GetTeamCodeRes generateTeamCode() {
+        String generatedCode = UUID.randomUUID().toString().replaceAll("-", "").substring(0, 8).toUpperCase();
+        return TEAM_RES_MAPPER.toGetTeamCode(generatedCode);
+    }
+
     public GetTeamRes getTeamByTeamCode(String teamCode) {
         TeamDto teamDto = teamService.findDtoByTeamCode(teamCode);
         return buildGetTeamRes(teamDto);
     }
 
     public List<GetTeamRes> getTeamListByMemberId(Long memberId) {
-        List<TeamDto> teamDtoList = teamManageService.findAllTeamDtoByMemberId(memberId);
+        List<TeamDto> teamDtoList = teamMemberService.findAllTeamDtoByMemberId(memberId);
         return teamDtoList.stream()
                 .map(this::buildGetTeamRes)
                 .toList();
@@ -90,7 +99,7 @@ public class TeamCrudService {
     }
 
     public List<GetMemberRes> getMemberListByTeamId(Long teamId) {
-        return teamManageService.findAllTeamManageIdByTeamId(teamId).stream()
+        return teamMemberService.findAllTeamMemberIdByTeamId(teamId).stream()
                 .map(this::buildGetMemberRes)
                 .toList();
     }
@@ -104,14 +113,14 @@ public class TeamCrudService {
         return TEAM_RES_MAPPER.toGet(teamDto, generatedUrl, tagDtoList);
     }
 
-    private GetMemberRes buildGetMemberRes(Long teamManageId) {
-        MemberDto memberDto = teamManageService.findMemberDtoByTeamManageId(teamManageId);
+    private GetMemberRes buildGetMemberRes(Long teamMemberId) {
+        MemberDto memberDto = teamMemberService.findMemberDtoByTeamMemberId(teamMemberId);
 
         String filePath = memberImgService.findFilePahtByMemberId(memberDto.id());
         String generatedUrl = s3Service.generateUrl(filePath);
 
-        List<TagDto> tagDtoList = grantedRoleService.findAllTagDtoByTeamManageId(teamManageId);
-        return TEAM_RES_MAPPER.toGetMember(teamManageId, memberDto, generatedUrl, tagDtoList);
+        List<TagDto> tagDtoList = grantedRoleService.findAllTagDtoByTeamMemberId(teamMemberId);
+        return TEAM_RES_MAPPER.toGetMember(teamMemberId, memberDto, generatedUrl, tagDtoList);
     }
 
     @Transactional
@@ -144,6 +153,28 @@ public class TeamCrudService {
                 }, () -> teamTagService.deleteAllByOptions(req.teamId(), null));
 
         return TEAM_RES_MAPPER.toUpdate(teamDto);
+    }
+
+    @Transactional
+    public JoinTeamRes joinTeam(Long memberId, Long teamId, JoinTeamReq req) {
+        TeamDto teamDto = teamService.findDtoById(teamId);
+
+        if (validPassword(teamDto, req.password())) {
+            throw new GeneralException(ErrorStatus.TEAM_MISMATCH_PASSWORD);
+        }
+        if (isAlreadyJoin(teamDto, memberId)) {
+            throw new GeneralException(ErrorStatus.TEAM_ALREADY_JOIN);
+        }
+        Long teamMemberId = teamMemberService.save(teamId, memberId);
+        return TEAM_RES_MAPPER.toJoin(teamMemberId);
+    }
+
+    private boolean validPassword(TeamDto teamDto, String password) {
+        return !Objects.equals(teamDto.password(), password);
+    }
+
+    private boolean isAlreadyJoin(TeamDto teamDto, Long memberId) {
+        return teamMemberService.exists(teamDto.id(), memberId);
     }
 
     private void saveTeamTagFromTagName(Long teamId, String tagName) {

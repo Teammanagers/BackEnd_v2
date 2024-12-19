@@ -6,8 +6,8 @@ import kr.teammangers.dev.s3.domain.entity.S3FileInfo;
 import kr.teammangers.dev.s3.domain.entity.TeamImg;
 import kr.teammangers.dev.s3.domain.repository.S3Repository;
 import kr.teammangers.dev.s3.domain.repository.TeamImgRepository;
-import kr.teammangers.dev.team.domain.Team;
-import kr.teammangers.dev.team.repository.TeamRepository;
+import kr.teammangers.dev.team.domain.entity.Team;
+import kr.teammangers.dev.team.domain.repository.TeamRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

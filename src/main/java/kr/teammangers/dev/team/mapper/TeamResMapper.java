@@ -3,7 +3,7 @@ package kr.teammangers.dev.team.mapper;
 import kr.teammangers.dev.member.dto.MemberDto;
 import kr.teammangers.dev.tag.dto.TagDto;
 import kr.teammangers.dev.team.dto.TeamDto;
-import kr.teammangers.dev.team.dto.res.*;
+import kr.teammangers.dev.team.dto.response.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -23,18 +23,18 @@ public interface TeamResMapper {
     @Mapping(target = "teamTagList", source = "teamTagList")
     GetTeamRes toGet(TeamDto teamDto, String imgUrl, List<TagDto> teamTagList);
 
-    @Mapping(target = "teamManageId", source = "teamManageId")
+    @Mapping(target = "teamMemberId", source = "teamMemberId")
     @Mapping(target = "member", source = "memberDto")
     @Mapping(target = "imgUrl", source = "imgUrl")
     @Mapping(target = "grantedRoleList", source = "grantedRoleList")
-    GetMemberRes toGetMember(Long teamManageId, MemberDto memberDto, String imgUrl, List<TagDto> grantedRoleList);
+    GetMemberRes toGetMember(Long teamMemberId, MemberDto memberDto, String imgUrl, List<TagDto> grantedRoleList);
 
     GetTeamCodeRes toGetTeamCode(String teamCode);
 
     @Mapping(target = "updatedTeamId", source = "id")
     UpdateTeamRes toUpdate(TeamDto teamDto);
 
-    @Mapping(target = "createdTeamManageId", source = "teamManageId")
-    JoinTeamRes toJoin(Long teamManageId);
+    @Mapping(target = "createdTeamMemberId", source = "teamMemberId")
+    JoinTeamRes toJoin(Long teamMemberId);
 
 }

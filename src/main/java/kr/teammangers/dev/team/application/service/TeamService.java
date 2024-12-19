@@ -1,14 +1,14 @@
-package kr.teammangers.dev.team.application;
+package kr.teammangers.dev.team.application.service;
 
 import kr.teammangers.dev.global.error.code.ErrorStatus;
 import kr.teammangers.dev.global.error.exception.GeneralException;
 import kr.teammangers.dev.schedule.domain.entity.TimeSlot;
 import kr.teammangers.dev.schedule.domain.repository.TimeSlotRepository;
-import kr.teammangers.dev.team.domain.Team;
+import kr.teammangers.dev.team.domain.entity.Team;
 import kr.teammangers.dev.team.dto.TeamDto;
-import kr.teammangers.dev.team.dto.req.CreateTeamReq;
-import kr.teammangers.dev.team.dto.req.UpdateTeamReq;
-import kr.teammangers.dev.team.repository.TeamRepository;
+import kr.teammangers.dev.team.dto.request.CreateTeamReq;
+import kr.teammangers.dev.team.dto.request.UpdateTeamReq;
+import kr.teammangers.dev.team.domain.repository.TeamRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

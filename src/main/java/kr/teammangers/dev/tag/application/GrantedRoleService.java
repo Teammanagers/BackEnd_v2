@@ -15,8 +15,8 @@ public class GrantedRoleService {
 
     private final GrantedRoleRepository grantedRoleRepository;
 
-    public List<TagDto> findAllTagDtoByTeamManageId(Long teamManageId) {
-        return grantedRoleRepository.findAllByTeamManage_Id(teamManageId).stream()
+    public List<TagDto> findAllTagDtoByTeamMemberId(Long teamMemberId) {
+        return grantedRoleRepository.findAllByTeamMember_Id(teamMemberId).stream()
                 .map(GrantedRole::getTag)
                 .map(TagMapper.TAG_MAPPER::toDto)
                 .toList();

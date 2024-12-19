@@ -4,8 +4,8 @@ import kr.teammangers.dev.global.error.exception.GeneralException;
 import kr.teammangers.dev.notice.domain.entity.Notice;
 import kr.teammangers.dev.notice.dto.NoticeDto;
 import kr.teammangers.dev.notice.domain.repository.NoticeRepository;
-import kr.teammangers.dev.team.domain.Team;
-import kr.teammangers.dev.team.repository.TeamRepository;
+import kr.teammangers.dev.team.domain.entity.Team;
+import kr.teammangers.dev.team.domain.repository.TeamRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
