@@ -23,10 +23,11 @@ public interface TeamResMapper {
     @Mapping(target = "teamTagList", source = "teamTagList")
     GetTeamRes toGet(TeamDto teamDto, String imgUrl, List<TagDto> teamTagList);
 
+    @Mapping(target = "teamManageId", source = "teamManageId")
     @Mapping(target = "member", source = "memberDto")
     @Mapping(target = "imgUrl", source = "imgUrl")
     @Mapping(target = "grantedRoleList", source = "grantedRoleList")
-    GetMemberRes toGetMember(MemberDto memberDto, String imgUrl, List<TagDto> grantedRoleList);
+    GetMemberRes toGetMember(Long teamManageId, MemberDto memberDto, String imgUrl, List<TagDto> grantedRoleList);
 
     GetTeamCodeRes toGetTeamCode(String teamCode);
 

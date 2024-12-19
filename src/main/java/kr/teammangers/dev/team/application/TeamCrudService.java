@@ -84,6 +84,11 @@ public class TeamCrudService {
                 .toList();
     }
 
+    public GetTeamRes getTeamByTeamId(Long teamId) {
+        TeamDto teamDto = teamService.findDtoById(teamId);
+        return buildGetTeamRes(teamDto);
+    }
+
     public List<GetMemberRes> getMemberListByTeamId(Long teamId) {
         return teamManageService.findAllTeamManageIdByTeamId(teamId).stream()
                 .map(this::buildGetMemberRes)
@@ -106,7 +111,7 @@ public class TeamCrudService {
         String generatedUrl = s3Service.generateUrl(filePath);
 
         List<TagDto> tagDtoList = grantedRoleService.findAllTagDtoByTeamManageId(teamManageId);
-        return TEAM_RES_MAPPER.toGetMember(memberDto, generatedUrl, tagDtoList);
+        return TEAM_RES_MAPPER.toGetMember(teamManageId, memberDto, generatedUrl, tagDtoList);
     }
 
     @Transactional

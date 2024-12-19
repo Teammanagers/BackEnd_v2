@@ -58,6 +58,14 @@ public class TeamController {
         return ApiRes.onSuccess(result);
     }
 
+    @GetMapping("/{teamId}")
+    public ApiRes<GetTeamRes> getTeamByTeamId(
+            @PathVariable("teamId") final Long teamId
+    ) {
+        GetTeamRes result = teamCrudService.getTeamByTeamId(teamId);
+        return ApiRes.onSuccess(result);
+    }
+
     @GetMapping("/{teamId}/member")
     public ApiRes<List<GetMemberRes>> getMemberListByTeam(
             @PathVariable("teamId") final Long teamId

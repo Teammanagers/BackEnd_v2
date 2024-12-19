@@ -8,6 +8,7 @@ import java.util.List;
 
 @Builder
 public record GetMemberRes(
+        Long teamManageId,
         MemberDto member,
         String imgUrl,
         List<TagDto> grantedRoleList
