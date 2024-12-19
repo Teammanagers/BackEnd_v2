@@ -1,6 +1,6 @@
 package kr.teammangers.dev.schedule.application;
 
-import kr.teammangers.dev.global.common.payload.exception.GeneralException;
+import kr.teammangers.dev.global.error.exception.GeneralException;
 import kr.teammangers.dev.schedule.domain.TimeSlot;
 import kr.teammangers.dev.schedule.dto.TimeSlotDto;
 import kr.teammangers.dev.schedule.dto.req.UpdateScheduleReq;
@@ -15,8 +15,8 @@ import org.springframework.stereotype.Service;
 import java.util.Arrays;
 import java.util.List;
 
-import static kr.teammangers.dev.global.common.payload.code.dto.enums.ErrorStatus.TEAM_MANAGE_NOT_FOUND;
-import static kr.teammangers.dev.global.common.payload.code.dto.enums.ErrorStatus.TEAM_NOT_FOUND;
+import static kr.teammangers.dev.global.error.code.ErrorStatus.TEAM_MANAGE_NOT_FOUND;
+import static kr.teammangers.dev.global.error.code.ErrorStatus.TEAM_NOT_FOUND;
 import static kr.teammangers.dev.schedule.mapper.TimeSlotMapper.TIME_SLOT_MAPPER;
 
 @Service

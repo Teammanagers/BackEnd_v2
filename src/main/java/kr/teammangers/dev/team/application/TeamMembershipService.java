@@ -1,7 +1,7 @@
 package kr.teammangers.dev.team.application;
 
-import kr.teammangers.dev.global.common.payload.code.dto.enums.ErrorStatus;
-import kr.teammangers.dev.global.common.payload.exception.GeneralException;
+import kr.teammangers.dev.global.error.code.ErrorStatus;
+import kr.teammangers.dev.global.error.exception.GeneralException;
 import kr.teammangers.dev.team.dto.TeamDto;
 import kr.teammangers.dev.team.dto.req.JoinTeamReq;
 import kr.teammangers.dev.team.dto.res.JoinTeamRes;

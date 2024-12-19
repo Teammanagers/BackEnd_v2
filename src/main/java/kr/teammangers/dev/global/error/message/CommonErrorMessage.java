@@ -1,4 +1,4 @@
-package kr.teammangers.dev.global.common.payload.code.dto.enums;
+package kr.teammangers.dev.global.error.message;
 
 public final class CommonErrorMessage {
 

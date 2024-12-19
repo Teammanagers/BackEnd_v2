@@ -4,8 +4,8 @@ import kr.teammangers.dev.calendar.domain.entity.Plan;
 import kr.teammangers.dev.calendar.dto.PlanDto;
 import kr.teammangers.dev.calendar.dto.request.UpdatePlanReq;
 import kr.teammangers.dev.calendar.domain.repository.PlanRepository;
-import kr.teammangers.dev.global.common.payload.code.dto.enums.ErrorStatus;
-import kr.teammangers.dev.global.common.payload.exception.GeneralException;
+import kr.teammangers.dev.global.error.code.ErrorStatus;
+import kr.teammangers.dev.global.error.exception.GeneralException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

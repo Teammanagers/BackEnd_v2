@@ -1,10 +1,10 @@
-package kr.teammangers.dev.global.common.payload.exception;
+package kr.teammangers.dev.global.error.exception;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletResponse;
-import kr.teammangers.dev.global.common.payload.ApiRes;
-import kr.teammangers.dev.global.common.payload.code.dto.enums.ErrorStatus;
+import kr.teammangers.dev.global.common.response.ApiRes;
+import kr.teammangers.dev.global.error.code.ErrorStatus;
 import org.springframework.http.MediaType;
 
 import java.io.IOException;

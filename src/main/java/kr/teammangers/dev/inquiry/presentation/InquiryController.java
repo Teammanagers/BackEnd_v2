@@ -1,7 +1,7 @@
 package kr.teammangers.dev.inquiry.presentation;
 
 import kr.teammangers.dev.auth.infrastructure.security.AuthInfo;
-import kr.teammangers.dev.global.common.payload.ApiRes;
+import kr.teammangers.dev.global.common.response.ApiRes;
 import kr.teammangers.dev.inquiry.application.InquiryCrudService;
 import kr.teammangers.dev.inquiry.dto.req.CreateInquiryReq;
 import kr.teammangers.dev.inquiry.dto.req.DeleteInquiryReq;

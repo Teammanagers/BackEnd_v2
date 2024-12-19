@@ -1,7 +1,6 @@
-package kr.teammangers.dev.global.common.payload.code.dto.enums;
+package kr.teammangers.dev.global.error.code;
 
-import kr.teammangers.dev.global.common.payload.code.base.BaseCode;
-import kr.teammangers.dev.global.common.payload.code.dto.ReasonDto;
+import kr.teammangers.dev.global.error.dto.ReasonDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;

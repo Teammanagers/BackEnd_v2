@@ -2,13 +2,13 @@ package kr.teammangers.dev.auth.application.facade;
 
 import kr.teammangers.dev.auth.application.service.TermsService;
 import kr.teammangers.dev.auth.dto.response.CreateTermsRes;
-import kr.teammangers.dev.global.common.payload.exception.GeneralException;
+import kr.teammangers.dev.global.error.exception.GeneralException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import static kr.teammangers.dev.auth.mapper.TermsMapper.TERMS_MAPPER;
-import static kr.teammangers.dev.global.common.payload.code.dto.enums.ErrorStatus.TERMS_ALREADY_EXISTS;
+import static kr.teammangers.dev.global.error.code.ErrorStatus.TERMS_ALREADY_EXISTS;
 
 @Service
 @Transactional(readOnly = true)

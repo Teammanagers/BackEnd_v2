@@ -1,4 +1,4 @@
-package kr.teammangers.dev.global.common.payload.code.dto;
+package kr.teammangers.dev.global.error.dto;
 
 import lombok.Builder;
 import org.springframework.http.HttpStatus;

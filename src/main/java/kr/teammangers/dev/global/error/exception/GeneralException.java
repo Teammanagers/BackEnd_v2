@@ -1,7 +1,7 @@
-package kr.teammangers.dev.global.common.payload.exception;
+package kr.teammangers.dev.global.error.exception;
 
-import kr.teammangers.dev.global.common.payload.code.base.ErrorBaseCode;
-import kr.teammangers.dev.global.common.payload.code.dto.ErrorReasonDto;
+import kr.teammangers.dev.global.error.code.ErrorBaseCode;
+import kr.teammangers.dev.global.error.dto.ErrorReasonDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

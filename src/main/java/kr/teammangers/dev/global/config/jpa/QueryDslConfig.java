@@ -1,4 +1,4 @@
-package kr.teammangers.dev.global.config;
+package kr.teammangers.dev.global.config.jpa;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;

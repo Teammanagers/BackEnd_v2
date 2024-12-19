@@ -1,4 +1,4 @@
-package kr.teammangers.dev.global.config;
+package kr.teammangers.dev.global.config.security;
 
 import kr.teammangers.dev.auth.application.service.AuthService;
 import kr.teammangers.dev.auth.application.service.DelegatingOAuth2UserService;
@@ -6,7 +6,6 @@ import kr.teammangers.dev.auth.application.service.TokenService;
 import kr.teammangers.dev.auth.infrastructure.security.filter.TokenAuthenticationFilter;
 import kr.teammangers.dev.auth.infrastructure.security.handler.OAuth2FailureHandler;
 import kr.teammangers.dev.auth.infrastructure.security.handler.OAuth2SuccessHandler;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,7 +22,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 
 import java.util.Arrays;
 
-import static kr.teammangers.dev.global.config.constant.WebConfigConstant.*;
+import static kr.teammangers.dev.global.common.constant.WebConfigConstant.*;
 
 @Configuration
 @EnableWebSecurity

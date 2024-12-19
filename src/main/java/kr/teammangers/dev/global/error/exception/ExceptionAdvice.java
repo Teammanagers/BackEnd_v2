@@ -1,11 +1,11 @@
-package kr.teammangers.dev.global.common.payload.exception;
+package kr.teammangers.dev.global.error.exception;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
-import kr.teammangers.dev.global.common.payload.ApiRes;
-import kr.teammangers.dev.global.common.payload.code.dto.ErrorReasonDto;
-import kr.teammangers.dev.global.common.payload.code.dto.enums.ErrorStatus;
+import kr.teammangers.dev.global.common.response.ApiRes;
+import kr.teammangers.dev.global.error.dto.ErrorReasonDto;
+import kr.teammangers.dev.global.error.code.ErrorStatus;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;

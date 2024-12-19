@@ -1,7 +1,7 @@
 package kr.teammangers.dev.notice.presentation;
 
 import kr.teammangers.dev.auth.infrastructure.security.AuthInfo;
-import kr.teammangers.dev.global.common.payload.ApiRes;
+import kr.teammangers.dev.global.common.response.ApiRes;
 import kr.teammangers.dev.notice.application.NoticeCrudService;
 import kr.teammangers.dev.notice.dto.req.CreateNoticeReq;
 import kr.teammangers.dev.notice.dto.req.DeleteNoticeReq;

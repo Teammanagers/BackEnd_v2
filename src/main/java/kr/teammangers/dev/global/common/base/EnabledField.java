@@ -1,4 +1,4 @@
-package kr.teammangers.dev.global.common.entity;
+package kr.teammangers.dev.global.common.base;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EnumType;

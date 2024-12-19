@@ -1,4 +1,4 @@
-package kr.teammangers.dev.global.config;
+package kr.teammangers.dev.global.config.audit;
 
 import kr.teammangers.dev.auth.infrastructure.security.AuthInfo;
 import org.springframework.context.annotation.Bean;

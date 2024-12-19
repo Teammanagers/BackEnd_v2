@@ -1,12 +1,11 @@
-package kr.teammangers.dev.global.common.payload.code.dto.enums;
+package kr.teammangers.dev.global.error.code;
 
-import kr.teammangers.dev.global.common.payload.code.base.ErrorBaseCode;
-import kr.teammangers.dev.global.common.payload.code.dto.ErrorReasonDto;
+import kr.teammangers.dev.global.error.dto.ErrorReasonDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
-import static kr.teammangers.dev.global.common.payload.code.dto.enums.CommonErrorMessage.*;
+import static kr.teammangers.dev.global.error.message.CommonErrorMessage.*;
 import static org.springframework.http.HttpStatus.*;
 
 @Getter

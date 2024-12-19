@@ -1,7 +1,7 @@
 package kr.teammangers.dev.member.presentation;
 
 import kr.teammangers.dev.auth.infrastructure.security.AuthInfo;
-import kr.teammangers.dev.global.common.payload.ApiRes;
+import kr.teammangers.dev.global.common.response.ApiRes;
 import kr.teammangers.dev.member.application.MemberCrudService;
 import kr.teammangers.dev.member.dto.req.UpdateProfileReq;
 import kr.teammangers.dev.member.dto.res.UpdateProfileRes;

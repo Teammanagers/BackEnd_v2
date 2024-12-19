@@ -1,10 +1,10 @@
-package kr.teammangers.dev.global.common.payload;
+package kr.teammangers.dev.global.common.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import kr.teammangers.dev.global.common.payload.code.base.BaseCode;
-import kr.teammangers.dev.global.common.payload.code.dto.enums.SuccessStatus;
+import kr.teammangers.dev.global.error.code.BaseCode;
+import kr.teammangers.dev.global.error.code.SuccessStatus;
 import lombok.Builder;
 
 @Builder

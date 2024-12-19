@@ -1,4 +1,4 @@
-package kr.teammangers.dev.global.common.converter;
+package kr.teammangers.dev.global.config.converter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.MediaType;

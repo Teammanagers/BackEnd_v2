@@ -3,7 +3,7 @@ package kr.teammangers.dev.auth.presentation;
 import kr.teammangers.dev.auth.application.facade.AuthApiFacade;
 import kr.teammangers.dev.auth.infrastructure.security.AuthInfo;
 import kr.teammangers.dev.auth.dto.response.CreateTermsRes;
-import kr.teammangers.dev.global.common.payload.ApiRes;
+import kr.teammangers.dev.global.common.response.ApiRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;

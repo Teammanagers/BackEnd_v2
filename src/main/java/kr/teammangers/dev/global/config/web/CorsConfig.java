@@ -1,4 +1,4 @@
-package kr.teammangers.dev.global.config;
+package kr.teammangers.dev.global.config.web;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,8 +8,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
 
-import static kr.teammangers.dev.global.config.constant.WebConfigConstant.*;
-import static kr.teammangers.dev.global.config.constant.WebConfigConstant.CORS_EXPOSE_HEADERS;
+import static kr.teammangers.dev.global.common.constant.WebConfigConstant.*;
 
 @Configuration
 public class CorsConfig {

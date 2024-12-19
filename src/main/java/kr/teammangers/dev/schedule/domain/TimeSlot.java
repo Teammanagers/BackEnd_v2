@@ -1,8 +1,8 @@
 package kr.teammangers.dev.schedule.domain;
 
 import jakarta.persistence.*;
-import kr.teammangers.dev.global.common.entity.BaseField;
-import kr.teammangers.dev.global.common.payload.exception.GeneralException;
+import kr.teammangers.dev.global.common.base.BaseField;
+import kr.teammangers.dev.global.error.exception.GeneralException;
 import kr.teammangers.dev.schedule.enums.DayOfWeek;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
@@ -13,7 +13,7 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 
-import static kr.teammangers.dev.global.common.payload.code.dto.enums.ErrorStatus.TIME_SLOT_BAD_REQUEST;
+import static kr.teammangers.dev.global.error.code.ErrorStatus.TIME_SLOT_BAD_REQUEST;
 import static kr.teammangers.dev.schedule.util.TimeSlotBitUtils.SLOTS_PER_HOUR;
 import static kr.teammangers.dev.schedule.util.TimeSlotBitUtils.createTimeSlot;
 

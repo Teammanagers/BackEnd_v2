@@ -1,7 +1,7 @@
 package kr.teammangers.dev.memo.domain;
 
 import jakarta.persistence.*;
-import kr.teammangers.dev.global.common.entity.BaseField;
+import kr.teammangers.dev.global.common.base.BaseField;
 import kr.teammangers.dev.memo.dto.req.UpdateMemoReq;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;

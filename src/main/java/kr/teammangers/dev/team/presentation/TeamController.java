@@ -2,7 +2,7 @@ package kr.teammangers.dev.team.presentation;
 
 import jakarta.validation.Valid;
 import kr.teammangers.dev.auth.infrastructure.security.AuthInfo;
-import kr.teammangers.dev.global.common.payload.ApiRes;
+import kr.teammangers.dev.global.common.response.ApiRes;
 import kr.teammangers.dev.team.application.TeamCrudService;
 import kr.teammangers.dev.team.application.TeamMembershipService;
 import kr.teammangers.dev.team.application.TeamUtilService;

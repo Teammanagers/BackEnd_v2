@@ -1,6 +1,6 @@
 package kr.teammangers.dev.notice.application;
 
-import kr.teammangers.dev.global.common.payload.exception.GeneralException;
+import kr.teammangers.dev.global.error.exception.GeneralException;
 import kr.teammangers.dev.notice.domain.Notice;
 import kr.teammangers.dev.notice.dto.NoticeDto;
 import kr.teammangers.dev.notice.repository.NoticeRepository;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static kr.teammangers.dev.global.common.payload.code.dto.enums.ErrorStatus.NOTICE_NOT_FOUND;
+import static kr.teammangers.dev.global.error.code.ErrorStatus.NOTICE_NOT_FOUND;
 import static kr.teammangers.dev.notice.mapper.NoticeMapper.NOTICE_MAPPER;
 
 @Service

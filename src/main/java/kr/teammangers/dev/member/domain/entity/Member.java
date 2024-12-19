@@ -2,7 +2,7 @@ package kr.teammangers.dev.member.domain.entity;
 
 import jakarta.persistence.*;
 import kr.teammangers.dev.member.domain.embed.ProviderInfo;
-import kr.teammangers.dev.global.common.entity.BaseField;
+import kr.teammangers.dev.global.common.base.BaseField;
 import kr.teammangers.dev.member.enums.Role;
 import kr.teammangers.dev.member.dto.req.UpdateProfileReq;
 import lombok.*;

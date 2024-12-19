@@ -1,7 +1,7 @@
 package kr.teammangers.dev.team.application;
 
-import kr.teammangers.dev.global.common.payload.code.dto.enums.ErrorStatus;
-import kr.teammangers.dev.global.common.payload.exception.GeneralException;
+import kr.teammangers.dev.global.error.code.ErrorStatus;
+import kr.teammangers.dev.global.error.exception.GeneralException;
 import kr.teammangers.dev.schedule.domain.TimeSlot;
 import kr.teammangers.dev.schedule.repository.TimeSlotRepository;
 import kr.teammangers.dev.team.domain.Team;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 
-import static kr.teammangers.dev.global.common.payload.code.dto.enums.ErrorStatus.TEAM_NO_AUTHORITY;
+import static kr.teammangers.dev.global.error.code.ErrorStatus.TEAM_NO_AUTHORITY;
 import static kr.teammangers.dev.team.mapper.TeamMapper.TEAM_MAPPER;
 import static kr.teammangers.dev.team.mapper.TeamReqMapper.TEAM_REQ_MAPPER;
 

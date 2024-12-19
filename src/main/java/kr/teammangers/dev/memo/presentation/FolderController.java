@@ -1,6 +1,6 @@
 package kr.teammangers.dev.memo.presentation;
 
-import kr.teammangers.dev.global.common.payload.ApiRes;
+import kr.teammangers.dev.global.common.response.ApiRes;
 import kr.teammangers.dev.memo.application.FolderCrudService;
 import kr.teammangers.dev.memo.dto.req.CreateFolderReq;
 import kr.teammangers.dev.memo.dto.req.DeleteFolderReq;

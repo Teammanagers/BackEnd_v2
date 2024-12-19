@@ -1,4 +1,4 @@
-package kr.teammangers.dev.global.config.constant;
+package kr.teammangers.dev.global.common.constant;
 
 import org.springframework.beans.factory.annotation.Value;
 

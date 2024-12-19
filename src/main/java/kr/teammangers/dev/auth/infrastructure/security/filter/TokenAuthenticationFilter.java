@@ -5,8 +5,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import kr.teammangers.dev.auth.application.service.TokenService;
-import kr.teammangers.dev.global.common.payload.code.dto.enums.ErrorStatus;
-import kr.teammangers.dev.global.config.constant.WebConfigConstant;
+import kr.teammangers.dev.global.error.code.ErrorStatus;
+import kr.teammangers.dev.global.common.constant.WebConfigConstant;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import static kr.teammangers.dev.auth.domain.enums.TokenRule.ACCESS_PREFIX;
-import static kr.teammangers.dev.global.common.payload.exception.ExceptionUtil.handleAuthException;
+import static kr.teammangers.dev.global.error.exception.ExceptionUtil.handleAuthException;
 
 @Service
 @RequiredArgsConstructor

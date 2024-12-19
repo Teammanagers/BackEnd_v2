@@ -2,8 +2,8 @@ package kr.teammangers.dev.auth.mapper;
 
 import kr.teammangers.dev.member.domain.embed.ProviderInfo;
 import kr.teammangers.dev.auth.infrastructure.oauth.OAuth2UserInfo;
-import kr.teammangers.dev.global.common.payload.code.dto.enums.ErrorStatus;
-import kr.teammangers.dev.global.common.payload.exception.GeneralException;
+import kr.teammangers.dev.global.error.code.ErrorStatus;
+import kr.teammangers.dev.global.error.exception.GeneralException;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
