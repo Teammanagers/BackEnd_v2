@@ -3,7 +3,7 @@ package kr.teammangers.dev.s3.application;
 import io.awspring.cloud.s3.ObjectMetadata;
 import io.awspring.cloud.s3.S3Operations;
 import io.awspring.cloud.s3.S3Template;
-import kr.teammangers.dev.common.payload.exception.GeneralException;
+import kr.teammangers.dev.global.common.payload.exception.GeneralException;
 import kr.teammangers.dev.s3.domain.S3FileInfo;
 import kr.teammangers.dev.s3.dto.FileNameParts;
 import kr.teammangers.dev.s3.dto.S3FileInfoDto;
@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.time.Duration;
 
-import static kr.teammangers.dev.common.payload.code.dto.enums.ErrorStatus.S3_NOT_FOUND_FROM_BUCKET;
+import static kr.teammangers.dev.global.common.payload.code.dto.enums.ErrorStatus.S3_NOT_FOUND_FROM_BUCKET;
 import static kr.teammangers.dev.s3.mapper.S3Mapper.S3_MAPPER;
 
 @Service

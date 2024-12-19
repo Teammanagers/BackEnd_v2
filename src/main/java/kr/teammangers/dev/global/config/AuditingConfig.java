@@ -1,6 +1,6 @@
 package kr.teammangers.dev.global.config;
 
-import kr.teammangers.dev.auth.dto.AuthInfo;
+import kr.teammangers.dev.auth.infrastructure.security.AuthInfo;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;

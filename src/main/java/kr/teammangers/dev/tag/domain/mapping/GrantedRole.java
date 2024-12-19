@@ -1,7 +1,7 @@
 package kr.teammangers.dev.tag.domain.mapping;
 
 import jakarta.persistence.*;
-import kr.teammangers.dev.common.entity.BaseField;
+import kr.teammangers.dev.global.common.entity.BaseField;
 import kr.teammangers.dev.tag.domain.Tag;
 import kr.teammangers.dev.team.domain.mapping.TeamManage;
 import lombok.*;

@@ -1,9 +1,9 @@
 package kr.teammangers.dev.member.application;
 
-import kr.teammangers.dev.auth.dto.OAuth2UserInfo;
-import kr.teammangers.dev.common.payload.code.dto.enums.ErrorStatus;
-import kr.teammangers.dev.common.payload.exception.GeneralException;
-import kr.teammangers.dev.member.domain.Member;
+import kr.teammangers.dev.auth.infrastructure.oauth.OAuth2UserInfo;
+import kr.teammangers.dev.global.common.payload.code.dto.enums.ErrorStatus;
+import kr.teammangers.dev.global.common.payload.exception.GeneralException;
+import kr.teammangers.dev.member.domain.entity.Member;
 import kr.teammangers.dev.member.dto.MemberDto;
 import kr.teammangers.dev.member.dto.req.UpdateProfileReq;
 import kr.teammangers.dev.member.repository.MemberRepository;

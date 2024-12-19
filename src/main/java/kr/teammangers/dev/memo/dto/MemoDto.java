@@ -1,7 +1,7 @@
 package kr.teammangers.dev.memo.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import kr.teammangers.dev.common.enums.EntityStatus;
+import kr.teammangers.dev.global.common.enums.EntityStatus;
 import lombok.Builder;
 
 import java.time.LocalDateTime;

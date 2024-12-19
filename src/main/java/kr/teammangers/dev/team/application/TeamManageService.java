@@ -1,7 +1,7 @@
 package kr.teammangers.dev.team.application;
 
-import kr.teammangers.dev.common.payload.exception.GeneralException;
-import kr.teammangers.dev.member.domain.Member;
+import kr.teammangers.dev.global.common.payload.exception.GeneralException;
+import kr.teammangers.dev.member.domain.entity.Member;
 import kr.teammangers.dev.member.dto.MemberDto;
 import kr.teammangers.dev.member.repository.MemberRepository;
 import kr.teammangers.dev.schedule.domain.TimeSlot;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static kr.teammangers.dev.common.payload.code.dto.enums.ErrorStatus.TEAM_MANAGE_NOT_FOUND;
+import static kr.teammangers.dev.global.common.payload.code.dto.enums.ErrorStatus.TEAM_MANAGE_NOT_FOUND;
 import static kr.teammangers.dev.member.mapper.MemberMapper.MEMBER_MAPPER;
 import static kr.teammangers.dev.team.mapper.TeamMapper.TEAM_MAPPER;
 

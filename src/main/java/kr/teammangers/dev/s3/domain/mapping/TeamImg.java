@@ -1,7 +1,7 @@
 package kr.teammangers.dev.s3.domain.mapping;
 
 import jakarta.persistence.*;
-import kr.teammangers.dev.common.entity.BaseField;
+import kr.teammangers.dev.global.common.entity.BaseField;
 import kr.teammangers.dev.s3.domain.S3FileInfo;
 import kr.teammangers.dev.team.domain.Team;
 import lombok.*;

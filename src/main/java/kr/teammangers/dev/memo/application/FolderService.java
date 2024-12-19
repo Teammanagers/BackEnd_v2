@@ -1,6 +1,6 @@
 package kr.teammangers.dev.memo.application;
 
-import kr.teammangers.dev.common.payload.exception.GeneralException;
+import kr.teammangers.dev.global.common.payload.exception.GeneralException;
 import kr.teammangers.dev.memo.domain.Folder;
 import kr.teammangers.dev.memo.dto.FolderDto;
 import kr.teammangers.dev.memo.dto.req.UpdateFolderReq;
@@ -12,8 +12,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static kr.teammangers.dev.common.payload.code.dto.enums.ErrorStatus.FOLDER_NOT_FOUND;
-import static kr.teammangers.dev.common.payload.code.dto.enums.ErrorStatus.TEAM_NOT_FOUND;
+import static kr.teammangers.dev.global.common.payload.code.dto.enums.ErrorStatus.FOLDER_NOT_FOUND;
+import static kr.teammangers.dev.global.common.payload.code.dto.enums.ErrorStatus.TEAM_NOT_FOUND;
 import static kr.teammangers.dev.memo.mapper.FolderMapper.FOLDER_MAPPER;
 
 @Service

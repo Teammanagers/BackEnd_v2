@@ -1,8 +1,8 @@
 package kr.teammangers.dev.tag.domain.mapping;
 
 import jakarta.persistence.*;
-import kr.teammangers.dev.common.entity.BaseField;
-import kr.teammangers.dev.member.domain.Member;
+import kr.teammangers.dev.global.common.entity.BaseField;
+import kr.teammangers.dev.member.domain.entity.Member;
 import kr.teammangers.dev.tag.domain.Tag;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;

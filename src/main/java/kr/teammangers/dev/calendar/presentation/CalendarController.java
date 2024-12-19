@@ -8,7 +8,7 @@ import kr.teammangers.dev.calendar.dto.res.CreatePlanRes;
 import kr.teammangers.dev.calendar.dto.res.DeletePlanRes;
 import kr.teammangers.dev.calendar.dto.res.GetPlanRes;
 import kr.teammangers.dev.calendar.dto.res.UpdatePlanRes;
-import kr.teammangers.dev.common.payload.ApiRes;
+import kr.teammangers.dev.global.common.payload.ApiRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

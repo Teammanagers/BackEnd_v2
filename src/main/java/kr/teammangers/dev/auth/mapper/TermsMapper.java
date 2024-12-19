@@ -1,7 +1,7 @@
 package kr.teammangers.dev.auth.mapper;
 
-import kr.teammangers.dev.auth.domain.Terms;
-import kr.teammangers.dev.auth.dto.res.CreateTermsRes;
+import kr.teammangers.dev.auth.domain.entity.Terms;
+import kr.teammangers.dev.auth.dto.response.CreateTermsRes;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;

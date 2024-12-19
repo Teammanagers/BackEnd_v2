@@ -1,7 +1,7 @@
 package kr.teammangers.dev.memo.presentation;
 
-import kr.teammangers.dev.auth.dto.AuthInfo;
-import kr.teammangers.dev.common.payload.ApiRes;
+import kr.teammangers.dev.auth.infrastructure.security.AuthInfo;
+import kr.teammangers.dev.global.common.payload.ApiRes;
 import kr.teammangers.dev.memo.application.MemoCrudService;
 import kr.teammangers.dev.memo.dto.req.CreateMemoReq;
 import kr.teammangers.dev.memo.dto.req.DeleteMemoReq;

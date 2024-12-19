@@ -1,17 +1,17 @@
 package kr.teammangers.dev.auth.mapper;
 
-import kr.teammangers.dev.auth.domain.embed.ProviderInfo;
-import kr.teammangers.dev.auth.dto.OAuth2UserInfo;
-import kr.teammangers.dev.common.payload.code.dto.enums.ErrorStatus;
-import kr.teammangers.dev.common.payload.exception.GeneralException;
+import kr.teammangers.dev.member.domain.embed.ProviderInfo;
+import kr.teammangers.dev.auth.infrastructure.oauth.OAuth2UserInfo;
+import kr.teammangers.dev.global.common.payload.code.dto.enums.ErrorStatus;
+import kr.teammangers.dev.global.common.payload.exception.GeneralException;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 import java.util.Map;
 
-import static kr.teammangers.dev.auth.constants.AttributeConstant.*;
-import static kr.teammangers.dev.auth.constants.ProviderConstant.*;
+import static kr.teammangers.dev.auth.constant.AttributeConstant.*;
+import static kr.teammangers.dev.auth.constant.ProviderConstant.*;
 
 @Mapper(componentModel = "spring")
 public interface ProviderMapper {

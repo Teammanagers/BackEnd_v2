@@ -1,7 +1,7 @@
 package kr.teammangers.dev.s3.domain;
 
 import jakarta.persistence.*;
-import kr.teammangers.dev.common.entity.BaseField;
+import kr.teammangers.dev.global.common.entity.BaseField;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;

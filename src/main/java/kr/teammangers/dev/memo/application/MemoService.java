@@ -1,6 +1,6 @@
 package kr.teammangers.dev.memo.application;
 
-import kr.teammangers.dev.common.payload.exception.GeneralException;
+import kr.teammangers.dev.global.common.payload.exception.GeneralException;
 import kr.teammangers.dev.memo.domain.Folder;
 import kr.teammangers.dev.memo.dto.MemoDto;
 import kr.teammangers.dev.memo.dto.req.CreateMemoReq;
@@ -13,8 +13,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
 
-import static kr.teammangers.dev.common.payload.code.dto.enums.ErrorStatus.MEMO_NOT_FOUND;
-import static kr.teammangers.dev.common.payload.code.dto.enums.ErrorStatus.MEMO_NO_AUTHORITY;
+import static kr.teammangers.dev.global.common.payload.code.dto.enums.ErrorStatus.MEMO_NOT_FOUND;
+import static kr.teammangers.dev.global.common.payload.code.dto.enums.ErrorStatus.MEMO_NO_AUTHORITY;
 import static kr.teammangers.dev.memo.mapper.MemoMapper.MEMO_MAPPER;
 
 @Service

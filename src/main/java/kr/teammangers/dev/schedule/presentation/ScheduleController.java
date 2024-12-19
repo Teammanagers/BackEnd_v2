@@ -1,7 +1,7 @@
 package kr.teammangers.dev.schedule.presentation;
 
-import kr.teammangers.dev.auth.dto.AuthInfo;
-import kr.teammangers.dev.common.payload.ApiRes;
+import kr.teammangers.dev.auth.infrastructure.security.AuthInfo;
+import kr.teammangers.dev.global.common.payload.ApiRes;
 import kr.teammangers.dev.schedule.application.ScheduleService;
 import kr.teammangers.dev.schedule.dto.req.UpdateScheduleReq;
 import kr.teammangers.dev.schedule.dto.res.UpdateScheduleRes;

@@ -2,7 +2,7 @@ package kr.teammangers.dev.calendar.domain;
 
 import jakarta.persistence.*;
 import kr.teammangers.dev.calendar.dto.req.UpdatePlanReq;
-import kr.teammangers.dev.common.entity.BaseField;
+import kr.teammangers.dev.global.common.entity.BaseField;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;

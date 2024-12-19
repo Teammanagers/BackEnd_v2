@@ -1,6 +1,6 @@
 package kr.teammangers.dev.team.mapper;
 
-import kr.teammangers.dev.member.domain.Member;
+import kr.teammangers.dev.member.domain.entity.Member;
 import kr.teammangers.dev.schedule.domain.TimeSlot;
 import kr.teammangers.dev.team.domain.Team;
 import kr.teammangers.dev.team.domain.mapping.TeamManage;

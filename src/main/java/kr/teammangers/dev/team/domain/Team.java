@@ -1,7 +1,7 @@
 package kr.teammangers.dev.team.domain;
 
 import jakarta.persistence.*;
-import kr.teammangers.dev.common.entity.BaseField;
+import kr.teammangers.dev.global.common.entity.BaseField;
 import kr.teammangers.dev.schedule.domain.TimeSlot;
 import kr.teammangers.dev.team.dto.req.UpdateTeamReq;
 import lombok.*;

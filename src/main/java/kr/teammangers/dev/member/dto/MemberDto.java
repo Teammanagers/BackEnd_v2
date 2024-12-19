@@ -1,8 +1,8 @@
 package kr.teammangers.dev.member.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import kr.teammangers.dev.auth.domain.embed.ProviderInfo;
-import kr.teammangers.dev.common.enums.EntityStatus;
+import kr.teammangers.dev.member.domain.embed.ProviderInfo;
+import kr.teammangers.dev.global.common.enums.EntityStatus;
 import kr.teammangers.dev.member.enums.Role;
 import lombok.Builder;
 

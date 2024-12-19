@@ -1,8 +1,8 @@
 package kr.teammangers.dev.s3.application;
 
-import kr.teammangers.dev.common.payload.code.dto.enums.ErrorStatus;
-import kr.teammangers.dev.common.payload.exception.GeneralException;
-import kr.teammangers.dev.member.domain.Member;
+import kr.teammangers.dev.global.common.payload.code.dto.enums.ErrorStatus;
+import kr.teammangers.dev.global.common.payload.exception.GeneralException;
+import kr.teammangers.dev.member.domain.entity.Member;
 import kr.teammangers.dev.member.repository.MemberRepository;
 import kr.teammangers.dev.s3.domain.S3FileInfo;
 import kr.teammangers.dev.s3.domain.mapping.MemberImg;
