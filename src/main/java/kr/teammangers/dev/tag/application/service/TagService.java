@@ -1,8 +1,9 @@
-package kr.teammangers.dev.tag.application;
+package kr.teammangers.dev.tag.application.service;
 
-import kr.teammangers.dev.tag.domain.Tag;
+import kr.teammangers.dev.tag.domain.entity.Tag;
+import kr.teammangers.dev.tag.domain.enums.TagType;
 import kr.teammangers.dev.tag.dto.TagDto;
-import kr.teammangers.dev.tag.repository.TagRepository;
+import kr.teammangers.dev.tag.domain.repository.TagRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,9 +15,9 @@ public class TagService {
 
     private final TagRepository tagRepository;
 
-    public TagDto findDtoOrSave(final String tagName) {
+    public TagDto findDtoOrSave(final String tagName, final TagType type) {
         Tag tag = tagRepository.findByName(tagName)
-                .orElseGet(() -> insert(TAG_MAPPER.toEntity(tagName)));
+                .orElseGet(() -> insert(TAG_MAPPER.toEntity(tagName, type)));
         return TAG_MAPPER.toDto(tag);
     }
 

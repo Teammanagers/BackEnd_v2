@@ -9,9 +9,9 @@ import kr.teammangers.dev.s3.application.service.MemberImgService;
 import kr.teammangers.dev.s3.application.service.S3Service;
 import kr.teammangers.dev.s3.application.service.TeamImgService;
 import kr.teammangers.dev.s3.dto.S3FileInfoDto;
-import kr.teammangers.dev.tag.application.GrantedRoleService;
-import kr.teammangers.dev.tag.application.TagService;
-import kr.teammangers.dev.tag.application.TeamTagService;
+import kr.teammangers.dev.tag.application.service.TagService;
+import kr.teammangers.dev.tag.application.service.TeamMemberTagService;
+import kr.teammangers.dev.tag.application.service.TeamTagService;
 import kr.teammangers.dev.tag.dto.TagDto;
 import kr.teammangers.dev.team.application.service.TeamMemberService;
 import kr.teammangers.dev.team.application.service.TeamService;
@@ -32,6 +32,7 @@ import java.util.UUID;
 
 import static kr.teammangers.dev.memo.constant.FolderConstant.ROOT_FOLDER;
 import static kr.teammangers.dev.s3.constant.S3Constant.TEAM_PROFILE_PATH;
+import static kr.teammangers.dev.tag.domain.enums.TagType.TEAM;
 import static kr.teammangers.dev.team.mapper.TeamResMapper.TEAM_RES_MAPPER;
 
 @Service
@@ -46,7 +47,7 @@ public class TeamApiFacade {
     private final TagService tagService;
     private final TeamTagService teamTagService;
     private final FolderService folderService;
-    private final GrantedRoleService grantedRoleService;
+    private final TeamMemberTagService teamMemberTagService;
     private final MemberImgService memberImgService;
 
     @Transactional
@@ -68,10 +69,7 @@ public class TeamApiFacade {
         }
 
         // Tag 생성
-        req.teamTagList().forEach(tagName -> {
-            TagDto tagDto = tagService.findDtoOrSave(tagName);
-            teamTagService.save(teamDto.id(), tagDto.id());
-        });
+        req.teamTagList().forEach(tagName -> saveTeamTagFromTagName(teamDto.id(), tagName));
 
         return TEAM_RES_MAPPER.toCreate(teamDto);
     }
@@ -119,7 +117,7 @@ public class TeamApiFacade {
         String filePath = memberImgService.findFilePahtByMemberId(memberDto.id());
         String generatedUrl = s3Service.generateUrl(filePath);
 
-        List<TagDto> tagDtoList = grantedRoleService.findAllTagDtoByTeamMemberId(teamMemberId);
+        List<TagDto> tagDtoList = teamMemberTagService.findAllTagDtoByTeamMemberId(teamMemberId);
         return TEAM_RES_MAPPER.toGetMember(teamMemberId, memberDto, generatedUrl, tagDtoList);
     }
 
@@ -178,7 +176,7 @@ public class TeamApiFacade {
     }
 
     private void saveTeamTagFromTagName(Long teamId, String tagName) {
-        TagDto tagDto = tagService.findDtoOrSave(tagName);
+        TagDto tagDto = tagService.findDtoOrSave(tagName, TEAM);
         teamTagService.save(teamId, tagDto.id());
     }
 

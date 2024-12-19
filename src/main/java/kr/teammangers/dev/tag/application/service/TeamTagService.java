@@ -1,10 +1,10 @@
-package kr.teammangers.dev.tag.application;
+package kr.teammangers.dev.tag.application.service;
 
-import kr.teammangers.dev.tag.domain.Tag;
-import kr.teammangers.dev.tag.domain.mapping.TeamTag;
+import kr.teammangers.dev.tag.domain.entity.Tag;
+import kr.teammangers.dev.tag.domain.entity.TeamTag;
 import kr.teammangers.dev.tag.dto.TagDto;
-import kr.teammangers.dev.tag.repository.TagRepository;
-import kr.teammangers.dev.tag.repository.mapping.TeamTagRepository;
+import kr.teammangers.dev.tag.domain.repository.TagRepository;
+import kr.teammangers.dev.tag.domain.repository.team.TeamTagRepository;
 import kr.teammangers.dev.team.domain.entity.Team;
 import kr.teammangers.dev.team.domain.repository.TeamRepository;
 import lombok.RequiredArgsConstructor;

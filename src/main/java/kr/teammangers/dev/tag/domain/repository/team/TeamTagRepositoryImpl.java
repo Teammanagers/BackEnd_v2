@@ -1,12 +1,11 @@
-package kr.teammangers.dev.tag.repository.mapping.impl;
+package kr.teammangers.dev.tag.domain.repository.team;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import kr.teammangers.dev.tag.domain.mapping.QTeamTag;
-import kr.teammangers.dev.tag.repository.mapping.TeamTagQueryDsl;
+import kr.teammangers.dev.tag.domain.entity.QTeamTag;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class TeamTagQueryDslImpl implements TeamTagQueryDsl {
+public class TeamTagRepositoryImpl implements TeamTagRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 

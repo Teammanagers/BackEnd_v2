@@ -7,8 +7,8 @@ import kr.teammangers.dev.memo.dto.request.DeleteMemoReq;
 import kr.teammangers.dev.memo.dto.request.FixMemoReq;
 import kr.teammangers.dev.memo.dto.request.UpdateMemoReq;
 import kr.teammangers.dev.memo.dto.response.*;
-import kr.teammangers.dev.tag.application.MemoTagService;
-import kr.teammangers.dev.tag.application.TagService;
+import kr.teammangers.dev.tag.application.service.MemoTagService;
+import kr.teammangers.dev.tag.application.service.TagService;
 import kr.teammangers.dev.tag.dto.TagDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static kr.teammangers.dev.memo.mapper.MemoResMapper.MEMO_RES_MAPPER;
+import static kr.teammangers.dev.tag.domain.enums.TagType.MEMO;
 
 @Service
 @Transactional(readOnly = true)
@@ -87,7 +88,7 @@ public class MemoApiFacade {
     }
 
     private void saveMemoTagFromTagName(Long memoId, String tagName) {
-        TagDto tagDto = tagService.findDtoOrSave(tagName);
+        TagDto tagDto = tagService.findDtoOrSave(tagName, MEMO);
         memoTagService.save(memoId, tagDto.id());
     }
 

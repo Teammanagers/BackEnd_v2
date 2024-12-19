@@ -1,8 +1,8 @@
 package kr.teammangers.dev.tag.mapper;
 
-import kr.teammangers.dev.tag.domain.Tag;
+import kr.teammangers.dev.tag.domain.entity.Tag;
 import kr.teammangers.dev.team.domain.entity.Team;
-import kr.teammangers.dev.tag.domain.mapping.TeamTag;
+import kr.teammangers.dev.tag.domain.entity.TeamTag;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;

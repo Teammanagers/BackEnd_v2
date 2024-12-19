@@ -1,7 +1,8 @@
-package kr.teammangers.dev.tag.domain;
+package kr.teammangers.dev.tag.domain.entity;
 
 import jakarta.persistence.*;
 import kr.teammangers.dev.global.common.base.BaseField;
+import kr.teammangers.dev.tag.domain.enums.TagType;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
@@ -22,5 +23,8 @@ public class Tag extends BaseField {
 
     @Column(name = "nm", nullable = false)
     private String name;
+
+    @Enumerated(EnumType.STRING)
+    private TagType type;
 
 }

@@ -1,20 +1,20 @@
 package kr.teammangers.dev.tag.mapper;
 
 import kr.teammangers.dev.member.domain.entity.Member;
-import kr.teammangers.dev.tag.domain.Tag;
-import kr.teammangers.dev.tag.domain.mapping.Major;
+import kr.teammangers.dev.tag.domain.entity.MemberTag;
+import kr.teammangers.dev.tag.domain.entity.Tag;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")
-public interface MajorMapper {
+public interface MemberTagMapper {
 
-    MajorMapper MAJOR_MAPPER = Mappers.getMapper(MajorMapper.class);
+    MemberTagMapper MEMBER_TAG_MAPPER = Mappers.getMapper(MemberTagMapper.class);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "member", source = "member")
     @Mapping(target = "tag", source = "tag")
-    Major toEntity(Member member, Tag tag);
+    MemberTag toEntity(Member member, Tag tag);
 
 }

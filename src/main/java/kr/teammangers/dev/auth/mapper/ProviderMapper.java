@@ -40,6 +40,7 @@ public interface ProviderMapper {
                 .build();
     }
 
+    @SuppressWarnings("unchecked")
     default OAuth2UserInfo ofKakao(final Map<String, Object> attributes) {
         Map<String, Object> info = (Map<String, Object>) ((Map<String, Object>) attributes.get(KAKAO_ACCOUNT)).get(KAKAO_INFO);
         return OAuth2UserInfo.builder()
@@ -49,6 +50,7 @@ public interface ProviderMapper {
                 .build();
     }
 
+    @SuppressWarnings("unchecked")
     default OAuth2UserInfo ofNaver(final Map<String, Object> attributes) {
         Map<String, Object> info = (Map<String, Object>) attributes.get(NAVER_INFO);
         return OAuth2UserInfo.builder()

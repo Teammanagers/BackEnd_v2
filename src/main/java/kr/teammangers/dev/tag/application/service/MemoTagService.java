@@ -1,12 +1,12 @@
-package kr.teammangers.dev.tag.application;
+package kr.teammangers.dev.tag.application.service;
 
 import kr.teammangers.dev.memo.domain.entity.Memo;
 import kr.teammangers.dev.memo.domain.repository.MemoRepository;
-import kr.teammangers.dev.tag.domain.Tag;
-import kr.teammangers.dev.tag.domain.mapping.MemoTag;
+import kr.teammangers.dev.tag.domain.entity.Tag;
+import kr.teammangers.dev.tag.domain.entity.MemoTag;
 import kr.teammangers.dev.tag.dto.TagDto;
-import kr.teammangers.dev.tag.repository.TagRepository;
-import kr.teammangers.dev.tag.repository.mapping.MemoTagRepository;
+import kr.teammangers.dev.tag.domain.repository.TagRepository;
+import kr.teammangers.dev.tag.domain.repository.memo.MemoTagRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

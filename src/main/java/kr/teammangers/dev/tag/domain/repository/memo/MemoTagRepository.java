@@ -1,6 +1,6 @@
-package kr.teammangers.dev.tag.repository.mapping;
+package kr.teammangers.dev.tag.domain.repository.memo;
 
-import kr.teammangers.dev.tag.domain.mapping.MemoTag;
+import kr.teammangers.dev.tag.domain.entity.MemoTag;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
