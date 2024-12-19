@@ -26,7 +26,7 @@ public interface TeamResMapper {
     @Mapping(target = "member", source = "memberDto")
     @Mapping(target = "imgUrl", source = "imgUrl")
     @Mapping(target = "grantedRoleList", source = "grantedRoleList")
-    GetMemberRes toGetMember(MemberDto memberDto, String generatedUrl, List<TagDto> grantedRoleList);
+    GetMemberRes toGetMember(MemberDto memberDto, String imgUrl, List<TagDto> grantedRoleList);
 
     GetTeamCodeRes toGetTeamCode(String teamCode);
 
