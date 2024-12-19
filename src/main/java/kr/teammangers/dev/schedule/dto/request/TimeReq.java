@@ -1,4 +1,4 @@
-package kr.teammangers.dev.schedule.dto.req;
+package kr.teammangers.dev.schedule.dto.request;
 
 public record TimeReq(
         int startHour,

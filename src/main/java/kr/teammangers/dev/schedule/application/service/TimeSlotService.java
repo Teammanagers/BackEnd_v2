@@ -1,11 +1,11 @@
-package kr.teammangers.dev.schedule.application;
+package kr.teammangers.dev.schedule.application.service;
 
 import kr.teammangers.dev.global.error.exception.GeneralException;
-import kr.teammangers.dev.schedule.domain.TimeSlot;
+import kr.teammangers.dev.schedule.domain.entity.TimeSlot;
 import kr.teammangers.dev.schedule.dto.TimeSlotDto;
-import kr.teammangers.dev.schedule.dto.req.UpdateScheduleReq;
-import kr.teammangers.dev.schedule.enums.DayOfWeek;
-import kr.teammangers.dev.schedule.repository.TimeSlotRepository;
+import kr.teammangers.dev.schedule.dto.request.UpdateScheduleReq;
+import kr.teammangers.dev.schedule.domain.enums.DayOfWeek;
+import kr.teammangers.dev.schedule.domain.repository.TimeSlotRepository;
 import kr.teammangers.dev.team.domain.mapping.TeamManage;
 import kr.teammangers.dev.team.repository.TeamRepository;
 import kr.teammangers.dev.team.repository.mapping.TeamManageRepository;

@@ -1,9 +1,9 @@
-package kr.teammangers.dev.schedule.domain;
+package kr.teammangers.dev.schedule.domain.entity;
 
 import jakarta.persistence.*;
 import kr.teammangers.dev.global.common.base.BaseField;
 import kr.teammangers.dev.global.error.exception.GeneralException;
-import kr.teammangers.dev.schedule.enums.DayOfWeek;
+import kr.teammangers.dev.schedule.domain.enums.DayOfWeek;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;

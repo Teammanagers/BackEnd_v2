@@ -2,8 +2,8 @@ package kr.teammangers.dev.team.application;
 
 import kr.teammangers.dev.global.error.code.ErrorStatus;
 import kr.teammangers.dev.global.error.exception.GeneralException;
-import kr.teammangers.dev.schedule.domain.TimeSlot;
-import kr.teammangers.dev.schedule.repository.TimeSlotRepository;
+import kr.teammangers.dev.schedule.domain.entity.TimeSlot;
+import kr.teammangers.dev.schedule.domain.repository.TimeSlotRepository;
 import kr.teammangers.dev.team.domain.Team;
 import kr.teammangers.dev.team.dto.TeamDto;
 import kr.teammangers.dev.team.dto.req.CreateTeamReq;

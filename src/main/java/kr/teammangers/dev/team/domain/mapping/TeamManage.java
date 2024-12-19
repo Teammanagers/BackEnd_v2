@@ -3,7 +3,7 @@ package kr.teammangers.dev.team.domain.mapping;
 import jakarta.persistence.*;
 import kr.teammangers.dev.global.common.base.BaseField;
 import kr.teammangers.dev.member.domain.entity.Member;
-import kr.teammangers.dev.schedule.domain.TimeSlot;
+import kr.teammangers.dev.schedule.domain.entity.TimeSlot;
 import kr.teammangers.dev.team.domain.Team;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;

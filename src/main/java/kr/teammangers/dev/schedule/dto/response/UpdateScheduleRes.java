@@ -1,4 +1,4 @@
-package kr.teammangers.dev.schedule.dto.res;
+package kr.teammangers.dev.schedule.dto.response;
 
 import lombok.Builder;
 

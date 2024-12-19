@@ -1,4 +1,4 @@
-package kr.teammangers.dev.schedule.enums;
+package kr.teammangers.dev.schedule.domain.enums;
 
 public enum DayOfWeek {
 

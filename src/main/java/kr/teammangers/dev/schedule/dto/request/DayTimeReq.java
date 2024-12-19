@@ -1,6 +1,6 @@
-package kr.teammangers.dev.schedule.dto.req;
+package kr.teammangers.dev.schedule.dto.request;
 
-import kr.teammangers.dev.schedule.enums.DayOfWeek;
+import kr.teammangers.dev.schedule.domain.enums.DayOfWeek;
 
 import java.util.List;
 
