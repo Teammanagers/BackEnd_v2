@@ -16,6 +16,7 @@ public interface TeamResMapper {
     TeamResMapper TEAM_RES_MAPPER = Mappers.getMapper(TeamResMapper.class);
 
     @Mapping(target = "createdTeamId", source = "id")
+    @Mapping(target = "teamCode", source = "code")
     CreateTeamRes toCreate(TeamDto teamDto);
 
     @Mapping(target = "team", source = "teamDto")
@@ -35,6 +36,6 @@ public interface TeamResMapper {
     UpdateTeamRes toUpdate(TeamDto teamDto);
 
     @Mapping(target = "createdTeamMemberId", source = "teamMemberId")
-    JoinTeamRes toJoin(Long teamMemberId);
+    JoinTeamRes toJoin(Long teamMemberId, Long teamId);
 
 }

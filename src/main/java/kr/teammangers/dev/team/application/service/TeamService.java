@@ -8,11 +8,13 @@ import kr.teammangers.dev.team.domain.entity.Team;
 import kr.teammangers.dev.team.domain.repository.TeamRepository;
 import kr.teammangers.dev.team.dto.TeamDto;
 import kr.teammangers.dev.team.dto.request.CreateTeamReq;
+import kr.teammangers.dev.team.dto.request.UpdateTeamPasswordReq;
 import kr.teammangers.dev.team.dto.request.UpdateTeamReq;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
+import java.util.UUID;
 
 import static kr.teammangers.dev.global.error.code.ErrorStatus.TEAM_NO_AUTHORITY;
 import static kr.teammangers.dev.team.mapper.TeamMapper.TEAM_MAPPER;
@@ -45,6 +47,15 @@ public class TeamService {
         }
         return TEAM_MAPPER.toDto(team);
     }
+
+    public TeamDto updatePassword(UpdateTeamPasswordReq req) {
+        Team team = findById(req.teamId());
+        if(req.password() != null && !req.password().isEmpty()) {
+            team.updatePassword(req);
+        }
+        return TEAM_MAPPER.toDto(team);
+    }
+
     public void validateTeamAdmin(Long teamId, Long memberId) {
         if (!Objects.equals(findById(teamId).getCreatedBy(), memberId)) {
             throw new GeneralException(TEAM_NO_AUTHORITY);
@@ -53,7 +64,8 @@ public class TeamService {
 
     private Team insert(CreateTeamReq req, Long rootFolderId) {
         TimeSlot timeSlot = timeSlotRepository.save(TimeSlot.builder().build());
-        return teamRepository.save(TEAM_REQ_MAPPER.toEntity(req, rootFolderId, timeSlot));
+        String generatedCode = UUID.randomUUID().toString().replaceAll("-", "").substring(0, 8).toUpperCase();
+        return teamRepository.save(TEAM_REQ_MAPPER.toEntity(req, generatedCode, rootFolderId, timeSlot));
     }
 
     private Team findByTeamCode(String teamCode) {

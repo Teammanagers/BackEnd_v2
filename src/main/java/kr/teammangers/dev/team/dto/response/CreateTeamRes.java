@@ -4,6 +4,7 @@ import lombok.Builder;
 
 @Builder
 public record CreateTeamRes(
-        Long createdTeamId
+        Long createdTeamId,
+        Long teamCode
 ) {
 }

@@ -6,6 +6,7 @@ import kr.teammangers.dev.global.common.response.ApiRes;
 import kr.teammangers.dev.team.application.facade.TeamApiFacade;
 import kr.teammangers.dev.team.dto.request.CreateTeamReq;
 import kr.teammangers.dev.team.dto.request.JoinTeamReq;
+import kr.teammangers.dev.team.dto.request.UpdateTeamPasswordReq;
 import kr.teammangers.dev.team.dto.request.UpdateTeamReq;
 import kr.teammangers.dev.team.dto.response.*;
 import lombok.RequiredArgsConstructor;
@@ -29,12 +30,6 @@ public class TeamController {
             @RequestPart(name = "imageFile", required = false) final MultipartFile imageFile
     ) {
         CreateTeamRes result = teamApiFacade.createTeam(auth.memberDto().id(), req, imageFile);
-        return ApiRes.onSuccess(result);
-    }
-
-    @GetMapping("/code")
-    public ApiRes<GetTeamCodeRes> generateTeamCode() {
-        GetTeamCodeRes result = teamApiFacade.generateTeamCode();
         return ApiRes.onSuccess(result);
     }
 
@@ -75,6 +70,14 @@ public class TeamController {
             @PathVariable("teamId") final Long teamId
     ) {
         List<GetMemberRes> result = teamApiFacade.getMemberListByTeamId(teamId);
+        return ApiRes.onSuccess(result);
+    }
+
+    @PatchMapping("/password")
+    public ApiRes<UpdateTeamRes> updateTeamPassword(
+            @RequestBody final UpdateTeamPasswordReq req
+    ) {
+        UpdateTeamRes result = teamApiFacade.updateTeamPassword(req);
         return ApiRes.onSuccess(result);
     }
 

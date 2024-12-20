@@ -4,6 +4,7 @@ import lombok.Builder;
 
 @Builder
 public record JoinTeamRes(
-        Long createdTeamMemberId
+        Long createdTeamMemberId,
+        Long teamId
 ) {
 }

@@ -3,6 +3,7 @@ package kr.teammangers.dev.team.domain.entity;
 import jakarta.persistence.*;
 import kr.teammangers.dev.global.common.base.BaseField;
 import kr.teammangers.dev.schedule.domain.entity.TimeSlot;
+import kr.teammangers.dev.team.dto.request.UpdateTeamPasswordReq;
 import kr.teammangers.dev.team.dto.request.UpdateTeamReq;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
@@ -40,5 +41,9 @@ public class Team extends BaseField {
 
     public void update(UpdateTeamReq req) {
         this.title = req.title();
+    }
+
+    public void updatePassword(UpdateTeamPasswordReq req) {
+        this.password = req.password();
     }
 }

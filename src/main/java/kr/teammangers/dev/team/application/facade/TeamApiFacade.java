@@ -18,6 +18,7 @@ import kr.teammangers.dev.team.application.service.TeamService;
 import kr.teammangers.dev.team.dto.TeamDto;
 import kr.teammangers.dev.team.dto.request.CreateTeamReq;
 import kr.teammangers.dev.team.dto.request.JoinTeamReq;
+import kr.teammangers.dev.team.dto.request.UpdateTeamPasswordReq;
 import kr.teammangers.dev.team.dto.request.UpdateTeamReq;
 import kr.teammangers.dev.team.dto.response.*;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +28,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
 import static kr.teammangers.dev.memo.constant.FolderConstant.ROOT_FOLDER;
 import static kr.teammangers.dev.s3.constant.S3Constant.TEAM_PROFILE_PATH;
@@ -71,11 +71,6 @@ public class TeamApiFacade {
         req.teamTagList().forEach(tagName -> saveTeamTagFromTagName(teamDto.id(), tagName));
 
         return TEAM_RES_MAPPER.toCreate(teamDto);
-    }
-
-    public GetTeamCodeRes generateTeamCode() {
-        String generatedCode = UUID.randomUUID().toString().replaceAll("-", "").substring(0, 8).toUpperCase();
-        return TEAM_RES_MAPPER.toGetTeamCode(generatedCode);
     }
 
     public GetTeamRes getTeamByTeamCode(String teamCode) {
@@ -125,7 +120,6 @@ public class TeamApiFacade {
         // 팀 타이틀 수정
         TeamDto teamDto = teamService.update(req);
 
-
         // 팀 프로필 이미지 수정
         if (imageFile != null) {
             teamImgService.delete(req.teamId());        // TODO: 스케줄링으로 일정 기간마다 벌크로 제거해야 할듯
@@ -133,24 +127,12 @@ public class TeamApiFacade {
             teamImgService.save(req.teamId(), s3FileInfoDto.id());
         }
 
-//        // 태그 수정
-//        List<String> existingTagNames = teamTagService.findAllTagDtoByTeamId(req.teamId()).stream()
-//                .map(TagDto::name).toList();
-//
-//        Optional.ofNullable(req.tagList())
-//                .ifPresentOrElse(requestTagNames -> {
-//                    List<String> tagsToAdd = requestTagNames.stream()
-//                            .filter(tagName -> !existingTagNames.contains(tagName))
-//                            .toList();
-//
-//                    List<String> tagsToRemove = existingTagNames.stream()
-//                            .filter(tagName -> !req.tagList().contains(tagName))
-//                            .toList();
-//
-//                    tagsToAdd.forEach(tagName -> saveTeamTagFromTagName(req.teamId(), tagName));
-//                    tagsToRemove.forEach(tagName -> teamTagService.deleteAllByOptions(req.teamId(), tagName));
-//                }, () -> teamTagService.deleteAllByOptions(req.teamId(), null));
+        return TEAM_RES_MAPPER.toUpdate(teamDto);
+    }
 
+    @Transactional
+    public UpdateTeamRes updateTeamPassword(UpdateTeamPasswordReq req) {
+        TeamDto teamDto = teamService.updatePassword(req);
         return TEAM_RES_MAPPER.toUpdate(teamDto);
     }
 
@@ -165,7 +147,7 @@ public class TeamApiFacade {
             throw new GeneralException(ErrorStatus.TEAM_ALREADY_JOIN);
         }
         Long teamMemberId = teamMemberService.save(teamId, memberId);
-        return TEAM_RES_MAPPER.toJoin(teamMemberId);
+        return TEAM_RES_MAPPER.toJoin(teamMemberId, teamDto.id());
     }
 
     private boolean validPassword(TeamDto teamDto, String password) {
@@ -180,6 +162,5 @@ public class TeamApiFacade {
         TagDto tagDto = tagService.findDtoOrSave(tagName, TEAM);
         teamTagService.save(teamId, tagDto.id());
     }
-
 
 }
