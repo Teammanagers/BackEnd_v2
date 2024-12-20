@@ -9,7 +9,6 @@ import kr.teammangers.dev.team.domain.repository.TeamRepository;
 import kr.teammangers.dev.team.dto.TeamDto;
 import kr.teammangers.dev.team.dto.request.CreateTeamReq;
 import kr.teammangers.dev.team.dto.request.UpdateTeamReq;
-import kr.teammangers.dev.team.dto.request.UpdateTeamTitleReq;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

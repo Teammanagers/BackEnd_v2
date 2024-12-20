@@ -1,12 +1,11 @@
 package kr.teammangers.dev.tag.application.service;
 
-import kr.teammangers.dev.global.error.code.ErrorStatus;
 import kr.teammangers.dev.global.error.exception.GeneralException;
 import kr.teammangers.dev.tag.domain.entity.Tag;
 import kr.teammangers.dev.tag.domain.entity.TeamTag;
-import kr.teammangers.dev.tag.dto.TagDto;
 import kr.teammangers.dev.tag.domain.repository.TagRepository;
 import kr.teammangers.dev.tag.domain.repository.team.TeamTagRepository;
+import kr.teammangers.dev.tag.dto.TagDto;
 import kr.teammangers.dev.team.domain.entity.Team;
 import kr.teammangers.dev.team.domain.repository.TeamRepository;
 import lombok.RequiredArgsConstructor;
@@ -52,7 +51,4 @@ public class TeamTagService {
         teamTagRepository.deleteById(teamTagId);
     }
 
-    public void deleteAllByOptions(Long teamId, String tagName) {
-        teamTagRepository.deleteAllByOptions(teamId, tagName);
-    }
 }
