@@ -30,8 +30,6 @@ public interface TeamResMapper {
     @Mapping(target = "grantedRoleList", source = "grantedRoleList")
     GetMemberRes toGetMember(Long teamMemberId, MemberDto memberDto, String imgUrl, List<TagDto> grantedRoleList);
 
-    GetTeamCodeRes toGetTeamCode(String teamCode);
-
     @Mapping(target = "updatedTeamId", source = "id")
     UpdateTeamRes toUpdate(TeamDto teamDto);
 
