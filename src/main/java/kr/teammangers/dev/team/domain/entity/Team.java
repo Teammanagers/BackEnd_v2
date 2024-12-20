@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import kr.teammangers.dev.global.common.base.BaseField;
 import kr.teammangers.dev.schedule.domain.entity.TimeSlot;
 import kr.teammangers.dev.team.dto.request.UpdateTeamReq;
+import kr.teammangers.dev.team.dto.request.UpdateTeamTitleReq;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;

@@ -38,11 +38,19 @@ public class TeamController {
         return ApiRes.onSuccess(result);
     }
 
-    @GetMapping
+    @GetMapping("/by-code")
     public ApiRes<GetTeamRes> getTeamByTeamCode(
             @RequestParam("teamCode") final String teamCode
     ) {
         GetTeamRes result = teamApiFacade.getTeamByTeamCode(teamCode);
+        return ApiRes.onSuccess(result);
+    }
+
+    @GetMapping("/by-id")
+    public ApiRes<GetTeamRes> getTeamById(
+            @RequestParam("teamId") final Long teamId
+    ) {
+        GetTeamRes result = teamApiFacade.getTeamByTeamId(teamId);
         return ApiRes.onSuccess(result);
     }
 

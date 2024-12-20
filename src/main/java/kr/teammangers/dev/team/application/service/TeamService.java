@@ -5,10 +5,11 @@ import kr.teammangers.dev.global.error.exception.GeneralException;
 import kr.teammangers.dev.schedule.domain.entity.TimeSlot;
 import kr.teammangers.dev.schedule.domain.repository.TimeSlotRepository;
 import kr.teammangers.dev.team.domain.entity.Team;
+import kr.teammangers.dev.team.domain.repository.TeamRepository;
 import kr.teammangers.dev.team.dto.TeamDto;
 import kr.teammangers.dev.team.dto.request.CreateTeamReq;
 import kr.teammangers.dev.team.dto.request.UpdateTeamReq;
-import kr.teammangers.dev.team.domain.repository.TeamRepository;
+import kr.teammangers.dev.team.dto.request.UpdateTeamTitleReq;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -40,10 +41,11 @@ public class TeamService {
 
     public TeamDto update(UpdateTeamReq req) {
         Team team = findById(req.teamId());
-        team.update(req);
+        if (req.title() != null && !req.title().isEmpty()) {
+            team.update(req);
+        }
         return TEAM_MAPPER.toDto(team);
     }
-
     public void validateTeamAdmin(Long teamId, Long memberId) {
         if (!Objects.equals(findById(teamId).getCreatedBy(), memberId)) {
             throw new GeneralException(TEAM_NO_AUTHORITY);
@@ -64,5 +66,6 @@ public class TeamService {
         return teamRepository.findById(id)
                 .orElseThrow(() -> new GeneralException(ErrorStatus.TEAM_NOT_FOUND));
     }
+
 
 }

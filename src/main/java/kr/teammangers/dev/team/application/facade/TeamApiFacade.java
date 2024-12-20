@@ -27,7 +27,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.UUID;
 
 import static kr.teammangers.dev.memo.constant.FolderConstant.ROOT_FOLDER;
@@ -123,7 +122,9 @@ public class TeamApiFacade {
 
     @Transactional
     public UpdateTeamRes updateTeam(UpdateTeamReq req, MultipartFile imageFile) {
+        // 팀 타이틀 수정
         TeamDto teamDto = teamService.update(req);
+
 
         // 팀 프로필 이미지 수정
         if (imageFile != null) {
@@ -132,23 +133,23 @@ public class TeamApiFacade {
             teamImgService.save(req.teamId(), s3FileInfoDto.id());
         }
 
-        // 태그 수정
-        List<String> existingTagNames = teamTagService.findAllTagDtoByTeamId(req.teamId()).stream()
-                .map(TagDto::name).toList();
-
-        Optional.ofNullable(req.tagList())
-                .ifPresentOrElse(requestTagNames -> {
-                    List<String> tagsToAdd = requestTagNames.stream()
-                            .filter(tagName -> !existingTagNames.contains(tagName))
-                            .toList();
-
-                    List<String> tagsToRemove = existingTagNames.stream()
-                            .filter(tagName -> !req.tagList().contains(tagName))
-                            .toList();
-
-                    tagsToAdd.forEach(tagName -> saveTeamTagFromTagName(req.teamId(), tagName));
-                    tagsToRemove.forEach(tagName -> teamTagService.deleteAllByOptions(req.teamId(), tagName));
-                }, () -> teamTagService.deleteAllByOptions(req.teamId(), null));
+//        // 태그 수정
+//        List<String> existingTagNames = teamTagService.findAllTagDtoByTeamId(req.teamId()).stream()
+//                .map(TagDto::name).toList();
+//
+//        Optional.ofNullable(req.tagList())
+//                .ifPresentOrElse(requestTagNames -> {
+//                    List<String> tagsToAdd = requestTagNames.stream()
+//                            .filter(tagName -> !existingTagNames.contains(tagName))
+//                            .toList();
+//
+//                    List<String> tagsToRemove = existingTagNames.stream()
+//                            .filter(tagName -> !req.tagList().contains(tagName))
+//                            .toList();
+//
+//                    tagsToAdd.forEach(tagName -> saveTeamTagFromTagName(req.teamId(), tagName));
+//                    tagsToRemove.forEach(tagName -> teamTagService.deleteAllByOptions(req.teamId(), tagName));
+//                }, () -> teamTagService.deleteAllByOptions(req.teamId(), null));
 
         return TEAM_RES_MAPPER.toUpdate(teamDto);
     }
@@ -179,5 +180,6 @@ public class TeamApiFacade {
         TagDto tagDto = tagService.findDtoOrSave(tagName, TEAM);
         teamTagService.save(teamId, tagDto.id());
     }
+
 
 }

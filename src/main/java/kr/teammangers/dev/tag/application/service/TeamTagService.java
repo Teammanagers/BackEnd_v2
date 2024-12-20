@@ -1,5 +1,7 @@
 package kr.teammangers.dev.tag.application.service;
 
+import kr.teammangers.dev.global.error.code.ErrorStatus;
+import kr.teammangers.dev.global.error.exception.GeneralException;
 import kr.teammangers.dev.tag.domain.entity.Tag;
 import kr.teammangers.dev.tag.domain.entity.TeamTag;
 import kr.teammangers.dev.tag.dto.TagDto;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static kr.teammangers.dev.global.error.code.ErrorStatus.TEAM_TAG_NOT_FOUND;
 import static kr.teammangers.dev.tag.mapper.TagMapper.TAG_MAPPER;
 import static kr.teammangers.dev.tag.mapper.TeamTagMapper.TEAM_TAG_MAPPER;
 
@@ -29,6 +32,12 @@ public class TeamTagService {
         return teamTagRepository.save(TEAM_TAG_MAPPER.toEntity(team, tag)).getId();
     }
 
+    public Long findIdByTagIdAndTeamId(Long tagId, Long teamId) {
+        TeamTag teamTag = teamTagRepository.findByTag_IdAndTeam_Id(tagId, teamId)
+                .orElseThrow(() -> new GeneralException(TEAM_TAG_NOT_FOUND));
+        return teamTag.getId();
+    }
+
     public List<TagDto> findAllTagDtoByTeamId(Long teamId) {
         return findAllByTeamId(teamId).stream()
                 .map(teamTag -> TAG_MAPPER.toDto(teamTag.getTag()))
@@ -37,6 +46,10 @@ public class TeamTagService {
 
     private List<TeamTag> findAllByTeamId(Long teamId) {
         return teamTagRepository.findAllByTeam_Id(teamId);
+    }
+
+    public void delete(Long teamTagId) {
+        teamTagRepository.deleteById(teamTagId);
     }
 
     public void deleteAllByOptions(Long teamId, String tagName) {
