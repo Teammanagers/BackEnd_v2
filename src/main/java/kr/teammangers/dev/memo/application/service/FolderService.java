@@ -2,10 +2,10 @@ package kr.teammangers.dev.memo.application.service;
 
 import kr.teammangers.dev.global.error.exception.GeneralException;
 import kr.teammangers.dev.memo.domain.entity.Folder;
-import kr.teammangers.dev.memo.dto.FolderDto;
-import kr.teammangers.dev.memo.dto.request.UpdateFolderReq;
 import kr.teammangers.dev.memo.domain.repository.FolderRepository;
 import kr.teammangers.dev.memo.domain.repository.MemoRepository;
+import kr.teammangers.dev.memo.dto.FolderDto;
+import kr.teammangers.dev.memo.dto.request.UpdateFolderReq;
 import kr.teammangers.dev.team.domain.repository.TeamRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -37,10 +37,10 @@ public class FolderService {
     }
 
     public FolderDto findDtoByTeamId(Long teamId) {
-        Long rootFolderId = teamRepository.findById(teamId)
+        Folder rootFolder = teamRepository.findById(teamId)
                 .orElseThrow(() -> new GeneralException(TEAM_NOT_FOUND))
-                .getRootFolderId();
-        return findDtoById(rootFolderId);
+                .getRootFolder();
+        return FOLDER_MAPPER.toDto(rootFolder);
     }
 
     public FolderDto findDtoById(Long folderId) {

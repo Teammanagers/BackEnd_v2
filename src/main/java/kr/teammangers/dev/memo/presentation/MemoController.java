@@ -38,6 +38,14 @@ public class MemoController {
         return ApiRes.onSuccess(result);
     }
 
+    @GetMapping("/fixed")
+    public ApiRes<List<GetMemoRes>> getMemoFixed(
+            @RequestParam("teamId") final Long teamId
+    ) {
+        List<GetMemoRes> result = memoApiFacade.getMemoListByFixed(teamId);
+        return ApiRes.onSuccess(result);
+    }
+
     @PatchMapping
     public ApiRes<UpdateMemoRes> updateMemo(
             @AuthenticationPrincipal final AuthInfo auth,

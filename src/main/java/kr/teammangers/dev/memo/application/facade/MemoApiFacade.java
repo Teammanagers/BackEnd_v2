@@ -48,6 +48,15 @@ public class MemoApiFacade {
                 }).toList();
     }
 
+    public List<GetMemoRes> getMemoListByFixed(Long teamId) {
+        List<MemoDto> memoDtoList =  memoService.findAllDtoByFixed(teamId);
+        return memoDtoList.stream()
+                .map(memoDto -> {
+                    List<TagDto> tagDtoList = memoTagService.findAllTagDtoByMemoId(memoDto.id());
+                    return MEMO_RES_MAPPER.toGet(memoDto, tagDtoList);
+                }).toList();
+    }
+
     @Transactional
     public UpdateMemoRes updateMemo(Long memberId, UpdateMemoReq req) {
         memoService.validateMemoAdmin(req.memoId(), memberId);

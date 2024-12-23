@@ -2,6 +2,7 @@ package kr.teammangers.dev.team.domain.entity;
 
 import jakarta.persistence.*;
 import kr.teammangers.dev.global.common.base.BaseField;
+import kr.teammangers.dev.memo.domain.entity.Folder;
 import kr.teammangers.dev.schedule.domain.entity.TimeSlot;
 import kr.teammangers.dev.team.dto.request.UpdateTeamPasswordReq;
 import kr.teammangers.dev.team.dto.request.UpdateTeamReq;
@@ -32,8 +33,10 @@ public class Team extends BaseField {
     @Column(name = "code")
     private String code;
 
-    @Column(name = "root_folder_id", nullable = false)
-    private Long rootFolderId;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "root_folder_id")
+    private Folder rootFolder;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "time_slot_id", nullable = false)

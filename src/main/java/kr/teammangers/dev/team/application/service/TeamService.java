@@ -2,6 +2,8 @@ package kr.teammangers.dev.team.application.service;
 
 import kr.teammangers.dev.global.error.code.ErrorStatus;
 import kr.teammangers.dev.global.error.exception.GeneralException;
+import kr.teammangers.dev.memo.domain.entity.Folder;
+import kr.teammangers.dev.memo.domain.repository.FolderRepository;
 import kr.teammangers.dev.schedule.domain.entity.TimeSlot;
 import kr.teammangers.dev.schedule.domain.repository.TimeSlotRepository;
 import kr.teammangers.dev.team.domain.entity.Team;
@@ -26,9 +28,10 @@ public class TeamService {
 
     private final TeamRepository teamRepository;
     private final TimeSlotRepository timeSlotRepository;
+    private final FolderRepository folderRepository;
 
-    public TeamDto save(CreateTeamReq req, Long rootFolderId) {
-        Team team = insert(req, rootFolderId);
+    public TeamDto save(CreateTeamReq req, Long folderId) {
+        Team team = insert(req, folderId);
         return TEAM_MAPPER.toDto(team);
     }
 
@@ -62,10 +65,11 @@ public class TeamService {
         }
     }
 
-    private Team insert(CreateTeamReq req, Long rootFolderId) {
+    private Team insert(CreateTeamReq req, Long folderId) {
         TimeSlot timeSlot = timeSlotRepository.save(TimeSlot.builder().build());
         String generatedCode = UUID.randomUUID().toString().replaceAll("-", "").substring(0, 8).toUpperCase();
-        return teamRepository.save(TEAM_REQ_MAPPER.toEntity(req, generatedCode, rootFolderId, timeSlot));
+        Folder folder = folderRepository.getReferenceById(folderId);
+        return teamRepository.save(TEAM_REQ_MAPPER.toEntity(req, generatedCode, folder, timeSlot));
     }
 
     private Team findByTeamCode(String teamCode) {

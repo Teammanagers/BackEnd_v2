@@ -3,11 +3,13 @@ package kr.teammangers.dev.memo.application.service;
 import kr.teammangers.dev.global.error.exception.GeneralException;
 import kr.teammangers.dev.memo.domain.entity.Folder;
 import kr.teammangers.dev.memo.domain.entity.Memo;
+import kr.teammangers.dev.memo.domain.repository.FolderRepository;
+import kr.teammangers.dev.memo.domain.repository.MemoRepository;
 import kr.teammangers.dev.memo.dto.MemoDto;
 import kr.teammangers.dev.memo.dto.request.CreateMemoReq;
 import kr.teammangers.dev.memo.dto.request.UpdateMemoReq;
-import kr.teammangers.dev.memo.domain.repository.FolderRepository;
-import kr.teammangers.dev.memo.domain.repository.MemoRepository;
+import kr.teammangers.dev.team.domain.entity.Team;
+import kr.teammangers.dev.team.domain.repository.TeamRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,14 +26,20 @@ public class MemoService {
 
     private final MemoRepository memoRepository;
     private final FolderRepository folderRepository;
+    private final TeamRepository teamRepository;
 
     public MemoDto save(CreateMemoReq req) {
-        Folder folder = folderRepository.getReferenceById(req.folderId());
-        return MEMO_MAPPER.toDto(insert(req, folder));
+        return MEMO_MAPPER.toDto(insert(req));
     }
 
     public List<MemoDto> findAllDtoByFolderId(Long folderId, Boolean isFixed) {
         return memoRepository.findAllByOptions(folderId, isFixed).stream()
+                .map(MEMO_MAPPER::toDto)
+                .toList();
+    }
+
+    public List<MemoDto> findAllDtoByFixed(Long teamId) {
+        return memoRepository.findAllByMemoListByFixed(teamId).stream()
                 .map(MEMO_MAPPER::toDto)
                 .toList();
     }
@@ -58,13 +66,16 @@ public class MemoService {
         return memo.getIsFixed();
     }
 
-    private Memo insert(CreateMemoReq req, Folder folder) {
-        return memoRepository.save(MEMO_MAPPER.toEntity(req, folder));
+    private Memo insert(CreateMemoReq req) {
+        Folder folder = folderRepository.getReferenceById(req.folderId());
+        Team team = teamRepository.getReferenceById(req.teamId());
+        return memoRepository.save(MEMO_MAPPER.toEntity(req, folder, team));
     }
 
     private Memo findById(Long id) {
         return memoRepository.findById(id)
                 .orElseThrow(() -> new GeneralException(MEMO_NOT_FOUND));
     }
+
 
 }

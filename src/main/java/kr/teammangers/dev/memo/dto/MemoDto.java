@@ -14,6 +14,7 @@ public record MemoDto(
         Boolean isFixed,
 
         Long folderId,
+        Long teamId,
 
         @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
         LocalDateTime createdAt,
