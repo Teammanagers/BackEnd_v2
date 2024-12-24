@@ -5,10 +5,7 @@ import kr.teammangers.dev.tag.application.service.TeamMemberTagService;
 import kr.teammangers.dev.tag.application.service.TeamTagService;
 import kr.teammangers.dev.tag.domain.enums.TagType;
 import kr.teammangers.dev.tag.dto.TagDto;
-import kr.teammangers.dev.tag.dto.request.CreateTeamMemberTagReq;
-import kr.teammangers.dev.tag.dto.request.CreateTeamTagReq;
-import kr.teammangers.dev.tag.dto.request.DeleteTeamTagReq;
-import kr.teammangers.dev.tag.dto.request.UpdateTeamTagReq;
+import kr.teammangers.dev.tag.dto.request.*;
 import kr.teammangers.dev.tag.dto.response.CreateTagRes;
 import kr.teammangers.dev.tag.dto.response.DeleteTagRes;
 import kr.teammangers.dev.tag.dto.response.UpdateTagRes;
@@ -55,6 +52,16 @@ public class TagApiFacade {
     }
 
     @Transactional
+    public UpdateTagRes updateTeamMemberTag(UpdateTeamMemberTagReq req) {
+        deleteTeamMemberTag(req.tagId(), req.teamId(), req.memberId());
+        TagDto tagDto = tagService.findDtoOrSave(req.tagName(), TagType.TEAM_MEMBER);
+        Long newTeamMemberTagId = teamMemberTagService.save(req.memberId(), req.teamId(), tagDto.id());
+        return UpdateTagRes.builder()
+                .updatedTargetId(newTeamMemberTagId)
+                .build();
+    }
+
+    @Transactional
     public DeleteTagRes deleteTeamTag(DeleteTeamTagReq req) {
         Long deletedId = deleteTeamTag(req.tagId(), req.teamId());
         return DeleteTagRes.builder()
@@ -62,10 +69,24 @@ public class TagApiFacade {
                 .build();
     }
 
-    private Long deleteTeamTag(Long tagId, Long targetId) {
-        Long teamTagId = teamTagService.findIdByTagIdAndTeamId(tagId, targetId);
+    @Transactional
+    public DeleteTagRes deleteTeamMemberTag(DeleteTeamMemberTagReq req) {
+        Long deletedId = deleteTeamMemberTag(req.tagId(), req.teamId(), req.memberId());
+        return DeleteTagRes.builder()
+                .deletedTargetId(deletedId)
+                .build();
+    }
+    
+    private Long deleteTeamTag(Long tagId, Long teamId) {
+        Long teamTagId = teamTagService.findIdByTagIdAndTeamId(tagId, teamId);
         teamTagService.delete(teamTagId);
         return teamTagId;
+    }
+
+    private Long deleteTeamMemberTag(Long tagId, Long teamId, Long memberId) {
+        Long teamMemberTagId = teamMemberTagService.findIdByTagIdAndTeamIdAndMemberId(tagId, teamId, memberId);
+        teamMemberTagService.delete(teamMemberTagId);
+        return teamMemberTagId;
     }
 
 }

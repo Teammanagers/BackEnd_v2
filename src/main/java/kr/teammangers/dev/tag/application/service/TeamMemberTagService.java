@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import static kr.teammangers.dev.global.error.code.ErrorStatus.TEAM_MEMBER_NOT_FOUND;
+import static kr.teammangers.dev.global.error.code.ErrorStatus.TEAM_MEMBER_TAG_NOT_FOUND;
 import static kr.teammangers.dev.tag.mapper.TeamMemberTagMapper.TEAM_MEMBER_TAG_MAPPER;
 
 @Service
@@ -33,10 +34,22 @@ public class TeamMemberTagService {
 
     }
 
+    public void delete(Long teamMemberTagId) {
+        teamMemberTagRepository.deleteById(teamMemberTagId);
+    }
+
     public List<TagDto> findAllTagDtoByTeamMemberId(Long teamMemberId) {
         return teamMemberTagRepository.findAllByTeamMember_Id(teamMemberId).stream()
                 .map(TeamMemberTag::getTag)
                 .map(TagMapper.TAG_MAPPER::toDto)
                 .toList();
+    }
+
+    public Long findIdByTagIdAndTeamIdAndMemberId(Long tagId, Long teamId, Long memberId) {
+        TeamMember teamMember = teamMemberRepository.findByTeam_IdAndMember_Id(teamId, memberId)
+                .orElseThrow(() -> new GeneralException(TEAM_MEMBER_NOT_FOUND));
+        TeamMemberTag teamMemberTag = teamMemberTagRepository.findByTeamMember_IdAndTag_Id(teamMember.getId(), tagId)
+                .orElseThrow(() -> new GeneralException(TEAM_MEMBER_TAG_NOT_FOUND));
+        return teamMemberTag.getId();
     }
 }

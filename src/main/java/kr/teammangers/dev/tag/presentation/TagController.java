@@ -2,10 +2,7 @@ package kr.teammangers.dev.tag.presentation;
 
 import kr.teammangers.dev.global.common.response.ApiRes;
 import kr.teammangers.dev.tag.application.facade.TagApiFacade;
-import kr.teammangers.dev.tag.dto.request.CreateTeamMemberTagReq;
-import kr.teammangers.dev.tag.dto.request.CreateTeamTagReq;
-import kr.teammangers.dev.tag.dto.request.DeleteTeamTagReq;
-import kr.teammangers.dev.tag.dto.request.UpdateTeamTagReq;
+import kr.teammangers.dev.tag.dto.request.*;
 import kr.teammangers.dev.tag.dto.response.CreateTagRes;
 import kr.teammangers.dev.tag.dto.response.DeleteTagRes;
 import kr.teammangers.dev.tag.dto.response.UpdateTagRes;
@@ -43,11 +40,27 @@ public class TagController {
         return ApiRes.onSuccess(result);
     }
 
+    @PatchMapping("/team-member")
+    public ApiRes<UpdateTagRes> updateTeamMemberTag(
+            @RequestBody final UpdateTeamMemberTagReq req
+    ) {
+        UpdateTagRes result = tagApiFacade.updateTeamMemberTag(req);
+        return ApiRes.onSuccess(result);
+    }
+
     @DeleteMapping("/team")
     public ApiRes<DeleteTagRes> deleteTeamTag(
             @RequestBody final DeleteTeamTagReq req
     ) {
         DeleteTagRes result = tagApiFacade.deleteTeamTag(req);
+        return ApiRes.onSuccess(result);
+    }
+
+    @DeleteMapping("/team-member")
+    public ApiRes<DeleteTagRes> deleteTeamMemberTag(
+            @RequestBody final DeleteTeamMemberTagReq req
+    ) {
+        DeleteTagRes result = tagApiFacade.deleteTeamMemberTag(req);
         return ApiRes.onSuccess(result);
     }
 
