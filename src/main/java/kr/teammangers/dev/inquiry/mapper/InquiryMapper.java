@@ -1,8 +1,8 @@
 package kr.teammangers.dev.inquiry.mapper;
 
-import kr.teammangers.dev.inquiry.domain.Inquiry;
+import kr.teammangers.dev.inquiry.domain.entity.Inquiry;
 import kr.teammangers.dev.inquiry.dto.InquiryDto;
-import kr.teammangers.dev.inquiry.dto.req.CreateInquiryReq;
+import kr.teammangers.dev.inquiry.dto.request.CreateInquiryReq;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;

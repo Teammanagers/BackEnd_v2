@@ -1,8 +1,8 @@
 package kr.teammangers.dev.calendar.mapper;
 
-import kr.teammangers.dev.calendar.domain.Plan;
+import kr.teammangers.dev.calendar.domain.entity.Plan;
 import kr.teammangers.dev.calendar.dto.PlanDto;
-import kr.teammangers.dev.calendar.dto.req.CreatePlanReq;
+import kr.teammangers.dev.calendar.dto.request.CreatePlanReq;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;

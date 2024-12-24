@@ -1,7 +1,7 @@
 package kr.teammangers.dev.memo.mapper;
 
 import kr.teammangers.dev.memo.dto.MemoDto;
-import kr.teammangers.dev.memo.dto.res.*;
+import kr.teammangers.dev.memo.dto.response.*;
 import kr.teammangers.dev.tag.dto.TagDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

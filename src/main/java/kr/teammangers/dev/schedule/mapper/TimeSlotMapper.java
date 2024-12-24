@@ -1,6 +1,6 @@
 package kr.teammangers.dev.schedule.mapper;
 
-import kr.teammangers.dev.schedule.domain.TimeSlot;
+import kr.teammangers.dev.schedule.domain.entity.TimeSlot;
 import kr.teammangers.dev.schedule.dto.TimeSlotDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;

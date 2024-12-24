@@ -1,17 +1,17 @@
 package kr.teammangers.dev.auth.mapper;
 
-import kr.teammangers.dev.auth.domain.embed.ProviderInfo;
-import kr.teammangers.dev.auth.dto.OAuth2UserInfo;
-import kr.teammangers.dev.common.payload.code.dto.enums.ErrorStatus;
-import kr.teammangers.dev.common.payload.exception.GeneralException;
+import kr.teammangers.dev.member.domain.embed.ProviderInfo;
+import kr.teammangers.dev.auth.infrastructure.oauth.OAuth2UserInfo;
+import kr.teammangers.dev.global.error.code.ErrorStatus;
+import kr.teammangers.dev.global.error.exception.GeneralException;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 import java.util.Map;
 
-import static kr.teammangers.dev.auth.constants.AttributeConstant.*;
-import static kr.teammangers.dev.auth.constants.ProviderConstant.*;
+import static kr.teammangers.dev.auth.constant.AttributeConstant.*;
+import static kr.teammangers.dev.auth.constant.ProviderConstant.*;
 
 @Mapper(componentModel = "spring")
 public interface ProviderMapper {
@@ -40,6 +40,7 @@ public interface ProviderMapper {
                 .build();
     }
 
+    @SuppressWarnings("unchecked")
     default OAuth2UserInfo ofKakao(final Map<String, Object> attributes) {
         Map<String, Object> info = (Map<String, Object>) ((Map<String, Object>) attributes.get(KAKAO_ACCOUNT)).get(KAKAO_INFO);
         return OAuth2UserInfo.builder()
@@ -49,6 +50,7 @@ public interface ProviderMapper {
                 .build();
     }
 
+    @SuppressWarnings("unchecked")
     default OAuth2UserInfo ofNaver(final Map<String, Object> attributes) {
         Map<String, Object> info = (Map<String, Object>) attributes.get(NAVER_INFO);
         return OAuth2UserInfo.builder()

@@ -1,10 +1,10 @@
 package kr.teammangers.dev.calendar.mapper;
 
 import kr.teammangers.dev.calendar.dto.PlanDto;
-import kr.teammangers.dev.calendar.dto.res.CreatePlanRes;
-import kr.teammangers.dev.calendar.dto.res.DeletePlanRes;
-import kr.teammangers.dev.calendar.dto.res.GetPlanRes;
-import kr.teammangers.dev.calendar.dto.res.UpdatePlanRes;
+import kr.teammangers.dev.calendar.dto.response.CreatePlanRes;
+import kr.teammangers.dev.calendar.dto.response.DeletePlanRes;
+import kr.teammangers.dev.calendar.dto.response.GetPlanRes;
+import kr.teammangers.dev.calendar.dto.response.UpdatePlanRes;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;

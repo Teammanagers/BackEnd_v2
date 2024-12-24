@@ -1,6 +1,6 @@
 package kr.teammangers.dev.schedule.util;
 
-import kr.teammangers.dev.common.payload.exception.GeneralException;
+import kr.teammangers.dev.global.error.exception.GeneralException;
 import kr.teammangers.dev.schedule.dto.TimeRangeDto;
 import kr.teammangers.dev.schedule.dto.TimeSlotDto;
 import lombok.experimental.UtilityClass;
@@ -9,7 +9,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static kr.teammangers.dev.common.payload.code.dto.enums.ErrorStatus.*;
+import static kr.teammangers.dev.global.error.code.ErrorStatus.*;
 
 @UtilityClass
 public class TimeSlotBitUtils {

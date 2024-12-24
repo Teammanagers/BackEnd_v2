@@ -1,10 +1,10 @@
 package kr.teammangers.dev.memo.mapper;
 
 import kr.teammangers.dev.memo.dto.FolderDto;
-import kr.teammangers.dev.memo.dto.res.CreateFolderRes;
-import kr.teammangers.dev.memo.dto.res.DeleteFolderRes;
-import kr.teammangers.dev.memo.dto.res.GetFolderRes;
-import kr.teammangers.dev.memo.dto.res.UpdateFolderRes;
+import kr.teammangers.dev.memo.dto.response.CreateFolderRes;
+import kr.teammangers.dev.memo.dto.response.DeleteFolderRes;
+import kr.teammangers.dev.memo.dto.response.GetFolderRes;
+import kr.teammangers.dev.memo.dto.response.UpdateFolderRes;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
