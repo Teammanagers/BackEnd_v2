@@ -1,8 +1,7 @@
 package kr.teammangers.dev.tag.dto.request;
 
-public record UpdateTagReq(
-        Long tagId,
-        Long targetId,
+public record CreateTeamTagReq(
+        Long teamId,
         String tagName
 ) {
 }

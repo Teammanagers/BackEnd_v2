@@ -1,7 +1,7 @@
 package kr.teammangers.dev.tag.dto.request;
 
-public record DeleteTagReq(
+public record DeleteTeamTagReq(
         Long tagId,
-        Long targetId
+        Long teamId
 ) {
 }

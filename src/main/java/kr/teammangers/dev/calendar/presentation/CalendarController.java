@@ -50,7 +50,7 @@ public class CalendarController {
     public ApiRes<DeletePlanRes> deletePlan(
             @RequestBody final DeletePlanReq req
     ) {
-        DeletePlanRes result = calendarService.deletePlan(req);
+        DeletePlanRes result = calendarService.deletePlan(req);     // TODO: 본인 일정만 삭제하도록 수정 필요
         return ApiRes.onSuccess(result);
     }
 

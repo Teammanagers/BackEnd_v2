@@ -19,7 +19,7 @@ public class MemberController {
 
     private final MemberApiFacade memberApiFacade;
 
-    @PostMapping("/profile")
+    @PostMapping
     public ApiRes<UpdateProfileRes> updateProfile(
             @AuthenticationPrincipal final AuthInfo auth,
             @RequestBody final UpdateProfileReq req
