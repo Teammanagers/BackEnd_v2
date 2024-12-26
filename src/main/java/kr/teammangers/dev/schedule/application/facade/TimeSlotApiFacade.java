@@ -22,9 +22,8 @@ public class TimeSlotApiFacade {
     private final TimeSlotService timeSlotService;
 
     @Transactional
-    public UpdateScheduleRes updateSchedule(Long memberId, Long teamId, UpdateScheduleReq req) {
-        TimeSlotDto timeSlotDto = timeSlotService.update(teamId, memberId, req);
-        return SCHEDULE_RES_MAPPER.toCreate(timeSlotDto);
+    public TimeSlotDto updateSchedule(Long memberId, Long teamId, UpdateScheduleReq req) {
+        return timeSlotService.update(teamId, memberId, req);
     }
 
     public List<GetScheduleRes> getSchedule(Long memberId, Long teamId) {
