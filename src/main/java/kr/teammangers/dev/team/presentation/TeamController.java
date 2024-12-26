@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import kr.teammangers.dev.auth.infrastructure.security.AuthInfo;
 import kr.teammangers.dev.global.common.response.ApiRes;
 import kr.teammangers.dev.team.application.facade.TeamApiFacade;
+import kr.teammangers.dev.team.dto.TeamDto;
 import kr.teammangers.dev.team.dto.request.CreateTeamReq;
 import kr.teammangers.dev.team.dto.request.JoinTeamReq;
 import kr.teammangers.dev.team.dto.request.UpdateTeamPasswordReq;
@@ -24,12 +25,12 @@ public class TeamController {
     private final TeamApiFacade teamApiFacade;
 
     @PostMapping
-    public ApiRes<CreateTeamRes> createTeam(
+    public ApiRes<TeamDto> createTeam(
             @AuthenticationPrincipal final AuthInfo auth,
             @RequestPart(name = "createTeam") @Valid final CreateTeamReq req,
             @RequestPart(name = "imageFile", required = false) final MultipartFile imageFile
     ) {
-        CreateTeamRes result = teamApiFacade.createTeam(auth.memberDto().id(), req, imageFile);
+        TeamDto result = teamApiFacade.createTeam(auth.memberDto().id(), req, imageFile);
         return ApiRes.onSuccess(result);
     }
 
@@ -66,41 +67,40 @@ public class TeamController {
     }
 
     @PatchMapping("/{teamId}/password")
-    public ApiRes<UpdateTeamRes> updateTeamPassword(
+    public ApiRes<TeamDto> updateTeamPassword(
             @PathVariable("teamId") final Long teamId,
             @RequestBody final UpdateTeamPasswordReq req
     ) {
-        UpdateTeamRes result = teamApiFacade.updateTeamPassword(teamId, req);
+        TeamDto result = teamApiFacade.updateTeamPassword(teamId, req);
         return ApiRes.onSuccess(result);
     }
 
     @PatchMapping("/{teamId}")
-    public ApiRes<UpdateTeamRes> updateTeam(
+    public ApiRes<TeamDto> updateTeam(
             @PathVariable("teamId") final Long teamId,
             @RequestPart(name = "updateTeam") final UpdateTeamReq req,
             @RequestPart(name = "imageFile", required = false) final MultipartFile imageFile
     ) {
-        UpdateTeamRes result = teamApiFacade.updateTeam(teamId, req, imageFile);
+        TeamDto result = teamApiFacade.updateTeam(teamId, req, imageFile);
         return ApiRes.onSuccess(result);
     }
 
     @PatchMapping("/{teamId}/complete")
-    public ApiRes<CompleteTeamRes> completeTeam(
+    public ApiRes<TeamDto> completeTeam(
             @PathVariable("teamId") final Long teamId
     ) {
-        CompleteTeamRes result = teamApiFacade.completeTeam(teamId);
+        TeamDto result = teamApiFacade.completeTeam(teamId);
         return ApiRes.onSuccess(result);
     }
 
     @PostMapping("/{teamId}/join")
-    public ApiRes<JoinTeamRes> joinTeam(
+    public ApiRes<TeamDto> joinTeam(
             @AuthenticationPrincipal final AuthInfo auth,
             @PathVariable("teamId") final Long teamId,
             @RequestBody final JoinTeamReq req
     ) {
-        JoinTeamRes result = teamApiFacade.joinTeam(auth.memberDto().id(), teamId, req);
+        TeamDto result = teamApiFacade.joinTeam(auth.memberDto().id(), teamId, req);
         return ApiRes.onSuccess(result);
     }
-
 
 }

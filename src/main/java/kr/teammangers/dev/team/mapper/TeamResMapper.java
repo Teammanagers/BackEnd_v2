@@ -15,10 +15,6 @@ public interface TeamResMapper {
 
     TeamResMapper TEAM_RES_MAPPER = Mappers.getMapper(TeamResMapper.class);
 
-    @Mapping(target = "createdTeamId", source = "id")
-    @Mapping(target = "teamCode", source = "code")
-    CreateTeamRes toCreate(TeamDto teamDto);
-
     @Mapping(target = "team", source = "teamDto")
     @Mapping(target = "imgUrl", source = "imgUrl")
     @Mapping(target = "teamTagList", source = "teamTagList")
@@ -30,14 +26,4 @@ public interface TeamResMapper {
     @Mapping(target = "grantedRoleList", source = "grantedRoleList")
     GetMemberRes toGetMember(Long teamMemberId, MemberDto memberDto, String imgUrl, List<TagDto> grantedRoleList);
 
-    @Mapping(target = "updatedTeamId", source = "id")
-    UpdateTeamRes toUpdate(TeamDto teamDto);
-
-    @Mapping(target = "createdTeamMemberId", source = "teamMemberId")
-    JoinTeamRes toJoin(Long teamMemberId, Long teamId);
-
-    @Mapping(target = "team", source = "teamDto")
-    @Mapping(target = "completedAt", source = "teamDto.updatedAt")
-    @Mapping(target = "completedBy", source = "teamDto.updatedBy")
-    CompleteTeamRes toComplete(TeamDto teamDto);
 }

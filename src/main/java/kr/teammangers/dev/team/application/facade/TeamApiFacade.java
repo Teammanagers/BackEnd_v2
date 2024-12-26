@@ -50,7 +50,7 @@ public class TeamApiFacade {
     private final MemberImgService memberImgService;
 
     @Transactional
-    public CreateTeamRes createTeam(Long authId, CreateTeamReq req, MultipartFile imageFile) {
+    public TeamDto createTeam(Long authId, CreateTeamReq req, MultipartFile imageFile) {
         // root 폴더 생성
         FolderDto folderDto = FolderDto.builder()
                 .name(ROOT_FOLDER)
@@ -70,7 +70,7 @@ public class TeamApiFacade {
         // Tag 생성
         req.teamTagList().forEach(tagName -> saveTeamTagFromTagName(teamDto.id(), tagName));
 
-        return TEAM_RES_MAPPER.toCreate(teamDto);
+        return teamDto;
     }
 
     public GetTeamRes getTeamByTeamCode(String teamCode) {
@@ -116,7 +116,7 @@ public class TeamApiFacade {
     }
 
     @Transactional
-    public UpdateTeamRes updateTeam(Long teamId, UpdateTeamReq req, MultipartFile imageFile) {
+    public TeamDto updateTeam(Long teamId, UpdateTeamReq req, MultipartFile imageFile) {
         // 팀 타이틀 수정
         TeamDto teamDto = teamService.update(req);
 
@@ -127,23 +127,21 @@ public class TeamApiFacade {
             teamImgService.save(teamId, s3FileInfoDto.id());
         }
 
-        return TEAM_RES_MAPPER.toUpdate(teamDto);
+        return teamDto;
     }
 
     @Transactional
-    public UpdateTeamRes updateTeamPassword(Long teamId, UpdateTeamPasswordReq req) {
-        TeamDto teamDto = teamService.updatePassword(teamId, req);
-        return TEAM_RES_MAPPER.toUpdate(teamDto);
+    public TeamDto updateTeamPassword(Long teamId, UpdateTeamPasswordReq req) {
+        return teamService.updatePassword(teamId, req);
     }
 
     @Transactional
-    public CompleteTeamRes completeTeam(Long teamId) {
-        TeamDto teamDto = teamService.complete(teamId);
-        return TEAM_RES_MAPPER.toComplete(teamDto);
+    public TeamDto completeTeam(Long teamId) {
+        return teamService.complete(teamId);
     }
 
     @Transactional
-    public JoinTeamRes joinTeam(Long memberId, Long teamId, JoinTeamReq req) {
+    public TeamDto joinTeam(Long memberId, Long teamId, JoinTeamReq req) {
         TeamDto teamDto = teamService.findDtoById(teamId);
 
         if (validPassword(teamDto, req.password())) {
@@ -152,8 +150,7 @@ public class TeamApiFacade {
         if (isAlreadyJoin(teamDto, memberId)) {
             throw new GeneralException(ErrorStatus.TEAM_ALREADY_JOIN);
         }
-        Long teamMemberId = teamMemberService.save(teamId, memberId);
-        return TEAM_RES_MAPPER.toJoin(teamMemberId, teamDto.id());
+        return teamDto;
     }
 
     private boolean validPassword(TeamDto teamDto, String password) {
