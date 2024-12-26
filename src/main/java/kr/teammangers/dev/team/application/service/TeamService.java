@@ -43,8 +43,8 @@ public class TeamService {
         return TEAM_MAPPER.toDto(findById(id));
     }
 
-    public TeamDto update(UpdateTeamReq req) {
-        Team team = findById(req.teamId());
+    public TeamDto update(Long teamId, UpdateTeamReq req) {
+        Team team = findById(teamId);
         if (req.title() != null && !req.title().isEmpty()) {
             team.update(req);
         }

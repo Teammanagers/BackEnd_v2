@@ -118,7 +118,7 @@ public class TeamApiFacade {
     @Transactional
     public TeamDto updateTeam(Long teamId, UpdateTeamReq req, MultipartFile imageFile) {
         // 팀 타이틀 수정
-        TeamDto teamDto = teamService.update(req);
+        TeamDto teamDto = teamService.update(teamId, req);
 
         // 팀 프로필 이미지 수정
         if (imageFile != null) {
