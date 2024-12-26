@@ -59,6 +59,12 @@ public class TeamService {
         return TEAM_MAPPER.toDto(team);
     }
 
+    public TeamDto complete(Long teamId) {
+        Team team = findById(teamId);
+        team.complete();
+        return TEAM_MAPPER.toDto(team);
+    }
+
     public void validateTeamAdmin(Long teamId, Long memberId) {
         if (!Objects.equals(findById(teamId).getCreatedBy(), memberId)) {
             throw new GeneralException(TEAM_NO_AUTHORITY);

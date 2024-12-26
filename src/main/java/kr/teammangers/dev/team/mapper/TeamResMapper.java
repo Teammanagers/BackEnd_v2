@@ -36,4 +36,8 @@ public interface TeamResMapper {
     @Mapping(target = "createdTeamMemberId", source = "teamMemberId")
     JoinTeamRes toJoin(Long teamMemberId, Long teamId);
 
+    @Mapping(target = "team", source = "teamDto")
+    @Mapping(target = "completedAt", source = "teamDto.updatedAt")
+    @Mapping(target = "completedBy", source = "teamDto.updatedBy")
+    CompleteTeamRes toComplete(TeamDto teamDto);
 }

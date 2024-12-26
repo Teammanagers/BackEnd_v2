@@ -137,6 +137,12 @@ public class TeamApiFacade {
     }
 
     @Transactional
+    public CompleteTeamRes completeTeam(Long teamId) {
+        TeamDto teamDto = teamService.complete(teamId);
+        return TEAM_RES_MAPPER.toComplete(teamDto);
+    }
+
+    @Transactional
     public JoinTeamRes joinTeam(Long memberId, Long teamId, JoinTeamReq req) {
         TeamDto teamDto = teamService.findDtoById(teamId);
 
@@ -162,5 +168,6 @@ public class TeamApiFacade {
         TagDto tagDto = tagService.findDtoOrSave(tagName, TEAM);
         teamTagService.save(teamId, tagDto.id());
     }
+
 
 }

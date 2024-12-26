@@ -90,7 +90,15 @@ public class TeamController {
         return ApiRes.onSuccess(result);
     }
 
-    @PostMapping("/{teamId}")
+    @PatchMapping("/{teamId}/complete")
+    public ApiRes<CompleteTeamRes> completeTeam(
+            @PathVariable("teamId") final Long teamId
+    ) {
+        CompleteTeamRes result = teamApiFacade.completeTeam(teamId);
+        return ApiRes.onSuccess(result);
+    }
+
+    @PostMapping("/{teamId}/join")
     public ApiRes<JoinTeamRes> joinTeam(
             @AuthenticationPrincipal final AuthInfo auth,
             @PathVariable("teamId") final Long teamId,
@@ -99,5 +107,6 @@ public class TeamController {
         JoinTeamRes result = teamApiFacade.joinTeam(auth.memberDto().id(), teamId, req);
         return ApiRes.onSuccess(result);
     }
+
 
 }
