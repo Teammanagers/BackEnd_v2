@@ -5,7 +5,6 @@ import kr.teammangers.dev.schedule.dto.ScheduleDto;
 import kr.teammangers.dev.schedule.dto.TimeSlotDto;
 import kr.teammangers.dev.schedule.dto.request.UpdateScheduleReq;
 import kr.teammangers.dev.schedule.dto.response.GetScheduleRes;
-import kr.teammangers.dev.schedule.dto.response.UpdateScheduleRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
