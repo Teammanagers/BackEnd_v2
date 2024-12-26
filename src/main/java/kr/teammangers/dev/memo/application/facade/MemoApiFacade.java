@@ -3,10 +3,8 @@ package kr.teammangers.dev.memo.application.facade;
 import kr.teammangers.dev.memo.application.service.MemoService;
 import kr.teammangers.dev.memo.dto.MemoDto;
 import kr.teammangers.dev.memo.dto.request.CreateMemoReq;
-import kr.teammangers.dev.memo.dto.request.DeleteMemoReq;
-import kr.teammangers.dev.memo.dto.request.FixMemoReq;
 import kr.teammangers.dev.memo.dto.request.UpdateMemoReq;
-import kr.teammangers.dev.memo.dto.response.*;
+import kr.teammangers.dev.memo.dto.response.GetMemoRes;
 import kr.teammangers.dev.tag.application.service.MemoTagService;
 import kr.teammangers.dev.tag.application.service.TagService;
 import kr.teammangers.dev.tag.dto.TagDto;
@@ -30,13 +28,12 @@ public class MemoApiFacade {
     private final MemoTagService memoTagService;
 
     @Transactional
-    public CreateMemoRes createMemo(CreateMemoReq req) {
-        MemoDto memoDto = memoService.save(req);
+    public MemoDto createMemo(Long folderId, Long teamId, CreateMemoReq req) {
+        MemoDto memoDto = memoService.save(folderId, teamId, req);
         Optional.ofNullable(req.memoTagList())
                 .ifPresent(memoTagList -> memoTagList
                         .forEach(tagName -> saveMemoTagFromTagName(memoDto.id(), tagName)));
-
-        return MEMO_RES_MAPPER.toCreate(memoDto);
+        return memoDto;
     }
 
     public List<GetMemoRes> getMemoList(Long folderId, Boolean isFixed) {
@@ -58,11 +55,11 @@ public class MemoApiFacade {
     }
 
     @Transactional
-    public UpdateMemoRes updateMemo(Long memberId, UpdateMemoReq req) {
-        memoService.validateMemoAdmin(req.memoId(), memberId);
-        MemoDto memoDto = memoService.update(req);
+    public MemoDto updateMemo(Long memberId, Long memoId, UpdateMemoReq req) {
+        memoService.validateMemoAdmin(memoId, memberId);
+        MemoDto memoDto = memoService.update(memoId, req);
 
-        List<String> existingTagNames = memoTagService.findAllTagDtoByMemoId(req.memoId()).stream()
+        List<String> existingTagNames = memoTagService.findAllTagDtoByMemoId(memoId).stream()
                 .map(TagDto::name).toList();
 
         Optional.ofNullable(req.memoTagList())
@@ -79,21 +76,20 @@ public class MemoApiFacade {
                     tagsToRemove.forEach(tagName -> memoTagService.deleteByMemoIdAndTagName(memoDto.id(), tagName));
                 }, () -> memoTagService.deleteAllByMemoId(memoDto.id()));
 
-        return MEMO_RES_MAPPER.toUpdate(memoDto);
+        return memoDto;
     }
 
     @Transactional
-    public DeleteMemoRes deleteMemo(Long memberId, DeleteMemoReq req) {
-        memoService.validateMemoAdmin(req.memoId(), memberId);
-        memoTagService.deleteAllByMemoId(req.memoId());
-        memoService.deleteById(req.memoId());
-        return MEMO_RES_MAPPER.toDelete(req.memoId());
+    public Long deleteMemo(Long memberId, Long memoId) {
+        memoService.validateMemoAdmin(memoId, memberId);
+        memoTagService.deleteAllByMemoId(memoId);
+        memoService.deleteById(memoId);
+        return memoId;
     }
 
     @Transactional
-    public FixMemoRes fixMemo(FixMemoReq req) {
-        Boolean isFixed = memoService.updateFixStatus(req.memoId());
-        return MEMO_RES_MAPPER.toFix(req.memoId(), isFixed);
+    public MemoDto fixMemo(Long memoId) {
+        return memoService.updateFixStatus(memoId);
     }
 
     private void saveMemoTagFromTagName(Long memoId, String tagName) {

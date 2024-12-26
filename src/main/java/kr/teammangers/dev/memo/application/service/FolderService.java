@@ -49,8 +49,8 @@ public class FolderService {
                 .orElseThrow(() -> new GeneralException(FOLDER_NOT_FOUND));
     }
 
-    public FolderDto update(UpdateFolderReq req) {
-        Folder folder = findById(req.folderId());
+    public FolderDto update(Long folderId, UpdateFolderReq req) {
+        Folder folder = findById(folderId);
         folder.update(req);
         return FOLDER_MAPPER.toDto(folder);
     }

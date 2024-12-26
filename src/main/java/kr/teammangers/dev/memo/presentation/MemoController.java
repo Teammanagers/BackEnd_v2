@@ -3,11 +3,10 @@ package kr.teammangers.dev.memo.presentation;
 import kr.teammangers.dev.auth.infrastructure.security.AuthInfo;
 import kr.teammangers.dev.global.common.response.ApiRes;
 import kr.teammangers.dev.memo.application.facade.MemoApiFacade;
+import kr.teammangers.dev.memo.dto.MemoDto;
 import kr.teammangers.dev.memo.dto.request.CreateMemoReq;
-import kr.teammangers.dev.memo.dto.request.DeleteMemoReq;
-import kr.teammangers.dev.memo.dto.request.FixMemoReq;
 import kr.teammangers.dev.memo.dto.request.UpdateMemoReq;
-import kr.teammangers.dev.memo.dto.response.*;
+import kr.teammangers.dev.memo.dto.response.GetMemoRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -21,11 +20,13 @@ public class MemoController {
 
     private final MemoApiFacade memoApiFacade;
 
-    @PostMapping
-    public ApiRes<CreateMemoRes> createMemo(
+    @PostMapping("/folders/{folderId}/teams/{teamId}")
+    public ApiRes<MemoDto> createMemo(
+            @PathVariable("folderId") final Long folderId,
+            @PathVariable("teamId") final Long teamId,
             @RequestBody final CreateMemoReq req
     ) {
-        CreateMemoRes result = memoApiFacade.createMemo(req);
+        MemoDto result = memoApiFacade.createMemo(folderId, teamId, req);
         return ApiRes.onSuccess(result);
     }
 
@@ -46,29 +47,30 @@ public class MemoController {
         return ApiRes.onSuccess(result);
     }
 
-    @PatchMapping
-    public ApiRes<UpdateMemoRes> updateMemo(
+    @PatchMapping("/{memoId}")
+    public ApiRes<MemoDto> updateMemo(
             @AuthenticationPrincipal final AuthInfo auth,
+            @PathVariable("memoId") final Long memoId,
             @RequestBody final UpdateMemoReq req
     ) {
-        UpdateMemoRes result = memoApiFacade.updateMemo(auth.memberDto().id(), req);
+        MemoDto result = memoApiFacade.updateMemo(auth.memberDto().id(), memoId, req);
         return ApiRes.onSuccess(result);
     }
 
-    @PatchMapping("/fixing")
-    public ApiRes<FixMemoRes> fixMemo(
-            @RequestBody final FixMemoReq req
+    @PatchMapping("/{memoId}/fixing")
+    public ApiRes<MemoDto> fixMemo(
+            @PathVariable("memoId") final Long memoId
     ) {
-        FixMemoRes result = memoApiFacade.fixMemo(req);
+        MemoDto result = memoApiFacade.fixMemo(memoId);
         return ApiRes.onSuccess(result);
     }
 
-    @DeleteMapping
-    public ApiRes<DeleteMemoRes> deleteMemo(
+    @DeleteMapping("/{memoId}")
+    public ApiRes<Long> deleteMemo(
             @AuthenticationPrincipal final AuthInfo auth,
-            @RequestBody final DeleteMemoReq req
+            @PathVariable("memoId") final Long memoId
     ) {
-        DeleteMemoRes result = memoApiFacade.deleteMemo(auth.memberDto().id(), req);
+        Long result = memoApiFacade.deleteMemo(auth.memberDto().id(), memoId);
         return ApiRes.onSuccess(result);
     }
 

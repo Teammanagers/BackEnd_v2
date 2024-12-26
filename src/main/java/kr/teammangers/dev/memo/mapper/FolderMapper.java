@@ -22,12 +22,13 @@ public interface FolderMapper {
     FolderDto toDto(Folder folder);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "parentId", source = "parentId")
     @Mapping(target = "depth", source = "depth")
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "createdBy", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "updatedBy", ignore = true)
     @Mapping(target = "useYn", ignore = true)
-    FolderDto toDto(CreateFolderReq req, Integer depth);
+    FolderDto toDto(CreateFolderReq req, Long parentId, Integer depth);
 
 }

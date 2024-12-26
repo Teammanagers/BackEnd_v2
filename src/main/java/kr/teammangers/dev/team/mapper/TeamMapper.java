@@ -12,6 +12,7 @@ public interface TeamMapper {
     TeamMapper TEAM_MAPPER = Mappers.getMapper(TeamMapper.class);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "isCompleted", expression = "java(false)")
     @Mapping(target = "rootFolder", ignore = true)
     @Mapping(target = "timeSlot", ignore = true)
     Team toEntity(TeamDto teamDto);
