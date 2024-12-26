@@ -51,8 +51,8 @@ public class TeamService {
         return TEAM_MAPPER.toDto(team);
     }
 
-    public TeamDto updatePassword(UpdateTeamPasswordReq req) {
-        Team team = findById(req.teamId());
+    public TeamDto updatePassword(Long teamId, UpdateTeamPasswordReq req) {
+        Team team = findById(teamId);
         if(req.password() != null && !req.password().isEmpty()) {
             team.updatePassword(req);
         }

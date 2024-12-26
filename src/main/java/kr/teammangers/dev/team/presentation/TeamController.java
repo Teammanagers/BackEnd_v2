@@ -41,14 +41,6 @@ public class TeamController {
         return ApiRes.onSuccess(result);
     }
 
-    @GetMapping("/by-id")
-    public ApiRes<GetTeamRes> getTeamById(
-            @RequestParam("teamId") final Long teamId
-    ) {
-        GetTeamRes result = teamApiFacade.getTeamByTeamId(teamId);
-        return ApiRes.onSuccess(result);
-    }
-
     @GetMapping("/list")
     public ApiRes<List<GetTeamRes>> getTeamListByMember(
             @AuthenticationPrincipal final AuthInfo auth
@@ -65,7 +57,7 @@ public class TeamController {
         return ApiRes.onSuccess(result);
     }
 
-    @GetMapping("/{teamId}/member")
+    @GetMapping("/{teamId}/member-list")
     public ApiRes<List<GetMemberRes>> getMemberListByTeam(
             @PathVariable("teamId") final Long teamId
     ) {
@@ -73,20 +65,22 @@ public class TeamController {
         return ApiRes.onSuccess(result);
     }
 
-    @PatchMapping("/password")
+    @PatchMapping("/{teamId}/password")
     public ApiRes<UpdateTeamRes> updateTeamPassword(
+            @PathVariable("teamId") final Long teamId,
             @RequestBody final UpdateTeamPasswordReq req
     ) {
-        UpdateTeamRes result = teamApiFacade.updateTeamPassword(req);
+        UpdateTeamRes result = teamApiFacade.updateTeamPassword(teamId, req);
         return ApiRes.onSuccess(result);
     }
 
-    @PatchMapping
+    @PatchMapping("/{teamId}")
     public ApiRes<UpdateTeamRes> updateTeam(
+            @PathVariable("teamId") final Long teamId,
             @RequestPart(name = "updateTeam") final UpdateTeamReq req,
             @RequestPart(name = "imageFile", required = false) final MultipartFile imageFile
     ) {
-        UpdateTeamRes result = teamApiFacade.updateTeam(req, imageFile);
+        UpdateTeamRes result = teamApiFacade.updateTeam(teamId, req, imageFile);
         return ApiRes.onSuccess(result);
     }
 

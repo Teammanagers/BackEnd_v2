@@ -116,23 +116,23 @@ public class TeamApiFacade {
     }
 
     @Transactional
-    public UpdateTeamRes updateTeam(UpdateTeamReq req, MultipartFile imageFile) {
+    public UpdateTeamRes updateTeam(Long teamId, UpdateTeamReq req, MultipartFile imageFile) {
         // 팀 타이틀 수정
         TeamDto teamDto = teamService.update(req);
 
         // 팀 프로필 이미지 수정
         if (imageFile != null) {
-            teamImgService.delete(req.teamId());        // TODO: 스케줄링으로 일정 기간마다 벌크로 제거해야 할듯
+            teamImgService.delete(teamId);        // TODO: 스케줄링으로 일정 기간마다 벌크로 제거해야 할듯
             S3FileInfoDto s3FileInfoDto = s3Service.uploadFile(imageFile, TEAM_PROFILE_PATH);
-            teamImgService.save(req.teamId(), s3FileInfoDto.id());
+            teamImgService.save(teamId, s3FileInfoDto.id());
         }
 
         return TEAM_RES_MAPPER.toUpdate(teamDto);
     }
 
     @Transactional
-    public UpdateTeamRes updateTeamPassword(UpdateTeamPasswordReq req) {
-        TeamDto teamDto = teamService.updatePassword(req);
+    public UpdateTeamRes updateTeamPassword(Long teamId, UpdateTeamPasswordReq req) {
+        TeamDto teamDto = teamService.updatePassword(teamId, req);
         return TEAM_RES_MAPPER.toUpdate(teamDto);
     }
 
