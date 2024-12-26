@@ -19,6 +19,6 @@ public interface TeamMemberTagMapper {
     TeamMemberTag toEntity(TeamMember teamMember, Tag tag);
 
     @Mapping(target = "tagId", source = "teamMemberTag.tag.id")
-    @Mapping(target = "teamMemberId", source = "teamMemberTag.teamMemberTag.id")
+    @Mapping(target = "teamMemberId", source = "teamMemberTag.teamMember.id")
     TeamMemberTagDto toDto(TeamMemberTag teamMemberTag);
 }

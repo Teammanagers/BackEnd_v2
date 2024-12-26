@@ -3,12 +3,8 @@ package kr.teammangers.dev.notice.application.facade;
 import kr.teammangers.dev.notice.application.service.NoticeService;
 import kr.teammangers.dev.notice.dto.NoticeDto;
 import kr.teammangers.dev.notice.dto.request.CreateNoticeReq;
-import kr.teammangers.dev.notice.dto.request.DeleteNoticeReq;
 import kr.teammangers.dev.notice.dto.request.UpdateNoticeReq;
-import kr.teammangers.dev.notice.dto.response.CreateNoticeRes;
-import kr.teammangers.dev.notice.dto.response.DeleteNoticeRes;
 import kr.teammangers.dev.notice.dto.response.GetNoticeRes;
-import kr.teammangers.dev.notice.dto.response.UpdateNoticeRes;
 import kr.teammangers.dev.team.application.service.TeamService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,9 +23,9 @@ public class NoticeApiFacade {
     private final TeamService teamService;
 
     @Transactional
-    public CreateNoticeRes createNotice(Long memberId, Long teamId, CreateNoticeReq req) {
+    public NoticeDto createNotice(Long memberId, Long teamId, CreateNoticeReq req) {
         teamService.validateTeamAdmin(teamId, memberId);
-        return NOTICE_RES_MAPPER.toCreate(noticeService.save(teamId, req.content()));
+        return noticeService.save(teamId, req.content());
     }
 
     public GetNoticeRes getNotice(Long teamId) {
@@ -44,15 +40,15 @@ public class NoticeApiFacade {
     }
 
     @Transactional
-    public UpdateNoticeRes updateNotice(Long memberId, Long teamId, UpdateNoticeReq req) {
+    public NoticeDto updateNotice(Long memberId, Long teamId, Long noticeId, UpdateNoticeReq req) {
         teamService.validateTeamAdmin(teamId, memberId);
-        return NOTICE_RES_MAPPER.toUpdate(noticeService.update(req.noticeId(), req.content()));
+        return noticeService.update(noticeId, req.content());
     }
 
     @Transactional
-    public DeleteNoticeRes deleteNotice(Long memberId, Long teamId, DeleteNoticeReq req) {
+    public Long deleteNotice(Long memberId, Long teamId, Long noticeId) {
         teamService.validateTeamAdmin(teamId, memberId);
-        return NOTICE_RES_MAPPER.toDelete(noticeService.delete(req.noticeId()));
+        return noticeService.delete(noticeId);
     }
 
 }
