@@ -9,7 +9,8 @@ import kr.teammangers.dev.team.dto.request.CreateTeamReq;
 import kr.teammangers.dev.team.dto.request.JoinTeamReq;
 import kr.teammangers.dev.team.dto.request.UpdateTeamPasswordReq;
 import kr.teammangers.dev.team.dto.request.UpdateTeamReq;
-import kr.teammangers.dev.team.dto.response.*;
+import kr.teammangers.dev.team.dto.response.GetMemberRes;
+import kr.teammangers.dev.team.dto.response.GetTeamRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -100,6 +101,15 @@ public class TeamController {
             @RequestBody final JoinTeamReq req
     ) {
         TeamDto result = teamApiFacade.joinTeam(auth.memberDto().id(), teamId, req);
+        return ApiRes.onSuccess(result);
+    }
+
+    @DeleteMapping("/{teamId}/withdrawal")
+    public ApiRes<Long> withdrawTeam(
+            @AuthenticationPrincipal final AuthInfo auth,
+            @PathVariable("teamId") final Long teamId
+    ) {
+        Long result = teamApiFacade.withdrawTeam(auth.memberDto().id(), teamId);
         return ApiRes.onSuccess(result);
     }
 

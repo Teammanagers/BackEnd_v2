@@ -153,6 +153,11 @@ public class TeamApiFacade {
         return teamDto;
     }
 
+    @Transactional
+    public Long withdrawTeam(Long memberId, Long teamId) {
+        return teamMemberService.delete(teamId, memberId);
+    }
+
     private boolean validPassword(TeamDto teamDto, String password) {
         return !Objects.equals(teamDto.password(), password);
     }
@@ -165,6 +170,7 @@ public class TeamApiFacade {
         TagDto tagDto = tagService.findDtoOrSave(tagName, TEAM);
         teamTagService.save(teamId, tagDto.id());
     }
+
 
 
 }
