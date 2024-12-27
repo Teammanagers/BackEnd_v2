@@ -18,11 +18,15 @@ public interface PlanMapper {
     PlanDto toDto(Plan plan);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "teamId", source = "teamId")
+    @Mapping(target = "date", source = "req.date")
+    @Mapping(target = "title", source = "req.title")
+    @Mapping(target = "content", source = "req.content")
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "createdBy", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "updatedBy", ignore = true)
     @Mapping(target = "useYn", ignore = true)
-    PlanDto toDto(CreatePlanReq req);
+    PlanDto toDto(Long teamId, CreatePlanReq req);
 
 }

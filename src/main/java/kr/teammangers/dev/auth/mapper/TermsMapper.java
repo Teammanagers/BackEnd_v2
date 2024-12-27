@@ -1,7 +1,7 @@
 package kr.teammangers.dev.auth.mapper;
 
 import kr.teammangers.dev.auth.domain.entity.Terms;
-import kr.teammangers.dev.auth.dto.response.CreateTermsRes;
+import kr.teammangers.dev.auth.dto.TermsDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -17,7 +17,6 @@ public interface TermsMapper {
     @Mapping(target = "memberId", source = "memberId")
     Terms toEntity(Long memberId);
 
-    @Mapping(target = "createdTermsId", source = "termsId")
-    CreateTermsRes toCreateTermsRes(Long termsId);
+    TermsDto toDto(Terms terms);
 
 }

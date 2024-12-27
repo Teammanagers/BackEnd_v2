@@ -2,13 +2,10 @@ package kr.teammangers.dev.memo.presentation;
 
 import kr.teammangers.dev.global.common.response.ApiRes;
 import kr.teammangers.dev.memo.application.facade.FolderApiFacade;
+import kr.teammangers.dev.memo.dto.FolderDto;
 import kr.teammangers.dev.memo.dto.request.CreateFolderReq;
-import kr.teammangers.dev.memo.dto.request.DeleteFolderReq;
 import kr.teammangers.dev.memo.dto.request.UpdateFolderReq;
-import kr.teammangers.dev.memo.dto.response.CreateFolderRes;
-import kr.teammangers.dev.memo.dto.response.DeleteFolderRes;
 import kr.teammangers.dev.memo.dto.response.GetFolderRes;
-import kr.teammangers.dev.memo.dto.response.UpdateFolderRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,11 +18,12 @@ public class FolderController {
 
     private final FolderApiFacade folderApiFacade;
 
-    @PostMapping
-    public ApiRes<CreateFolderRes> createFolder(
+    @PostMapping("/{parentId}")
+    public ApiRes<FolderDto> createFolder(
+            @PathVariable("parentId") final Long parentId,
             @RequestBody final CreateFolderReq req
     ) {
-        CreateFolderRes result = folderApiFacade.createFolder(req);
+        FolderDto result = folderApiFacade.createFolder(parentId, req);
         return ApiRes.onSuccess(result);
     }
 
@@ -45,19 +43,20 @@ public class FolderController {
         return ApiRes.onSuccess(result);
     }
 
-    @PatchMapping
-    public ApiRes<UpdateFolderRes> updateFolder(
+    @PatchMapping("/{folderId}")
+    public ApiRes<FolderDto> updateFolder(
+            @PathVariable("folderId") final Long folderId,
             @RequestBody final UpdateFolderReq req
     ) {
-        UpdateFolderRes result = folderApiFacade.updateFolder(req);
+        FolderDto result = folderApiFacade.updateFolder(folderId, req);
         return ApiRes.onSuccess(result);
     }
 
-    @DeleteMapping
-    public ApiRes<DeleteFolderRes> deleteFolder(
-            @RequestBody final DeleteFolderReq req
+    @DeleteMapping("/{folderId}")
+    public ApiRes<Long> deleteFolder(
+            @PathVariable("folderId") final Long folderId
     ) {
-        DeleteFolderRes result = folderApiFacade.deleteFolder(req);
+        Long result = folderApiFacade.deleteFolder(folderId);
         return ApiRes.onSuccess(result);
     }
 

@@ -1,9 +1,9 @@
 package kr.teammangers.dev.calendar.application.service;
 
 import kr.teammangers.dev.calendar.domain.entity.Plan;
+import kr.teammangers.dev.calendar.domain.repository.PlanRepository;
 import kr.teammangers.dev.calendar.dto.PlanDto;
 import kr.teammangers.dev.calendar.dto.request.UpdatePlanReq;
-import kr.teammangers.dev.calendar.domain.repository.PlanRepository;
 import kr.teammangers.dev.global.error.code.ErrorStatus;
 import kr.teammangers.dev.global.error.exception.GeneralException;
 import lombok.RequiredArgsConstructor;
@@ -41,8 +41,8 @@ public class PlanService {
                 .toList();
     }
 
-    public PlanDto update(UpdatePlanReq req) {
-        Plan plan = findById(req.planId());
+    public PlanDto update(Long planId, UpdatePlanReq req) {
+        Plan plan = findById(planId);
         plan.update(req);
         return PLAN_MAPPER.toDto(plan);
     }

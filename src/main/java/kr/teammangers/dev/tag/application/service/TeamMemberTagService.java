@@ -6,6 +6,7 @@ import kr.teammangers.dev.tag.domain.entity.TeamMemberTag;
 import kr.teammangers.dev.tag.domain.repository.TagRepository;
 import kr.teammangers.dev.tag.domain.repository.team_member.TeamMemberTagRepository;
 import kr.teammangers.dev.tag.dto.TagDto;
+import kr.teammangers.dev.tag.dto.TeamMemberTagDto;
 import kr.teammangers.dev.tag.mapper.TagMapper;
 import kr.teammangers.dev.team.domain.entity.TeamMember;
 import kr.teammangers.dev.team.domain.repository.TeamMemberRepository;
@@ -26,11 +27,12 @@ public class TeamMemberTagService {
     private final TeamMemberRepository teamMemberRepository;
     private final TagRepository tagRepository;
 
-    public Long save(Long memberId, Long teamId, Long tagId) {
+    public TeamMemberTagDto save(Long memberId, Long teamId, Long tagId) {
         TeamMember teamMember = teamMemberRepository.findByTeam_IdAndMember_Id(teamId, memberId)
                 .orElseThrow(() -> new GeneralException(TEAM_MEMBER_NOT_FOUND));
         Tag tag = tagRepository.getReferenceById(tagId);
-        return teamMemberTagRepository.save(TEAM_MEMBER_TAG_MAPPER.toEntity(teamMember, tag)).getId();
+        TeamMemberTag teamMemberTag = teamMemberTagRepository.save(TEAM_MEMBER_TAG_MAPPER.toEntity(teamMember, tag));
+        return TEAM_MEMBER_TAG_MAPPER.toDto(teamMemberTag);
 
     }
 

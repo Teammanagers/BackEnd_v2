@@ -30,9 +30,12 @@ public class Team extends BaseField {
     @Column(name = "pw")
     private String password;
 
+    @Builder.Default
+    @Column(name = "is_completed", nullable = false)
+    private Boolean isCompleted = false;
+
     @Column(name = "code")
     private String code;
-
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "root_folder_id")
@@ -48,5 +51,9 @@ public class Team extends BaseField {
 
     public void updatePassword(UpdateTeamPasswordReq req) {
         this.password = req.password();
+    }
+
+    public void complete() {
+        this.isCompleted = true;
     }
 }

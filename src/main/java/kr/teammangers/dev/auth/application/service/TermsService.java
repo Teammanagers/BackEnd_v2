@@ -2,6 +2,7 @@ package kr.teammangers.dev.auth.application.service;
 
 import kr.teammangers.dev.auth.domain.entity.Terms;
 import kr.teammangers.dev.auth.domain.repository.TermsRepository;
+import kr.teammangers.dev.auth.dto.TermsDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,8 +14,8 @@ public class TermsService {
 
     private final TermsRepository termsRepository;
 
-    public Long save(Long memberId) {
-        return insert(memberId).getMemberId();
+    public TermsDto save(Long memberId) {
+        return TERMS_MAPPER.toDto(insert(memberId));
     }
 
     public boolean existsByMemberId(Long memberId) {

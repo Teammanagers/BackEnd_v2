@@ -5,10 +5,12 @@ import kr.teammangers.dev.tag.application.service.TeamMemberTagService;
 import kr.teammangers.dev.tag.application.service.TeamTagService;
 import kr.teammangers.dev.tag.domain.enums.TagType;
 import kr.teammangers.dev.tag.dto.TagDto;
-import kr.teammangers.dev.tag.dto.request.*;
-import kr.teammangers.dev.tag.dto.response.CreateTagRes;
-import kr.teammangers.dev.tag.dto.response.DeleteTagRes;
-import kr.teammangers.dev.tag.dto.response.UpdateTagRes;
+import kr.teammangers.dev.tag.dto.TeamMemberTagDto;
+import kr.teammangers.dev.tag.dto.TeamTagDto;
+import kr.teammangers.dev.tag.dto.request.CreateTeamMemberTagReq;
+import kr.teammangers.dev.tag.dto.request.CreateTeamTagReq;
+import kr.teammangers.dev.tag.dto.request.UpdateTeamMemberTagReq;
+import kr.teammangers.dev.tag.dto.request.UpdateTeamTagReq;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,67 +25,40 @@ public class TagApiFacade {
     private final TeamMemberTagService teamMemberTagService;
 
     @Transactional
-    public CreateTagRes createTeamTag(CreateTeamTagReq req) {
+    public TeamTagDto createTeamTag(Long teamId, CreateTeamTagReq req) {
         TagDto tagDto = tagService.findDtoOrSave(req.tagName(), TagType.TEAM);
-        Long teamTagId = teamTagService.save(req.teamId(), tagDto.id());
-        return CreateTagRes.builder()
-                .createdTargetId(teamTagId)
-                .build();
+        return teamTagService.save(teamId, tagDto.id());
     }
 
     @Transactional
-    public CreateTagRes createTeamMemberTag(CreateTeamMemberTagReq req) {
+    public TeamMemberTagDto createTeamMemberTag(Long teamId, Long memberId, CreateTeamMemberTagReq req) {
         TagDto tagDto = tagService.findDtoOrSave(req.tagName(), TagType.TEAM_MEMBER);
-
-        Long teamMemberTagId = teamMemberTagService.save(req.memberId(), req.teamId(), tagDto.id());
-        return CreateTagRes.builder()
-                .createdTargetId(teamMemberTagId)
-                .build();
+        return teamMemberTagService.save(memberId, teamId, tagDto.id());
     }
 
     @Transactional
-    public UpdateTagRes updateTeamTag(UpdateTeamTagReq req) {
-        deleteTeamTag(req.tagId(), req.teamId());
+    public TeamTagDto updateTeamTag(Long tagId, Long teamId, UpdateTeamTagReq req) {
+        deleteTeamTag(tagId, teamId);
         TagDto tagDto = tagService.findDtoOrSave(req.tagName(), TagType.TEAM);
-        Long newTeamTagId = teamTagService.save(req.teamId(), tagDto.id());
-        return UpdateTagRes.builder()
-                .updatedTargetId(newTeamTagId)
-                .build();
+        return teamTagService.save(teamId, tagDto.id());
     }
 
     @Transactional
-    public UpdateTagRes updateTeamMemberTag(UpdateTeamMemberTagReq req) {
-        deleteTeamMemberTag(req.tagId(), req.teamId(), req.memberId());
+    public TeamMemberTagDto updateTeamMemberTag(Long tagId, Long teamId, Long memberId, UpdateTeamMemberTagReq req) {
+        deleteTeamMemberTag(tagId, teamId, memberId);
         TagDto tagDto = tagService.findDtoOrSave(req.tagName(), TagType.TEAM_MEMBER);
-        Long newTeamMemberTagId = teamMemberTagService.save(req.memberId(), req.teamId(), tagDto.id());
-        return UpdateTagRes.builder()
-                .updatedTargetId(newTeamMemberTagId)
-                .build();
+        return teamMemberTagService.save(memberId, teamId, tagDto.id());
     }
 
     @Transactional
-    public DeleteTagRes deleteTeamTag(DeleteTeamTagReq req) {
-        Long deletedId = deleteTeamTag(req.tagId(), req.teamId());
-        return DeleteTagRes.builder()
-                .deletedTargetId(deletedId)
-                .build();
-    }
-
-    @Transactional
-    public DeleteTagRes deleteTeamMemberTag(DeleteTeamMemberTagReq req) {
-        Long deletedId = deleteTeamMemberTag(req.tagId(), req.teamId(), req.memberId());
-        return DeleteTagRes.builder()
-                .deletedTargetId(deletedId)
-                .build();
-    }
-    
-    private Long deleteTeamTag(Long tagId, Long teamId) {
+    public Long deleteTeamTag(Long tagId, Long teamId) {
         Long teamTagId = teamTagService.findIdByTagIdAndTeamId(tagId, teamId);
         teamTagService.delete(teamTagId);
         return teamTagId;
     }
 
-    private Long deleteTeamMemberTag(Long tagId, Long teamId, Long memberId) {
+    @Transactional
+    public Long deleteTeamMemberTag(Long tagId, Long teamId, Long memberId) {
         Long teamMemberTagId = teamMemberTagService.findIdByTagIdAndTeamIdAndMemberId(tagId, teamId, memberId);
         teamMemberTagService.delete(teamMemberTagId);
         return teamMemberTagId;

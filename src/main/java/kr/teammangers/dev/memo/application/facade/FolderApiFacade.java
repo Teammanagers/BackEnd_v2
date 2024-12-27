@@ -3,12 +3,8 @@ package kr.teammangers.dev.memo.application.facade;
 import kr.teammangers.dev.memo.application.service.FolderService;
 import kr.teammangers.dev.memo.dto.FolderDto;
 import kr.teammangers.dev.memo.dto.request.CreateFolderReq;
-import kr.teammangers.dev.memo.dto.request.DeleteFolderReq;
 import kr.teammangers.dev.memo.dto.request.UpdateFolderReq;
-import kr.teammangers.dev.memo.dto.response.CreateFolderRes;
-import kr.teammangers.dev.memo.dto.response.DeleteFolderRes;
 import kr.teammangers.dev.memo.dto.response.GetFolderRes;
-import kr.teammangers.dev.memo.dto.response.UpdateFolderRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,11 +22,9 @@ public class FolderApiFacade {
     private final FolderService folderService;
 
     @Transactional
-    public CreateFolderRes createFolder(CreateFolderReq req) {
-        Integer parentDepth = folderService.findDtoById(req.parentId()).depth();
-        FolderDto folderDto = FOLDER_MAPPER.toDto(req, parentDepth + 1);
-
-        return FOLDER_RES_MAPPER.toCreate(folderService.save(folderDto));
+    public FolderDto createFolder(Long parentId, CreateFolderReq req) {
+        Integer parentDepth = folderService.findDtoById(parentId).depth();
+        return FOLDER_MAPPER.toDto(req, parentId, parentDepth + 1);
     }
 
     public GetFolderRes getRootFolderByTeamId(Long teamId) {
@@ -45,15 +39,14 @@ public class FolderApiFacade {
     }
 
     @Transactional
-    public UpdateFolderRes updateFolder(UpdateFolderReq req) {
-        FolderDto folderDto = folderService.update(req);
-        return FOLDER_RES_MAPPER.toUpdate(folderDto);
+    public FolderDto updateFolder(Long folderId, UpdateFolderReq req) {
+        return folderService.update(folderId, req);
     }
 
     @Transactional
-    public DeleteFolderRes deleteFolder(DeleteFolderReq req) {
-        folderService.deleteAllByFolderId(req.folderId());
-        return FOLDER_RES_MAPPER.toDelete(req.folderId());
+    public Long deleteFolder(Long folderId) {
+        folderService.deleteAllByFolderId(folderId);
+        return folderId;
     }
 
 }

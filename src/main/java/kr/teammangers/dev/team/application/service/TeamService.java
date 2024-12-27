@@ -43,19 +43,25 @@ public class TeamService {
         return TEAM_MAPPER.toDto(findById(id));
     }
 
-    public TeamDto update(UpdateTeamReq req) {
-        Team team = findById(req.teamId());
+    public TeamDto update(Long teamId, UpdateTeamReq req) {
+        Team team = findById(teamId);
         if (req.title() != null && !req.title().isEmpty()) {
             team.update(req);
         }
         return TEAM_MAPPER.toDto(team);
     }
 
-    public TeamDto updatePassword(UpdateTeamPasswordReq req) {
-        Team team = findById(req.teamId());
+    public TeamDto updatePassword(Long teamId, UpdateTeamPasswordReq req) {
+        Team team = findById(teamId);
         if(req.password() != null && !req.password().isEmpty()) {
             team.updatePassword(req);
         }
+        return TEAM_MAPPER.toDto(team);
+    }
+
+    public TeamDto complete(Long teamId) {
+        Team team = findById(teamId);
+        team.complete();
         return TEAM_MAPPER.toDto(team);
     }
 

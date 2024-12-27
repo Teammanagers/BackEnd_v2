@@ -1,14 +1,12 @@
 package kr.teammangers.dev.schedule.mapper;
 
+import kr.teammangers.dev.schedule.domain.enums.DayOfWeek;
 import kr.teammangers.dev.schedule.dto.ScheduleDto;
 import kr.teammangers.dev.schedule.dto.TimeRangeDto;
 import kr.teammangers.dev.schedule.dto.TimeSlotDto;
 import kr.teammangers.dev.schedule.dto.response.GetScheduleRes;
-import kr.teammangers.dev.schedule.dto.response.UpdateScheduleRes;
-import kr.teammangers.dev.schedule.domain.enums.DayOfWeek;
 import kr.teammangers.dev.schedule.util.TimeSlotBitUtils;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -17,9 +15,6 @@ import java.util.List;
 public interface ScheduleResMapper {
 
     ScheduleResMapper SCHEDULE_RES_MAPPER = Mappers.getMapper(ScheduleResMapper.class);
-
-    @Mapping(target = "updatedScheduleId", source = "schedule.id")
-    UpdateScheduleRes toCreate(TimeSlotDto schedule);
 
     GetScheduleRes toGet(ScheduleDto scheduleDto);
 

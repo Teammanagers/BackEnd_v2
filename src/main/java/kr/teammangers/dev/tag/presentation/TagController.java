@@ -2,10 +2,9 @@ package kr.teammangers.dev.tag.presentation;
 
 import kr.teammangers.dev.global.common.response.ApiRes;
 import kr.teammangers.dev.tag.application.facade.TagApiFacade;
+import kr.teammangers.dev.tag.dto.TeamMemberTagDto;
+import kr.teammangers.dev.tag.dto.TeamTagDto;
 import kr.teammangers.dev.tag.dto.request.*;
-import kr.teammangers.dev.tag.dto.response.CreateTagRes;
-import kr.teammangers.dev.tag.dto.response.DeleteTagRes;
-import kr.teammangers.dev.tag.dto.response.UpdateTagRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,51 +15,62 @@ public class TagController {
 
     private final TagApiFacade tagApiFacade;
 
-    @PostMapping("/team")
-    public ApiRes<CreateTagRes> createTeamTag(
+    @PostMapping("/team/{teamId}")
+    public ApiRes<TeamTagDto> createTeamTag(
+            @PathVariable("teamId") final Long teamId,
             @RequestBody final CreateTeamTagReq req
     ) {
-        CreateTagRes result = tagApiFacade.createTeamTag(req);
+        TeamTagDto result = tagApiFacade.createTeamTag(teamId, req);
         return ApiRes.onSuccess(result);
     }
 
-    @PostMapping("/team-member")
-    public ApiRes<CreateTagRes> createTeamMemberTag(
+    @PostMapping("/team/{teamId}/member/{memberId}")
+    public ApiRes<TeamMemberTagDto> createTeamMemberTag(
+            @PathVariable("teamId") final Long teamId,
+            @PathVariable("memberId") final Long memberId,
             @RequestBody final CreateTeamMemberTagReq req
     ) {
-        CreateTagRes result = tagApiFacade.createTeamMemberTag(req);
+        TeamMemberTagDto result = tagApiFacade.createTeamMemberTag(teamId, memberId, req);
         return ApiRes.onSuccess(result);
     }
 
-    @PatchMapping("/team")
-    public ApiRes<UpdateTagRes> updateTeamTag(
+    @PatchMapping("/{tagId}/team/{teamId}")
+    public ApiRes<TeamTagDto> updateTeamTag(
+            @PathVariable("tagId") final Long tagId,
+            @PathVariable("teamId") final Long teamId,
             @RequestBody final UpdateTeamTagReq req
     ) {
-        UpdateTagRes result = tagApiFacade.updateTeamTag(req);
+        TeamTagDto result = tagApiFacade.updateTeamTag(tagId, teamId, req);
         return ApiRes.onSuccess(result);
     }
 
-    @PatchMapping("/team-member")
-    public ApiRes<UpdateTagRes> updateTeamMemberTag(
+    @PatchMapping("/{tagId}/team/{teamId}/member/{memberId}")
+    public ApiRes<TeamMemberTagDto> updateTeamMemberTag(
+            @PathVariable("tagId") final Long tagId,
+            @PathVariable("teamId") final Long teamId,
+            @PathVariable("memberId") final Long memberId,
             @RequestBody final UpdateTeamMemberTagReq req
     ) {
-        UpdateTagRes result = tagApiFacade.updateTeamMemberTag(req);
+        TeamMemberTagDto result = tagApiFacade.updateTeamMemberTag(tagId, teamId, memberId, req);
         return ApiRes.onSuccess(result);
     }
 
-    @DeleteMapping("/team")
-    public ApiRes<DeleteTagRes> deleteTeamTag(
-            @RequestBody final DeleteTeamTagReq req
+    @DeleteMapping("/{tagId}/team/{teamId}")
+    public ApiRes<Long> deleteTeamTag(
+            @PathVariable("tagId") final Long tagId,
+            @PathVariable("teamId") final Long teamId
     ) {
-        DeleteTagRes result = tagApiFacade.deleteTeamTag(req);
+        Long result = tagApiFacade.deleteTeamTag(tagId, teamId);
         return ApiRes.onSuccess(result);
     }
 
-    @DeleteMapping("/team-member")
-    public ApiRes<DeleteTagRes> deleteTeamMemberTag(
-            @RequestBody final DeleteTeamMemberTagReq req
+    @DeleteMapping("/{tagId}/team/{teamId}/member/{memberId}")
+    public ApiRes<Long> deleteTeamMemberTag(
+            @PathVariable("tagId") final Long tagId,
+            @PathVariable("teamId") final Long teamId,
+            @PathVariable("memberId") final Long memberId
     ) {
-        DeleteTagRes result = tagApiFacade.deleteTeamMemberTag(req);
+        Long result = tagApiFacade.deleteTeamMemberTag(tagId, teamId, memberId);
         return ApiRes.onSuccess(result);
     }
 

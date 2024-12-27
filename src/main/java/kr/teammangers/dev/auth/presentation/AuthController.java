@@ -1,8 +1,8 @@
 package kr.teammangers.dev.auth.presentation;
 
 import kr.teammangers.dev.auth.application.facade.AuthApiFacade;
+import kr.teammangers.dev.auth.dto.TermsDto;
 import kr.teammangers.dev.auth.infrastructure.security.AuthInfo;
-import kr.teammangers.dev.auth.dto.response.CreateTermsRes;
 import kr.teammangers.dev.global.common.response.ApiRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -18,10 +18,11 @@ public class AuthController {
     private final AuthApiFacade authApiFacade;
 
     @PostMapping("/terms")
-    public ApiRes<CreateTermsRes> registerTerms(
+    public ApiRes<TermsDto> registerTerms(
             @AuthenticationPrincipal AuthInfo authInfo
     ) {
-        CreateTermsRes result = authApiFacade.registerTerms(authInfo.memberDto().id());
+        TermsDto result = authApiFacade.registerTerms(authInfo.memberDto().id());
         return ApiRes.onSuccess(result);
     }
+
 }

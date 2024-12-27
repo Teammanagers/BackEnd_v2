@@ -1,10 +1,7 @@
 package kr.teammangers.dev.memo.mapper;
 
 import kr.teammangers.dev.memo.dto.FolderDto;
-import kr.teammangers.dev.memo.dto.response.CreateFolderRes;
-import kr.teammangers.dev.memo.dto.response.DeleteFolderRes;
 import kr.teammangers.dev.memo.dto.response.GetFolderRes;
-import kr.teammangers.dev.memo.dto.response.UpdateFolderRes;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -16,14 +13,5 @@ public interface FolderResMapper {
 
     @Mapping(target = "folderDto", source = "folderDto")
     GetFolderRes toGet(FolderDto folderDto);
-
-    @Mapping(target = "createdFolderId", source = "folderDto.id")
-    CreateFolderRes toCreate(FolderDto folderDto);
-
-    @Mapping(target = "updatedFolderId", source = "folderDto.id")
-    UpdateFolderRes toUpdate(FolderDto folderDto);
-
-    @Mapping(target = "deletedFolderId", source = "folderId")
-    DeleteFolderRes toDelete(Long folderId);
 
 }

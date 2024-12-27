@@ -4,8 +4,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")
-public interface MemberResMapper {
+public interface CommentResMapper {
 
-    MemberResMapper MEMBER_RES_MAPPER = Mappers.getMapper(MemberResMapper.class);
+    CommentResMapper COMMENT_RES_MAPPER = Mappers.getMapper(CommentResMapper.class);
+
 }
-

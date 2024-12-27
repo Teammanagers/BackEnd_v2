@@ -28,8 +28,8 @@ public class MemoService {
     private final FolderRepository folderRepository;
     private final TeamRepository teamRepository;
 
-    public MemoDto save(CreateMemoReq req) {
-        return MEMO_MAPPER.toDto(insert(req));
+    public MemoDto save(Long folderId, Long teamId, CreateMemoReq req) {
+        return MEMO_MAPPER.toDto(insert(folderId, teamId, req));
     }
 
     public List<MemoDto> findAllDtoByFolderId(Long folderId, Boolean isFixed) {
@@ -44,8 +44,8 @@ public class MemoService {
                 .toList();
     }
 
-    public MemoDto update(UpdateMemoReq req) {
-        Memo memo = findById(req.memoId());
+    public MemoDto update(Long memoId, UpdateMemoReq req) {
+        Memo memo = findById(memoId);
         memo.update(req);
         return MEMO_MAPPER.toDto(memo);
     }
@@ -60,15 +60,15 @@ public class MemoService {
         }
     }
 
-    public Boolean updateFixStatus(Long memoId) {
+    public MemoDto updateFixStatus(Long memoId) {
         Memo memo = findById(memoId);
         memo.updateFixStatus();
-        return memo.getIsFixed();
+        return MEMO_MAPPER.toDto(memo);
     }
 
-    private Memo insert(CreateMemoReq req) {
-        Folder folder = folderRepository.getReferenceById(req.folderId());
-        Team team = teamRepository.getReferenceById(req.teamId());
+    private Memo insert(Long folderId, Long teamId, CreateMemoReq req) {
+        Folder folder = folderRepository.getReferenceById(folderId);
+        Team team = teamRepository.getReferenceById(teamId);
         return memoRepository.save(MEMO_MAPPER.toEntity(req, folder, team));
     }
 
@@ -76,6 +76,5 @@ public class MemoService {
         return memoRepository.findById(id)
                 .orElseThrow(() -> new GeneralException(MEMO_NOT_FOUND));
     }
-
 
 }

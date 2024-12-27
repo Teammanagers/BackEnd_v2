@@ -54,19 +54,22 @@ public class TeamMemberService {
                 .map(TeamMember::getId).toList();
     }
 
-    public List<MemberDto> findAllMemberDtoByTeamId(Long teamId) {
-        List<TeamMember> result = teamMemberRepository.findAllByTeam_Id(teamId);
-        return result.stream()
-                .map(teamMember -> MEMBER_MAPPER.toDto(teamMember.getMember()))
-                .toList();
-    }
-
     public MemberDto findMemberDtoByTeamMemberId(Long teamMemberId) {
         return MEMBER_MAPPER.toDto(findById(teamMemberId).getMember());
+    }
+
+    public Long delete(Long teamId, Long memberId) {
+        return teamMemberRepository.findByTeam_IdAndMember_Id(teamId, memberId)
+                .map(teamMember -> {
+                    teamMemberRepository.delete(teamMember);
+                    return teamMember.getId();
+                })
+                .orElseThrow(() -> new GeneralException(TEAM_MEMBER_NOT_FOUND));
     }
 
     private TeamMember findById(Long teamMemberId) {
         return teamMemberRepository.findById(teamMemberId)
                 .orElseThrow(() -> new GeneralException(TEAM_MEMBER_NOT_FOUND));
     }
+
 }

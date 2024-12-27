@@ -3,7 +3,6 @@ package kr.teammangers.dev.member.application.facade;
 import kr.teammangers.dev.member.application.service.MemberService;
 import kr.teammangers.dev.member.dto.MemberDto;
 import kr.teammangers.dev.member.dto.request.UpdateProfileReq;
-import kr.teammangers.dev.member.dto.response.UpdateProfileRes;
 import kr.teammangers.dev.tag.application.service.MemberTagService;
 import kr.teammangers.dev.tag.application.service.TagService;
 import kr.teammangers.dev.tag.dto.TagDto;
@@ -14,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-import static kr.teammangers.dev.member.mapper.MemberResMapper.MEMBER_RES_MAPPER;
 import static kr.teammangers.dev.tag.domain.enums.TagType.MEMBER;
 
 @Service
@@ -27,7 +25,7 @@ public class MemberApiFacade {
     private final TagService tagService;
 
     @Transactional
-    public UpdateProfileRes updateProfile(Long memberId, UpdateProfileReq req) {
+    public MemberDto updateProfile(Long memberId, UpdateProfileReq req) {
         MemberDto memberDto = memberService.update(memberId, req);
 
         List<String> existingTagNames = memberTagService.findAllTagDtoByMemberId(memberId).stream()
@@ -47,7 +45,7 @@ public class MemberApiFacade {
                     tagsToRemove.forEach(tagName -> memberTagService.deleteAllByOptions(memberDto.id(), tagName));
                 }, () -> memberTagService.deleteAllByOptions(memberDto.id(), null));
 
-        return MEMBER_RES_MAPPER.toUpdateProfile(memberDto);
+        return memberDto;
     }
 
     private void saveMemberTagFromTagName(Long memberId, String tagName) {

@@ -6,6 +6,7 @@ import kr.teammangers.dev.tag.domain.entity.TeamTag;
 import kr.teammangers.dev.tag.domain.repository.TagRepository;
 import kr.teammangers.dev.tag.domain.repository.team.TeamTagRepository;
 import kr.teammangers.dev.tag.dto.TagDto;
+import kr.teammangers.dev.tag.dto.TeamTagDto;
 import kr.teammangers.dev.team.domain.entity.Team;
 import kr.teammangers.dev.team.domain.repository.TeamRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,10 +26,11 @@ public class TeamTagService {
     private final TeamRepository teamRepository;
     private final TagRepository tagRepository;
 
-    public Long save(Long teamId, Long tagId) {
+    public TeamTagDto save(Long teamId, Long tagId) {
         Team team = teamRepository.getReferenceById(teamId);
         Tag tag = tagRepository.getReferenceById(tagId);
-        return teamTagRepository.save(TEAM_TAG_MAPPER.toEntity(team, tag)).getId();
+        TeamTag teamTag = teamTagRepository.save(TEAM_TAG_MAPPER.toEntity(team, tag));
+        return TEAM_TAG_MAPPER.toDto(teamTag);
     }
 
     public Long findIdByTagIdAndTeamId(Long tagId, Long teamId) {
