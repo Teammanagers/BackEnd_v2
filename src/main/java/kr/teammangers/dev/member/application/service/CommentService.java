@@ -1,6 +1,5 @@
 package kr.teammangers.dev.member.application.service;
 
-import kr.teammangers.dev.member.constant.CommentConstant;
 import kr.teammangers.dev.member.domain.entity.Comment;
 import kr.teammangers.dev.member.domain.entity.Member;
 import kr.teammangers.dev.member.domain.repository.CommentRepository;

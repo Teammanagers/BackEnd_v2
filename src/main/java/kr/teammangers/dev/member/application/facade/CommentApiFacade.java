@@ -1,6 +1,5 @@
 package kr.teammangers.dev.member.application.facade;
 
-import kr.teammangers.dev.auth.infrastructure.security.AuthInfo;
 import kr.teammangers.dev.member.application.service.CommentService;
 import kr.teammangers.dev.member.dto.CommentDto;
 import kr.teammangers.dev.member.dto.request.CreateCommentReq;
