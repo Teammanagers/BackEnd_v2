@@ -3,12 +3,8 @@ package kr.teammangers.dev.calendar.application.facade;
 import kr.teammangers.dev.calendar.application.service.PlanService;
 import kr.teammangers.dev.calendar.dto.PlanDto;
 import kr.teammangers.dev.calendar.dto.request.CreatePlanReq;
-import kr.teammangers.dev.calendar.dto.request.DeletePlanReq;
 import kr.teammangers.dev.calendar.dto.request.UpdatePlanReq;
-import kr.teammangers.dev.calendar.dto.response.CreatePlanRes;
-import kr.teammangers.dev.calendar.dto.response.DeletePlanRes;
 import kr.teammangers.dev.calendar.dto.response.GetPlanRes;
-import kr.teammangers.dev.calendar.dto.response.UpdatePlanRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,9 +22,9 @@ public class PlanApiFacade {
     private final PlanService planService;
 
     @Transactional
-    public CreatePlanRes createPlan(CreatePlanReq req) {
-        PlanDto planDto = PLAN_MAPPER.toDto(req);
-        return PLAN_RES_MAPPER.toCreate(planService.save(planDto));
+    public PlanDto createPlan(Long teamId, CreatePlanReq req) {
+        PlanDto planDto = PLAN_MAPPER.toDto(teamId, req);
+        return planService.save(planDto);
     }
 
     public List<GetPlanRes> getRecentPlanList(Long teamId, String yearMonth) {
@@ -41,15 +37,14 @@ public class PlanApiFacade {
     }
 
     @Transactional
-    public UpdatePlanRes updatePlan(UpdatePlanReq req) {
-        PlanDto planDto = planService.update(req);
-        return PLAN_RES_MAPPER.toUpdate(planDto);
+    public PlanDto updatePlan(Long planId, UpdatePlanReq req) {
+        return planService.update(planId, req);
     }
 
     @Transactional
-    public DeletePlanRes deletePlan(DeletePlanReq req) {
-        planService.deleteByPlanId(req.planId());
-        return PLAN_RES_MAPPER.toDelete(req.planId());
+    public Long deletePlan(Long planId) {
+        planService.deleteByPlanId(planId);
+        return planId;
     }
 
 }

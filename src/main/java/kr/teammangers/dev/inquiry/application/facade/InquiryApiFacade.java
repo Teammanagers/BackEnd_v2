@@ -22,7 +22,8 @@ public class InquiryApiFacade {
 
     @Transactional
     public InquiryDto createInquiry(Long memberId, CreateInquiryReq req) {
-        return INQUIRY_MAPPER.toDto(memberId, req);
+        InquiryDto inquiryDto = INQUIRY_MAPPER.toDto(memberId, req);
+        return inquiryService.save(inquiryDto);
     }
 
     public List<GetInquiryRes> getInquiryList(Long memberId) {
