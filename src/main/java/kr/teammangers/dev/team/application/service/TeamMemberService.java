@@ -71,4 +71,5 @@ public class TeamMemberService {
         return teamMemberRepository.findById(teamMemberId)
                 .orElseThrow(() -> new GeneralException(TEAM_MEMBER_NOT_FOUND));
     }
+
 }
