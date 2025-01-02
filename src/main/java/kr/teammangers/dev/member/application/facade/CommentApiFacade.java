@@ -24,6 +24,6 @@ public class CommentApiFacade {
     }
 
     public List<CommentDto> getCommentList(Long memberId) {
-        return commentService.findAllDtoBymemberId(memberId);
+        return commentService.findAllDtoByMemberId(memberId);
     }
 }

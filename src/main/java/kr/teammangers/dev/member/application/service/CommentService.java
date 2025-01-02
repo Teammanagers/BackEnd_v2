@@ -27,7 +27,7 @@ public class CommentService {
         return CommentMapper.COMMENT_MAPPER.toDto(comment);
     }
 
-    public List<CommentDto> findAllDtoBymemberId(Long memberId) {
+    public List<CommentDto> findAllDtoByMemberId(Long memberId) {
         return commentRepository.findAllByRecent(memberId, PageRequest.of(0, COMMENT_SIZE)).stream()
                 .map(CommentMapper.COMMENT_MAPPER::toDto)
                 .toList();
