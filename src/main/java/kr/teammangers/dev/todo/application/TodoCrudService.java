@@ -2,6 +2,9 @@ package kr.teammangers.dev.todo.application;
 
 import kr.teammangers.dev.global.error.code.ErrorStatus;
 import kr.teammangers.dev.global.error.exception.GeneralException;
+import kr.teammangers.dev.tag.domain.repository.team_member.TeamMemberTagRepository;
+import kr.teammangers.dev.tag.dto.TagDto;
+import kr.teammangers.dev.tag.mapper.TagMapper;
 import kr.teammangers.dev.team.domain.entity.TeamMember;
 import kr.teammangers.dev.team.domain.repository.TeamMemberRepository;
 import kr.teammangers.dev.todo.domain.Todo;
@@ -27,6 +30,8 @@ public class TodoCrudService {
 
     private final TodoRepository todoRepository;
     private final TeamMemberRepository teamMemberRepository;
+    private final TeamMemberTagRepository teamMemberTagRepository;
+    private final TagMapper tagMapper;
 
     @Transactional
     public CreateTodoRes createTodo(Long teamMemberId, CreateTodoReq request) {
@@ -75,8 +80,12 @@ public class TodoCrudService {
         List<MemberTodoListDto> teamTodoList = teamMemberRepository.findAllByTeam_Id(teamId)
                 .stream().map(teamMember -> {
                     String name = teamMember.getMember().getName();
+                    Long teamMemberId = teamMember.getId();
                     // TODO: TagList 추가 필요
-                    List<TodoDto> todoList = todoRepository.findAllByTeamMember_Id(teamMember.getId())
+                    List<TagDto> tagList = teamMemberTagRepository.findAllByTeamMember_Id(teamMemberId)
+                            .stream()
+                            .map(teamMemberTag -> tagMapper.toDto(teamMemberTag.getTag())).toList();
+                    List<TodoDto> todoList = todoRepository.findAllByTeamMember_Id(teamMemberId)
                             .stream().map(TodoDto::from).toList();
                     return MemberTodoListDto.builder()
                             .teamMemberId(teamMember.getId())
