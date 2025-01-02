@@ -31,7 +31,7 @@ public class TodoCrudService {
     @Transactional
     public CreateTodoRes createTodo(Long teamMemberId, CreateTodoReq request) {
         TeamMember teamMember = teamMemberRepository.findById(teamMemberId)
-                .orElseThrow(() -> new GeneralException(ErrorStatus.TEAMMANAGE_NOT_FOUND));
+                .orElseThrow(() -> new GeneralException(ErrorStatus.TEAMMEMBER_NOT_FOUND));
 
         Todo newTodo = request.toTodo();
         newTodo.setTeamMember(teamMember);

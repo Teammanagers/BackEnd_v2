@@ -44,8 +44,8 @@ public enum ErrorStatus implements ErrorBaseCode {
     TEAM_FORBIDDEN(FORBIDDEN, "TEAM4031", "해당 팀 소속이 아닙니다."),
     TEAM_NO_AUTHORITY(UNAUTHORIZED, "TEAM4010", "권한이 없습니다."),
 
-    // TeamManage
-    TEAMMANAGE_NOT_FOUND(NOT_FOUND, "TEAMMANAGE404", entityNotFoundMessage("TeamManage")),
+    // TeamMember
+    TEAMMEMBER_NOT_FOUND(NOT_FOUND, "TEAMMEMBER404", entityNotFoundMessage("TeamMember")),
 
     // Todo
     TODO_NOT_FOUND(NOT_FOUND, "TODO404", entityNotFoundMessage("TODO")),
