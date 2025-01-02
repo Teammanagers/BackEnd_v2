@@ -19,6 +19,9 @@ public enum ErrorStatus implements ErrorBaseCode {
     _FORBIDDEN(FORBIDDEN, "403", "금지된 요청입니다."),
     _NOT_FOUND(NOT_FOUND, "404", "찾을 수 없습니다."),
 
+    // 공통 응답
+    OPTION_OUT_OF_RANGE(BAD_REQUEST, "COMMON4001", valueOutOfRangeMessage("option")),
+
     // Auth
     AUTH_FORBIDDEN(FORBIDDEN, "AUTH403", "OAuth2 로그인에 실패하였습니다."),
     AUTH_ILLEGAL_REGISTRATION_ID(NOT_ACCEPTABLE, "AUTH406", "Registration ID가 올바르지 않습니다."),
@@ -38,7 +41,15 @@ public enum ErrorStatus implements ErrorBaseCode {
     TEAM_NOT_FOUND(NOT_FOUND, "TEAM404", entityNotFoundMessage("팀")),
     TEAM_MISMATCH_PASSWORD(BAD_REQUEST, "TEAM4000", "비밀번호가 틀렸습니다."),
     TEAM_ALREADY_JOIN(FORBIDDEN, "TEAM4030", "이미 가입된 사용자입니다."),
+    TEAM_FORBIDDEN(FORBIDDEN, "TEAM4031", "해당 팀 소속이 아닙니다."),
     TEAM_NO_AUTHORITY(UNAUTHORIZED, "TEAM4010", "권한이 없습니다."),
+
+    // TeamMember
+    TEAMMEMBER_NOT_FOUND(NOT_FOUND, "TEAMMEMBER404", entityNotFoundMessage("TeamMember")),
+
+    // Todo
+    TODO_NOT_FOUND(NOT_FOUND, "TODO404", entityNotFoundMessage("TODO")),
+    TODO_FORBIDDEN(FORBIDDEN, "TODO403", "TODO에 접근 권한이 없습니다."),
 
     // S3
     S3_NOT_FOUND_FROM_BUCKET(NOT_FOUND, "S34040", entityNotFoundMessage("S3 버킷에서 파일")),
@@ -99,5 +110,9 @@ public enum ErrorStatus implements ErrorBaseCode {
 
     private static String entityNoAuthorityMessage(String entityName) {
         return String.format(NO_AUTHORITIES, entityName);
+    }
+
+    private static String valueOutOfRangeMessage(String variableName) {
+        return String.format(OUT_OF_RANGE, variableName);
     }
 }
