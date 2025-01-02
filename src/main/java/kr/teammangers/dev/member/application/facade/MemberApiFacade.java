@@ -48,8 +48,13 @@ public class MemberApiFacade {
         return memberDto;
     }
 
+    public MemberDto getMemberProfile(Long memberId) {
+        return memberService.findDtoById(memberId);
+    }
+
     private void saveMemberTagFromTagName(Long memberId, String tagName) {
         TagDto tagDto = tagService.findDtoOrSave(tagName, MEMBER);
         memberTagService.save(memberId, tagDto.id());
     }
+
 }

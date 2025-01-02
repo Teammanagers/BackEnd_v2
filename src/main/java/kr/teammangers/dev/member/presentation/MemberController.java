@@ -7,10 +7,7 @@ import kr.teammangers.dev.member.dto.MemberDto;
 import kr.teammangers.dev.member.dto.request.UpdateProfileReq;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,6 +22,14 @@ public class MemberController {
             @RequestBody final UpdateProfileReq req
     ) {
         MemberDto result = memberApiFacade.updateProfile(auth.memberDto().id(), req);
+        return ApiRes.onSuccess(result);
+    }
+
+    @GetMapping
+    public ApiRes<MemberDto> getMemberProfile(
+            @AuthenticationPrincipal final AuthInfo auth
+    ) {
+        MemberDto result = memberApiFacade.getMemberProfile(auth.memberDto().id());
         return ApiRes.onSuccess(result);
     }
 
