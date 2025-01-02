@@ -31,4 +31,7 @@ public class Comment extends BaseField {
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
+    public void updateStatus() {
+        this.hidden = !this.hidden;
+    }
 }

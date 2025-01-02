@@ -28,6 +28,9 @@ public enum ErrorStatus implements ErrorBaseCode {
     // Member
     MEMBER_NOT_FOUND(NOT_FOUND, "MEMBER404", entityNotFoundMessage("사용자")),
 
+    // Comment
+    COMMENT_NOT_FOUND(NOT_FOUND, "COMMENT404", entityNotFoundMessage("한마디")),
+
     // Term
     TERMS_ALREADY_EXISTS(FORBIDDEN, "TERMS4030", IS_ALREADY_EXISTS),
 

@@ -34,4 +34,12 @@ public class CommentController {
         return ApiRes.onSuccess(result);
     }
 
+    @PatchMapping("/{commentId}")
+    public ApiRes<CommentDto> updateCommentStatus(
+            @PathVariable("commentId") final Long commentId
+    ) {
+        CommentDto result = commentApiFacade.updateCommentStatus(commentId);
+        return ApiRes.onSuccess(result);
+    }
+
 }

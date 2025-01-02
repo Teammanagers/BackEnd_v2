@@ -26,4 +26,9 @@ public class CommentApiFacade {
     public List<CommentDto> getCommentList(Long memberId) {
         return commentService.findAllDtoByMemberId(memberId);
     }
+
+    @Transactional
+    public CommentDto updateCommentStatus(Long commentId) {
+        return commentService.updateStatus(commentId);
+    }
 }

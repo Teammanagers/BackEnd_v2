@@ -1,5 +1,6 @@
 package kr.teammangers.dev.member.application.service;
 
+import kr.teammangers.dev.global.error.exception.GeneralException;
 import kr.teammangers.dev.member.domain.entity.Comment;
 import kr.teammangers.dev.member.domain.entity.Member;
 import kr.teammangers.dev.member.domain.repository.CommentRepository;
@@ -12,7 +13,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static kr.teammangers.dev.global.error.code.ErrorStatus.COMMENT_NOT_FOUND;
 import static kr.teammangers.dev.member.constant.CommentConstant.COMMENT_SIZE;
+import static kr.teammangers.dev.member.mapper.CommentMapper.COMMENT_MAPPER;
 
 @Service
 @RequiredArgsConstructor
@@ -23,13 +26,20 @@ public class CommentService {
 
     public CommentDto save(Long memberId, String content) {
         Member member = memberRepository.getReferenceById(memberId);
-        Comment comment = commentRepository.save(CommentMapper.COMMENT_MAPPER.toEntity(member, content));
-        return CommentMapper.COMMENT_MAPPER.toDto(comment);
+        Comment comment = commentRepository.save(COMMENT_MAPPER.toEntity(member, content));
+        return COMMENT_MAPPER.toDto(comment);
     }
 
     public List<CommentDto> findAllDtoByMemberId(Long memberId) {
         return commentRepository.findAllByRecent(memberId, PageRequest.of(0, COMMENT_SIZE)).stream()
-                .map(CommentMapper.COMMENT_MAPPER::toDto)
+                .map(COMMENT_MAPPER::toDto)
                 .toList();
     }
+
+    public CommentDto updateStatus(Long commentId) {
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new GeneralException(COMMENT_NOT_FOUND));
+        return COMMENT_MAPPER.toDto(comment);
+    }
+
 }
