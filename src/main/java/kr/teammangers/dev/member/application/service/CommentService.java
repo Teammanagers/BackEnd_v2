@@ -6,7 +6,6 @@ import kr.teammangers.dev.member.domain.entity.Member;
 import kr.teammangers.dev.member.domain.repository.CommentRepository;
 import kr.teammangers.dev.member.domain.repository.MemberRepository;
 import kr.teammangers.dev.member.dto.CommentDto;
-import kr.teammangers.dev.member.mapper.CommentMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -39,6 +38,7 @@ public class CommentService {
     public CommentDto updateStatus(Long commentId) {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new GeneralException(COMMENT_NOT_FOUND));
+        comment.updateStatus();
         return COMMENT_MAPPER.toDto(comment);
     }
 
