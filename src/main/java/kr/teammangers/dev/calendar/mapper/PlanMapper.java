@@ -1,8 +1,8 @@
 package kr.teammangers.dev.calendar.mapper;
 
-import kr.teammangers.dev.calendar.domain.Plan;
+import kr.teammangers.dev.calendar.domain.entity.Plan;
 import kr.teammangers.dev.calendar.dto.PlanDto;
-import kr.teammangers.dev.calendar.dto.req.CreatePlanReq;
+import kr.teammangers.dev.calendar.dto.request.CreatePlanReq;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -18,6 +18,15 @@ public interface PlanMapper {
     PlanDto toDto(Plan plan);
 
     @Mapping(target = "id", ignore = true)
-    PlanDto toDto(CreatePlanReq req);
+    @Mapping(target = "teamId", source = "teamId")
+    @Mapping(target = "date", source = "req.date")
+    @Mapping(target = "title", source = "req.title")
+    @Mapping(target = "content", source = "req.content")
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "createdBy", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
+    @Mapping(target = "updatedBy", ignore = true)
+    @Mapping(target = "useYn", ignore = true)
+    PlanDto toDto(Long teamId, CreatePlanReq req);
 
 }

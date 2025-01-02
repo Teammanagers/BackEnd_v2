@@ -1,15 +1,12 @@
 package kr.teammangers.dev.notice.presentation;
 
-import kr.teammangers.dev.auth.dto.AuthInfo;
-import kr.teammangers.dev.common.payload.ApiRes;
-import kr.teammangers.dev.notice.application.NoticeCrudService;
-import kr.teammangers.dev.notice.dto.req.CreateNoticeReq;
-import kr.teammangers.dev.notice.dto.req.DeleteNoticeReq;
-import kr.teammangers.dev.notice.dto.req.UpdateNoticeReq;
-import kr.teammangers.dev.notice.dto.res.CreateNoticeRes;
-import kr.teammangers.dev.notice.dto.res.DeleteNoticeRes;
-import kr.teammangers.dev.notice.dto.res.GetNoticeRes;
-import kr.teammangers.dev.notice.dto.res.UpdateNoticeRes;
+import kr.teammangers.dev.auth.infrastructure.security.AuthInfo;
+import kr.teammangers.dev.global.common.response.ApiRes;
+import kr.teammangers.dev.notice.application.facade.NoticeApiFacade;
+import kr.teammangers.dev.notice.dto.NoticeDto;
+import kr.teammangers.dev.notice.dto.request.CreateNoticeReq;
+import kr.teammangers.dev.notice.dto.request.UpdateNoticeReq;
+import kr.teammangers.dev.notice.dto.response.GetNoticeRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -21,15 +18,15 @@ import java.util.List;
 @RequestMapping("/api/v2/team/{teamId}/notice")
 public class NoticeController {
 
-    private final NoticeCrudService noticeCrudService;
+    private final NoticeApiFacade noticeApiFacade;
 
     @PostMapping
-    public ApiRes<CreateNoticeRes> createNotice(
+    public ApiRes<NoticeDto> createNotice(
             @AuthenticationPrincipal final AuthInfo auth,
             @PathVariable("teamId") final Long teamId,
             @RequestBody final CreateNoticeReq req
     ) {
-        CreateNoticeRes result = noticeCrudService.createNotice(auth.memberDto().id(), teamId, req);
+        NoticeDto result = noticeApiFacade.createNotice(auth.memberDto().id(), teamId, req);
         return ApiRes.onSuccess(result);
     }
 
@@ -37,7 +34,7 @@ public class NoticeController {
     public ApiRes<GetNoticeRes> getNotice(
             @PathVariable("teamId") final Long teamId
     ) {
-        GetNoticeRes result = noticeCrudService.getNotice(teamId);
+        GetNoticeRes result = noticeApiFacade.getNotice(teamId);
         return ApiRes.onSuccess(result);
     }
 
@@ -45,27 +42,28 @@ public class NoticeController {
     public ApiRes<List<GetNoticeRes>> getNoticeList(
             @PathVariable("teamId") final Long teamId
     ) {
-        List<GetNoticeRes> result = noticeCrudService.getNoticeList(teamId);
+        List<GetNoticeRes> result = noticeApiFacade.getNoticeList(teamId);
         return ApiRes.onSuccess(result);
     }
 
-    @PatchMapping
-    public ApiRes<UpdateNoticeRes> updateNotice(
+    @PatchMapping("/{noticeId}")
+    public ApiRes<NoticeDto> updateNotice(
             @AuthenticationPrincipal final AuthInfo auth,
             @PathVariable("teamId") final Long teamId,
+            @PathVariable("noticeId") final Long noticeId,
             @RequestBody final UpdateNoticeReq req
     ) {
-        UpdateNoticeRes result = noticeCrudService.updateNotice(auth.memberDto().id(), teamId, req);
+        NoticeDto result = noticeApiFacade.updateNotice(auth.memberDto().id(), teamId, noticeId, req);
         return ApiRes.onSuccess(result);
     }
 
-    @DeleteMapping
-    public ApiRes<DeleteNoticeRes> deleteNotice(
+    @DeleteMapping("/{noticeId}")
+    public ApiRes<Long> deleteNotice(
             @AuthenticationPrincipal final AuthInfo auth,
             @PathVariable("teamId") final Long teamId,
-            @RequestBody final DeleteNoticeReq req
+            @PathVariable("noticeId") final Long noticeId
     ) {
-        DeleteNoticeRes result = noticeCrudService.deleteNotice(auth.memberDto().id(), teamId, req);
+        Long result = noticeApiFacade.deleteNotice(auth.memberDto().id(), teamId, noticeId);
         return ApiRes.onSuccess(result);
     }
 

@@ -1,7 +1,7 @@
 package kr.teammangers.dev.auth.mapper;
 
-import kr.teammangers.dev.auth.dto.AuthInfo;
-import kr.teammangers.dev.auth.dto.res.TokenRes;
+import kr.teammangers.dev.auth.infrastructure.security.AuthInfo;
+import kr.teammangers.dev.auth.dto.response.TokenRes;
 import kr.teammangers.dev.member.dto.MemberDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

@@ -1,8 +1,9 @@
 package kr.teammangers.dev.tag.mapper;
 
-import kr.teammangers.dev.tag.domain.Tag;
-import kr.teammangers.dev.team.domain.Team;
-import kr.teammangers.dev.tag.domain.mapping.TeamTag;
+import kr.teammangers.dev.tag.domain.entity.Tag;
+import kr.teammangers.dev.tag.domain.entity.TeamTag;
+import kr.teammangers.dev.tag.dto.TeamTagDto;
+import kr.teammangers.dev.team.domain.entity.Team;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -17,4 +18,7 @@ public interface TeamTagMapper {
     @Mapping(target = "tag", source = "tag")
     TeamTag toEntity(Team team, Tag tag);
 
+    @Mapping(target = "tagId", source = "teamTag.tag.id")
+    @Mapping(target = "teamId", source = "teamTag.team.id")
+    TeamTagDto toDto(TeamTag teamTag);
 }

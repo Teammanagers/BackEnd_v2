@@ -1,13 +1,11 @@
 package kr.teammangers.dev.inquiry.presentation;
 
-import kr.teammangers.dev.auth.dto.AuthInfo;
-import kr.teammangers.dev.common.payload.ApiRes;
-import kr.teammangers.dev.inquiry.application.InquiryCrudService;
-import kr.teammangers.dev.inquiry.dto.req.CreateInquiryReq;
-import kr.teammangers.dev.inquiry.dto.req.DeleteInquiryReq;
-import kr.teammangers.dev.inquiry.dto.res.CreateInquiryRes;
-import kr.teammangers.dev.inquiry.dto.res.DeleteInquiryRes;
-import kr.teammangers.dev.inquiry.dto.res.GetInquiryRes;
+import kr.teammangers.dev.auth.infrastructure.security.AuthInfo;
+import kr.teammangers.dev.global.common.response.ApiRes;
+import kr.teammangers.dev.inquiry.application.facade.InquiryApiFacade;
+import kr.teammangers.dev.inquiry.dto.InquiryDto;
+import kr.teammangers.dev.inquiry.dto.request.CreateInquiryReq;
+import kr.teammangers.dev.inquiry.dto.response.GetInquiryRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -19,30 +17,30 @@ import java.util.List;
 @RequestMapping("/api/v2/inquiry")
 public class InquiryController {
 
-    private final InquiryCrudService inquiryCrudService;
+    private final InquiryApiFacade inquiryApiFacade;
 
     @PostMapping
-    public ApiRes<CreateInquiryRes> createInquiry(
+    public ApiRes<InquiryDto> createInquiry(
             @AuthenticationPrincipal final AuthInfo auth,
             @RequestBody final CreateInquiryReq req
     ) {
-        CreateInquiryRes result = inquiryCrudService.createInquiry(auth.memberDto().id(), req);
+        InquiryDto result = inquiryApiFacade.createInquiry(auth.memberDto().id(), req);
         return ApiRes.onSuccess(result);
     }
 
-    @GetMapping
+    @GetMapping("/list")
     public ApiRes<List<GetInquiryRes>> getInquiryList(
             @AuthenticationPrincipal final AuthInfo auth
     ) {
-        List<GetInquiryRes> result = inquiryCrudService.getInquiryList(auth.memberDto().id());
+        List<GetInquiryRes> result = inquiryApiFacade.getInquiryList(auth.memberDto().id());
         return ApiRes.onSuccess(result);
     }
 
-    @DeleteMapping
-    public ApiRes<DeleteInquiryRes> deleteInquiry(
-            @RequestBody final DeleteInquiryReq req
+    @DeleteMapping("/{inquiryId}")
+    public ApiRes<Long> deleteInquiry(
+            @PathVariable("inquiryId") final Long inquiryId
     ) {
-        DeleteInquiryRes result = inquiryCrudService.deleteInquiry(req);
+        Long result = inquiryApiFacade.deleteInquiry(inquiryId);
         return ApiRes.onSuccess(result);
     }
 

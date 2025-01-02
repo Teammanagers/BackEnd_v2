@@ -1,8 +1,8 @@
 package kr.teammangers.dev.memo.mapper;
 
-import kr.teammangers.dev.memo.domain.Folder;
+import kr.teammangers.dev.memo.domain.entity.Folder;
 import kr.teammangers.dev.memo.dto.FolderDto;
-import kr.teammangers.dev.memo.dto.req.CreateFolderReq;
+import kr.teammangers.dev.memo.dto.request.CreateFolderReq;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -22,7 +22,13 @@ public interface FolderMapper {
     FolderDto toDto(Folder folder);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "parentId", source = "parentId")
     @Mapping(target = "depth", source = "depth")
-    FolderDto toDto(CreateFolderReq req, Integer depth);
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "createdBy", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
+    @Mapping(target = "updatedBy", ignore = true)
+    @Mapping(target = "useYn", ignore = true)
+    FolderDto toDto(CreateFolderReq req, Long parentId, Integer depth);
 
 }

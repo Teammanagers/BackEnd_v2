@@ -1,7 +1,7 @@
 package kr.teammangers.dev.team.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import kr.teammangers.dev.common.enums.EntityStatus;
+import kr.teammangers.dev.global.common.enums.EntityStatus;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
@@ -13,6 +13,7 @@ public record TeamDto(
         String password,
         String code,
         Long rootFolderId,
+        Long timeSlotId,
 
         @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
         LocalDateTime createdAt,

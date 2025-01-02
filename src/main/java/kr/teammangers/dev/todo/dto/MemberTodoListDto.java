@@ -7,7 +7,7 @@ import java.util.List;
 
 @Builder
 public record MemberTodoListDto(
-        Long teamManageId,
+        Long teamMemberId,
         String name,
         List<TagDto> tagList,
         List<TodoDto> todoList

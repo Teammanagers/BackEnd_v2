@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface TodoRepository extends JpaRepository<Todo, Long> {
 
-    List<Todo> findAllByTeamManage_Id(Long teamManageId);
+    List<Todo> findAllByTeamMember_Id(Long teamManageId);
 }

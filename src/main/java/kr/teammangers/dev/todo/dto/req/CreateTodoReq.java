@@ -1,6 +1,6 @@
 package kr.teammangers.dev.todo.dto.req;
 
-import kr.teammangers.dev.common.enums.TodoStatus;
+import kr.teammangers.dev.global.common.enums.TodoStatus;
 import kr.teammangers.dev.todo.domain.Todo;
 import lombok.Builder;
 

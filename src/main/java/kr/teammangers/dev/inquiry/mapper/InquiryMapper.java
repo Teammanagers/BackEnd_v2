@@ -1,8 +1,8 @@
 package kr.teammangers.dev.inquiry.mapper;
 
-import kr.teammangers.dev.inquiry.domain.Inquiry;
+import kr.teammangers.dev.inquiry.domain.entity.Inquiry;
 import kr.teammangers.dev.inquiry.dto.InquiryDto;
-import kr.teammangers.dev.inquiry.dto.req.CreateInquiryReq;
+import kr.teammangers.dev.inquiry.dto.request.CreateInquiryReq;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -18,6 +18,11 @@ public interface InquiryMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "inquiryType", source = "req.inquiryType")
     @Mapping(target = "content", source = "req.content")
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "createdBy", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
+    @Mapping(target = "updatedBy", ignore = true)
+    @Mapping(target = "useYn", ignore = true)
     InquiryDto toDto(Long memberId, CreateInquiryReq req);
 
     InquiryDto toDto(Inquiry inquiry);

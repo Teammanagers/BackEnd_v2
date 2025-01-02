@@ -1,17 +1,16 @@
 package kr.teammangers.dev.team.presentation;
 
 import jakarta.validation.Valid;
-import kr.teammangers.dev.auth.dto.AuthInfo;
-import kr.teammangers.dev.common.payload.ApiRes;
-import kr.teammangers.dev.team.application.TeamCrudService;
-import kr.teammangers.dev.team.application.TeamMembershipService;
-import kr.teammangers.dev.team.application.TeamUtilService;
-import kr.teammangers.dev.team.dto.req.CreateTeamReq;
-import kr.teammangers.dev.team.dto.req.JoinTeamReq;
-import kr.teammangers.dev.team.dto.res.CreateTeamRes;
-import kr.teammangers.dev.team.dto.res.GetTeamCodeRes;
-import kr.teammangers.dev.team.dto.res.GetTeamRes;
-import kr.teammangers.dev.team.dto.res.JoinTeamRes;
+import kr.teammangers.dev.auth.infrastructure.security.AuthInfo;
+import kr.teammangers.dev.global.common.response.ApiRes;
+import kr.teammangers.dev.team.application.facade.TeamApiFacade;
+import kr.teammangers.dev.team.dto.TeamDto;
+import kr.teammangers.dev.team.dto.request.CreateTeamReq;
+import kr.teammangers.dev.team.dto.request.JoinTeamReq;
+import kr.teammangers.dev.team.dto.request.UpdateTeamPasswordReq;
+import kr.teammangers.dev.team.dto.request.UpdateTeamReq;
+import kr.teammangers.dev.team.dto.response.GetMemberRes;
+import kr.teammangers.dev.team.dto.response.GetTeamRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -24,29 +23,23 @@ import java.util.List;
 @RequestMapping("/api/v2/team")
 public class TeamController {
 
-    private final TeamCrudService teamCrudService;
-    private final TeamUtilService teamUtilService;
-    private final TeamMembershipService teamMembershipService;
+    private final TeamApiFacade teamApiFacade;
 
     @PostMapping
-    public ApiRes<CreateTeamRes> createTeam(
+    public ApiRes<TeamDto> createTeam(
             @AuthenticationPrincipal final AuthInfo auth,
             @RequestPart(name = "createTeam") @Valid final CreateTeamReq req,
             @RequestPart(name = "imageFile", required = false) final MultipartFile imageFile
     ) {
-        return ApiRes.onSuccess(teamCrudService.createTeam(auth.memberDto().id(), req, imageFile));
+        TeamDto result = teamApiFacade.createTeam(auth.memberDto().id(), req, imageFile);
+        return ApiRes.onSuccess(result);
     }
 
-    @GetMapping("/code")
-    public ApiRes<GetTeamCodeRes> generateTeamCode() {
-        return ApiRes.onSuccess(teamUtilService.generateTeamCode());
-    }
-
-    @GetMapping
+    @GetMapping("/by-code")
     public ApiRes<GetTeamRes> getTeamByTeamCode(
             @RequestParam("teamCode") final String teamCode
     ) {
-        GetTeamRes result = teamCrudService.getTeamByTeamCode(teamCode);
+        GetTeamRes result = teamApiFacade.getTeamByTeamCode(teamCode);
         return ApiRes.onSuccess(result);
     }
 
@@ -54,17 +47,69 @@ public class TeamController {
     public ApiRes<List<GetTeamRes>> getTeamListByMember(
             @AuthenticationPrincipal final AuthInfo auth
     ) {
-        List<GetTeamRes> result = teamCrudService.getTeamListByMemberId(auth.memberDto().id());
+        List<GetTeamRes> result = teamApiFacade.getTeamListByMemberId(auth.memberDto().id());
         return ApiRes.onSuccess(result);
     }
 
-    @PostMapping("/{teamId}")
-    public ApiRes<JoinTeamRes> joinTeam(
+    @GetMapping("/{teamId}")
+    public ApiRes<GetTeamRes> getTeamByTeamId(
+            @PathVariable("teamId") final Long teamId
+    ) {
+        GetTeamRes result = teamApiFacade.getTeamByTeamId(teamId);
+        return ApiRes.onSuccess(result);
+    }
+
+    @GetMapping("/{teamId}/member-list")
+    public ApiRes<List<GetMemberRes>> getMemberListByTeam(
+            @PathVariable("teamId") final Long teamId
+    ) {
+        List<GetMemberRes> result = teamApiFacade.getMemberListByTeamId(teamId);
+        return ApiRes.onSuccess(result);
+    }
+
+    @PatchMapping("/{teamId}/password")
+    public ApiRes<TeamDto> updateTeamPassword(
+            @PathVariable("teamId") final Long teamId,
+            @RequestBody final UpdateTeamPasswordReq req
+    ) {
+        TeamDto result = teamApiFacade.updateTeamPassword(teamId, req);
+        return ApiRes.onSuccess(result);
+    }
+
+    @PatchMapping("/{teamId}")
+    public ApiRes<TeamDto> updateTeam(
+            @PathVariable("teamId") final Long teamId,
+            @RequestPart(name = "updateTeam") final UpdateTeamReq req,
+            @RequestPart(name = "imageFile", required = false) final MultipartFile imageFile
+    ) {
+        TeamDto result = teamApiFacade.updateTeam(teamId, req, imageFile);
+        return ApiRes.onSuccess(result);
+    }
+
+    @PatchMapping("/{teamId}/complete")
+    public ApiRes<TeamDto> completeTeam(
+            @PathVariable("teamId") final Long teamId
+    ) {
+        TeamDto result = teamApiFacade.completeTeam(teamId);
+        return ApiRes.onSuccess(result);
+    }
+
+    @PostMapping("/{teamId}/join")
+    public ApiRes<TeamDto> joinTeam(
             @AuthenticationPrincipal final AuthInfo auth,
             @PathVariable("teamId") final Long teamId,
             @RequestBody final JoinTeamReq req
     ) {
-        JoinTeamRes result = teamMembershipService.joinTeam(auth.memberDto().id(), teamId, req);
+        TeamDto result = teamApiFacade.joinTeam(auth.memberDto().id(), teamId, req);
+        return ApiRes.onSuccess(result);
+    }
+
+    @DeleteMapping("/{teamId}/withdrawal")
+    public ApiRes<Long> withdrawTeam(
+            @AuthenticationPrincipal final AuthInfo auth,
+            @PathVariable("teamId") final Long teamId
+    ) {
+        Long result = teamApiFacade.withdrawTeam(auth.memberDto().id(), teamId);
         return ApiRes.onSuccess(result);
     }
 

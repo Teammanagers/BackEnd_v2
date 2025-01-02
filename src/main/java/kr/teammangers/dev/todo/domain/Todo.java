@@ -1,11 +1,11 @@
 package kr.teammangers.dev.todo.domain;
 
 import jakarta.persistence.*;
-import kr.teammangers.dev.common.entity.BaseField;
-import kr.teammangers.dev.common.enums.TodoStatus;
-import kr.teammangers.dev.common.payload.code.dto.enums.ErrorStatus;
-import kr.teammangers.dev.common.payload.exception.GeneralException;
-import kr.teammangers.dev.team.domain.mapping.TeamManage;
+import kr.teammangers.dev.global.common.base.BaseField;
+import kr.teammangers.dev.global.common.enums.TodoStatus;
+import kr.teammangers.dev.global.error.code.ErrorStatus;
+import kr.teammangers.dev.global.error.exception.GeneralException;
+import kr.teammangers.dev.team.domain.entity.TeamMember;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
@@ -33,7 +33,7 @@ public class Todo extends BaseField {
 
     @Setter
     @ManyToOne(fetch = FetchType.LAZY)
-    private TeamManage teamManage;
+    private TeamMember teamMember;
 
     public void updateTitle(String newTitle) {
         this.title = newTitle;

@@ -1,17 +1,12 @@
 package kr.teammangers.dev.memo.presentation;
 
-import kr.teammangers.dev.auth.dto.AuthInfo;
-import kr.teammangers.dev.common.payload.ApiRes;
-import kr.teammangers.dev.memo.application.FolderCrudService;
-import kr.teammangers.dev.memo.dto.req.CreateFolderReq;
-import kr.teammangers.dev.memo.dto.req.DeleteFolderReq;
-import kr.teammangers.dev.memo.dto.req.UpdateFolderReq;
-import kr.teammangers.dev.memo.dto.res.CreateFolderRes;
-import kr.teammangers.dev.memo.dto.res.DeleteFolderRes;
-import kr.teammangers.dev.memo.dto.res.GetFolderRes;
-import kr.teammangers.dev.memo.dto.res.UpdateFolderRes;
+import kr.teammangers.dev.global.common.response.ApiRes;
+import kr.teammangers.dev.memo.application.facade.FolderApiFacade;
+import kr.teammangers.dev.memo.dto.FolderDto;
+import kr.teammangers.dev.memo.dto.request.CreateFolderReq;
+import kr.teammangers.dev.memo.dto.request.UpdateFolderReq;
+import kr.teammangers.dev.memo.dto.response.GetFolderRes;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,13 +16,22 @@ import java.util.List;
 @RequestMapping("/api/v2/folder")
 public class FolderController {
 
-    private final FolderCrudService folderCrudService;
+    private final FolderApiFacade folderApiFacade;
 
-    @PostMapping
-    public ApiRes<CreateFolderRes> createFolder(
+    @PostMapping("/{parentId}")
+    public ApiRes<FolderDto> createFolder(
+            @PathVariable("parentId") final Long parentId,
             @RequestBody final CreateFolderReq req
     ) {
-        CreateFolderRes result = folderCrudService.createFolder(req);
+        FolderDto result = folderApiFacade.createFolder(parentId, req);
+        return ApiRes.onSuccess(result);
+    }
+
+    @GetMapping("/root/{teamId}")
+    public ApiRes<GetFolderRes> getRootFolderByTeamId(
+            @PathVariable("teamId") final Long teamId
+    ) {
+        GetFolderRes result = folderApiFacade.getRootFolderByTeamId(teamId);
         return ApiRes.onSuccess(result);
     }
 
@@ -35,25 +39,24 @@ public class FolderController {
     public ApiRes<List<GetFolderRes>> getFolderListByFolderId(
             @PathVariable("folderId") final Long folderId
     ) {
-        List<GetFolderRes> result = folderCrudService.getFolderList(folderId);
+        List<GetFolderRes> result = folderApiFacade.getFolderList(folderId);
         return ApiRes.onSuccess(result);
     }
 
-    @PatchMapping
-    public ApiRes<UpdateFolderRes> updateFolder(
-            @AuthenticationPrincipal final AuthInfo auth,
+    @PatchMapping("/{folderId}")
+    public ApiRes<FolderDto> updateFolder(
+            @PathVariable("folderId") final Long folderId,
             @RequestBody final UpdateFolderReq req
     ) {
-        UpdateFolderRes result = folderCrudService.updateFolder(auth.memberDto().id(), req);
+        FolderDto result = folderApiFacade.updateFolder(folderId, req);
         return ApiRes.onSuccess(result);
     }
 
-    @DeleteMapping
-    public ApiRes<DeleteFolderRes> deleteFolder(
-            @AuthenticationPrincipal final AuthInfo auth,
-            @RequestBody final DeleteFolderReq req
+    @DeleteMapping("/{folderId}")
+    public ApiRes<Long> deleteFolder(
+            @PathVariable("folderId") final Long folderId
     ) {
-        DeleteFolderRes result = folderCrudService.deleteFolder(auth.memberDto().id(), req);
+        Long result = folderApiFacade.deleteFolder(folderId);
         return ApiRes.onSuccess(result);
     }
 

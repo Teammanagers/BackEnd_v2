@@ -1,10 +1,9 @@
 package kr.teammangers.dev.todo.application;
 
-import kr.teammangers.dev.common.payload.code.dto.enums.ErrorStatus;
-import kr.teammangers.dev.common.payload.exception.GeneralException;
-import kr.teammangers.dev.tag.dto.TagDto;
-import kr.teammangers.dev.team.domain.mapping.TeamManage;
-import kr.teammangers.dev.team.repository.mapping.TeamManageRepository;
+import kr.teammangers.dev.global.error.code.ErrorStatus;
+import kr.teammangers.dev.global.error.exception.GeneralException;
+import kr.teammangers.dev.team.domain.entity.TeamMember;
+import kr.teammangers.dev.team.domain.repository.TeamMemberRepository;
 import kr.teammangers.dev.todo.domain.Todo;
 import kr.teammangers.dev.todo.dto.MemberTodoListDto;
 import kr.teammangers.dev.todo.dto.TodoDto;
@@ -27,15 +26,15 @@ import java.util.List;
 public class TodoCrudService {
 
     private final TodoRepository todoRepository;
-    private final TeamManageRepository teamManageRepository;
+    private final TeamMemberRepository teamMemberRepository;
 
     @Transactional
-    public CreateTodoRes createTodo(Long teamManageId, CreateTodoReq request) {
-        TeamManage teamManage = teamManageRepository.findById(teamManageId)
+    public CreateTodoRes createTodo(Long teamMemberId, CreateTodoReq request) {
+        TeamMember teamMember = teamMemberRepository.findById(teamMemberId)
                 .orElseThrow(() -> new GeneralException(ErrorStatus.TEAMMANAGE_NOT_FOUND));
 
         Todo newTodo = request.toTodo();
-        newTodo.setTeamManage(teamManage);
+        newTodo.setTeamMember(teamMember);
 
         long newTodoId = todoRepository.save(newTodo).getId();
 
@@ -61,7 +60,7 @@ public class TodoCrudService {
         Todo todoForDelete = todoRepository.findById(todoId)
                 .orElseThrow(() -> new GeneralException(ErrorStatus.TODO_NOT_FOUND));
 
-        if (!teamManageRepository.existsByTeam_IdAndMember_Id(memberId, todoForDelete.getTeamManage().getTeam().getId())) {
+        if (!teamMemberRepository.existsByTeam_IdAndMember_Id(memberId, todoForDelete.getTeamMember().getTeam().getId())) {
             throw new GeneralException(ErrorStatus.TODO_FORBIDDEN);
         }
 
@@ -69,18 +68,18 @@ public class TodoCrudService {
     }
 
     public GetTeamTodoRes getTeamTodo(Long memberId, Long teamId) {
-        if (!teamManageRepository.existsByTeam_IdAndMember_Id(memberId, teamId)) {
+        if (!teamMemberRepository.existsByTeam_IdAndMember_Id(memberId, teamId)) {
             throw new GeneralException(ErrorStatus.TEAM_FORBIDDEN);
         }
 
-        List<MemberTodoListDto> teamTodoList = teamManageRepository.findAllByTeam_Id(teamId)
-                .stream().map(teamManage -> {
-                    String name = teamManage.getMember().getName();
+        List<MemberTodoListDto> teamTodoList = teamMemberRepository.findAllByTeam_Id(teamId)
+                .stream().map(teamMember -> {
+                    String name = teamMember.getMember().getName();
                     // TODO: TagList 추가 필요
-                    List<TodoDto> todoList = todoRepository.findAllByTeamManage_Id(teamManage.getId())
+                    List<TodoDto> todoList = todoRepository.findAllByTeamMember_Id(teamMember.getId())
                             .stream().map(TodoDto::from).toList();
                     return MemberTodoListDto.builder()
-                            .teamManageId(teamManage.getId())
+                            .teamMemberId(teamMember.getId())
                             .name(name)
                             .todoList(todoList)
                             .build();
