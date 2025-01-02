@@ -81,7 +81,6 @@ public class TodoCrudService {
                 .stream().map(teamMember -> {
                     String name = teamMember.getMember().getName();
                     Long teamMemberId = teamMember.getId();
-                    // TODO: TagList 추가 필요
                     List<TagDto> tagList = teamMemberTagRepository.findAllByTeamMember_Id(teamMemberId)
                             .stream()
                             .map(teamMemberTag -> tagMapper.toDto(teamMemberTag.getTag())).toList();
@@ -89,6 +88,7 @@ public class TodoCrudService {
                             .stream().map(TodoDto::from).toList();
                     return MemberTodoListDto.builder()
                             .teamMemberId(teamMember.getId())
+                            .tagList(tagList)
                             .name(name)
                             .todoList(todoList)
                             .build();
