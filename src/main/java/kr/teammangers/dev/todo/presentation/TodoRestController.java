@@ -3,6 +3,7 @@ package kr.teammangers.dev.todo.presentation;
 import kr.teammangers.dev.auth.infrastructure.security.AuthInfo;
 import kr.teammangers.dev.global.common.response.ApiRes;
 import kr.teammangers.dev.todo.application.TodoCrudService;
+import kr.teammangers.dev.todo.application.facade.TodoApiFacade;
 import kr.teammangers.dev.todo.dto.req.CreateTodoReq;
 import kr.teammangers.dev.todo.dto.req.UpdateTodoReq;
 import kr.teammangers.dev.todo.dto.res.CreateTodoRes;
@@ -12,6 +13,7 @@ import kr.teammangers.dev.todo.dto.res.UpdateTodoStatusRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 public class TodoRestController {
 
     private final TodoCrudService todoCrudService;
+    private final TodoApiFacade todoApiFacade;
 
     @PostMapping
     public ApiRes<CreateTodoRes> createTodo(
@@ -71,6 +74,17 @@ public class TodoRestController {
     ) {
 
         return ApiRes.onSuccess(todoCrudService.updateTodoStatus(auth.memberDto().id(), todoId, option));
+
+    }
+
+    @PostMapping("/{todoId}/image")
+    public ApiRes<UpdateTodoRes> uploadImage(
+            @AuthenticationPrincipal final AuthInfo auth,
+            @PathVariable(name = "todoId") final Long todoId,
+            @RequestPart(name = "imageFile") final MultipartFile imageFile
+    ) {
+
+        return ApiRes.onSuccess(todoApiFacade.uploadImage(todoId, imageFile));
 
     }
 }
