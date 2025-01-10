@@ -7,6 +7,9 @@ import java.util.List;
 
 @Builder
 public record GetTeamTodoRes(
-        List<MemberTodoListDto> teamTodoList
+        List<MemberTodoListDto> teamTodoList,
+        Integer pending,
+        Integer in_progress,
+        Integer completed
 ) {
 }

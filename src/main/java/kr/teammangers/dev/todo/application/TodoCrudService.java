@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 @RequiredArgsConstructor
@@ -77,18 +78,30 @@ public class TodoCrudService {
             throw new GeneralException(ErrorStatus.TEAM_FORBIDDEN);
         }
 
+        AtomicInteger pending = new AtomicInteger();
+        AtomicInteger in_progress = new AtomicInteger();
+        AtomicInteger completed = new AtomicInteger();
+
         List<MemberTodoListDto> teamTodoList = teamMemberRepository.findAllByTeam_Id(teamId)
                 .stream().map(teamMember -> {
                     String name = teamMember.getMember().getName();
                     Long teamMemberId = teamMember.getId();
-                    // TODO: TagList 추가 필요
                     List<TagDto> tagList = teamMemberTagRepository.findAllByTeamMember_Id(teamMemberId)
                             .stream()
                             .map(teamMemberTag -> tagMapper.toDto(teamMemberTag.getTag())).toList();
                     List<TodoDto> todoList = todoRepository.findAllByTeamMember_Id(teamMemberId)
-                            .stream().map(TodoDto::from).toList();
+                            .stream().map(
+                                    todo -> {
+                                        switch(todo.getStatus()) {
+                                            case PENDING -> pending.getAndIncrement();
+                                            case IN_PROGRESS -> in_progress.getAndIncrement();
+                                            case COMPLETED -> completed.getAndIncrement();
+                                        }
+                                    return TodoDto.from(todo);
+                                    }).toList();
                     return MemberTodoListDto.builder()
                             .teamMemberId(teamMember.getId())
+                            .tagList(tagList)
                             .name(name)
                             .todoList(todoList)
                             .build();
@@ -96,6 +109,9 @@ public class TodoCrudService {
 
         return GetTeamTodoRes.builder()
                 .teamTodoList(teamTodoList)
+                .pending(pending.get())
+                .in_progress(in_progress.get())
+                .completed(completed.get())
                 .build();
     }
 
