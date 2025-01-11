@@ -17,9 +17,11 @@ public class TodoImgService {
     private final TodoRepository todoRepository;
     private final S3Repository s3Repository;
 
-    public Long save(Long todoId, Long s3FileInfoId) {
+    public Todo save(Long todoId, Long s3FileInfoId) {
         Todo todo = todoRepository.getReferenceById(todoId);
         S3FileInfo s3FileInfo = s3Repository.getReferenceById(s3FileInfoId);
-        return todoImgRepository.save(TODO_IMG_MAPPER.toEntity(todo, s3FileInfo)).getId();
+        todoImgRepository.save(TODO_IMG_MAPPER.toEntity(todo, s3FileInfo));
+
+        return todo;
     }
 }

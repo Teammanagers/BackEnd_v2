@@ -1,12 +1,10 @@
 package kr.teammangers.dev.todo.dto;
 
 import kr.teammangers.dev.tag.dto.TagDto;
-import lombok.Builder;
 
 import java.util.List;
 
-@Builder
-public record MemberTodoListDto(
+public record TodoListDto(
         Long teamMemberId,
         String name,
         List<TagDto> tagList,

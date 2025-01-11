@@ -6,10 +6,7 @@ import kr.teammangers.dev.todo.application.TodoCrudService;
 import kr.teammangers.dev.todo.application.facade.TodoApiFacade;
 import kr.teammangers.dev.todo.dto.req.CreateTodoReq;
 import kr.teammangers.dev.todo.dto.req.UpdateTodoReq;
-import kr.teammangers.dev.todo.dto.res.CreateTodoRes;
-import kr.teammangers.dev.todo.dto.res.GetTeamTodoRes;
-import kr.teammangers.dev.todo.dto.res.UpdateTodoRes;
-import kr.teammangers.dev.todo.dto.res.UpdateTodoStatusRes;
+import kr.teammangers.dev.todo.dto.res.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +21,7 @@ public class TodoRestController {
     private final TodoApiFacade todoApiFacade;
 
     @PostMapping
-    public ApiRes<CreateTodoRes> createTodo(
+    public ApiRes<TodoCommonRes> createTodo(
             @AuthenticationPrincipal final AuthInfo auth,
             @RequestParam(name = "teamMemberId") final Long teamMemberId,
             @RequestBody final CreateTodoReq request
@@ -35,7 +32,7 @@ public class TodoRestController {
     }
 
     @PostMapping("/{todoId}")
-    public ApiRes<UpdateTodoRes> updateTodo(
+    public ApiRes<TodoCommonRes> updateTodo(
             @AuthenticationPrincipal final AuthInfo auth,
             @PathVariable(name = "todoId") final Long todoId,
             @RequestBody final UpdateTodoReq request
@@ -67,7 +64,7 @@ public class TodoRestController {
     }
 
     @PatchMapping("/{todoId}")
-    public ApiRes<UpdateTodoStatusRes> updateTodoStatus(
+    public ApiRes<TodoCommonRes> updateTodoStatus(
             @AuthenticationPrincipal final AuthInfo auth,
             @PathVariable(name = "todoId") final Long todoId,
             @RequestParam(name = "option") final Integer option
@@ -78,7 +75,7 @@ public class TodoRestController {
     }
 
     @PostMapping("/{todoId}/image")
-    public ApiRes<UpdateTodoRes> uploadImage(
+    public ApiRes<TodoCommonRes> uploadImage(
             @AuthenticationPrincipal final AuthInfo auth,
             @PathVariable(name = "todoId") final Long todoId,
             @RequestPart(name = "imageFile") final MultipartFile imageFile
