@@ -18,7 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-import static kr.teammangers.dev.document.mapper.DocumentMapper.DOCUMENT_MAPPER;
+import static kr.teammangers.dev.document.mapper.DocumentResMapper.DOCUMENT_RES_MAPPER;
 
 import static kr.teammangers.dev.s3.constant.S3Constant.DOCUMENT_PATH;
 
@@ -49,7 +49,7 @@ public class DocumentApiFacade {
         List<List<TagDto>> teamMemberTagDtoList = teamMemberIdList.stream()
                 .map(teamMemberTagService::findAllTagDtoByTeamMemberId).toList();
 
-        return DOCUMENT_MAPPER.toGetTeamDocumentRes(documentDtoList, teamMemberTagDtoList);
+        return DOCUMENT_RES_MAPPER.toGetTeamDocumentRes(documentDtoList, teamMemberTagDtoList);
     }
 
 }

@@ -22,10 +22,8 @@ public interface DocumentMapper {
     @Mapping(target = "s3FileInfo", source = "s3FileInfo")
     Document toEntity(TeamMember teamMember, S3FileInfo s3FileInfo);
 
-    @Mapping(target = "teamMember", source = "teamMember.id")
-    @Mapping(target = "s3FileInfo", source = "s3FileInfo.id")
+    @Mapping(target = "teamMemberId", source = "teamMember.id")
+    @Mapping(target = "s3FileInfoId", source = "s3FileInfo.id")
     DocumentDto toDto(Document document);
 
-    GetTeamDocumentRes toGetTeamDocumentRes(List<DocumentDto> documentDtoList,
-                                            List<List<TagDto>> tagList);
-}
+ }
