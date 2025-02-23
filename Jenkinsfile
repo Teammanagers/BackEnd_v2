@@ -1,6 +1,10 @@
 pipeline {
     agent any    // 가능한 모든 Jenkins 에이전트에서 실행 가능
 
+    triggers {
+        githubPush() // GitHub push 이벤트 발생 시 자동 실행
+    }
+
     environment {
         // docker-hub-credentials에서 사용자명/비밀번호를 가져옴
         DOCKER_CREDENTIALS = credentials('docker-hub-credentials')
