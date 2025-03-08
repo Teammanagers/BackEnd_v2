@@ -3,15 +3,14 @@ package kr.teammangers.dev.todo.presentation;
 import kr.teammangers.dev.auth.infrastructure.security.AuthInfo;
 import kr.teammangers.dev.global.common.response.ApiRes;
 import kr.teammangers.dev.todo.application.TodoCrudService;
+import kr.teammangers.dev.todo.application.facade.TodoApiFacade;
 import kr.teammangers.dev.todo.dto.req.CreateTodoReq;
 import kr.teammangers.dev.todo.dto.req.UpdateTodoReq;
-import kr.teammangers.dev.todo.dto.res.CreateTodoRes;
-import kr.teammangers.dev.todo.dto.res.GetTeamTodoRes;
-import kr.teammangers.dev.todo.dto.res.UpdateTodoRes;
-import kr.teammangers.dev.todo.dto.res.UpdateTodoStatusRes;
+import kr.teammangers.dev.todo.dto.res.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,9 +18,10 @@ import org.springframework.web.bind.annotation.*;
 public class TodoRestController {
 
     private final TodoCrudService todoCrudService;
+    private final TodoApiFacade todoApiFacade;
 
     @PostMapping
-    public ApiRes<CreateTodoRes> createTodo(
+    public ApiRes<TodoCommonRes> createTodo(
             @AuthenticationPrincipal final AuthInfo auth,
             @RequestParam(name = "teamMemberId") final Long teamMemberId,
             @RequestBody final CreateTodoReq request
@@ -32,7 +32,7 @@ public class TodoRestController {
     }
 
     @PostMapping("/{todoId}")
-    public ApiRes<UpdateTodoRes> updateTodo(
+    public ApiRes<TodoCommonRes> updateTodo(
             @AuthenticationPrincipal final AuthInfo auth,
             @PathVariable(name = "todoId") final Long todoId,
             @RequestBody final UpdateTodoReq request
@@ -64,13 +64,24 @@ public class TodoRestController {
     }
 
     @PatchMapping("/{todoId}")
-    public ApiRes<UpdateTodoStatusRes> updateTodoStatus(
+    public ApiRes<TodoCommonRes> updateTodoStatus(
             @AuthenticationPrincipal final AuthInfo auth,
             @PathVariable(name = "todoId") final Long todoId,
             @RequestParam(name = "option") final Integer option
     ) {
 
         return ApiRes.onSuccess(todoCrudService.updateTodoStatus(auth.memberDto().id(), todoId, option));
+
+    }
+
+    @PostMapping("/{todoId}/image")
+    public ApiRes<TodoCommonRes> uploadImage(
+            @AuthenticationPrincipal final AuthInfo auth,
+            @PathVariable(name = "todoId") final Long todoId,
+            @RequestPart(name = "imageFile") final MultipartFile imageFile
+    ) {
+
+        return ApiRes.onSuccess(todoApiFacade.uploadImage(todoId, imageFile));
 
     }
 }
