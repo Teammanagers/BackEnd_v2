@@ -29,7 +29,9 @@ public final class WebConfigConstant {
 
     public static final String[] CORS_ALLOW_ORIGIN = {
             "http://localhost:5173",
-            "http://localhost:8080"
+            "http://localhost:8080",
+            "https://www.teammanagers.kr",
+            "https://dev.teammanagers.kr"
     };
 
     public static final String[] CORS_ALLOW_METHODS = {

@@ -57,15 +57,14 @@ public class TokenService {
 
     public String provideAccessToken(HttpServletResponse response, MemberDto memberDto) {
         String accessToken = tokenProvider.generateAccessToken(accessSecretKey, accessTokenExpiration, memberDto);
-        ResponseCookie responseCookie = setTokenToCookie(ACCESS_PREFIX.getValue(), accessToken, accessTokenExpiration / 1000);
-        response.addHeader(TOKEN_ISSUE_HEADER.getValue(), responseCookie.toString());
+        response.setHeader(ACCESS_PREFIX.getValue(), TOKEN_PREFIX + accessToken);
         return accessToken;
     }
 
     public String provideRefreshToken(HttpServletResponse response, MemberDto memberDto) {
         String refreshToken = tokenProvider.generateRefreshToken(refreshSecretKey, refreshTokenExpiration, memberDto);
         ResponseCookie responseCookie = setTokenToCookie(REFRESH_PREFIX.getValue(), refreshToken, refreshTokenExpiration / 1000);
-        response.addHeader(TOKEN_ISSUE_HEADER.getValue(), responseCookie.toString());
+        response.addHeader("Set-Cookie", responseCookie.toString());
 
 //        tokenRepository.save(new Token(memberDto.id(), refreshToken));      // TODO: refreshToken 구현시 추가
         return refreshToken;
@@ -76,7 +75,7 @@ public class TokenService {
                 .path("/")
                 .maxAge(maxAgeSeconds)
                 .httpOnly(true)
-                .sameSite("Lax")
+                .sameSite("None")
                 .secure(true)
                 .build();
     }

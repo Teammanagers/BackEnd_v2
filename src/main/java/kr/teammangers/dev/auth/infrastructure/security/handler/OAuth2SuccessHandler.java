@@ -51,7 +51,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
     private void setTokens(HttpServletResponse response, MemberDto memberDto) {
         tokenService.provideAccessToken(response, memberDto);
-        tokenService.provideRefreshToken(response, memberDto);
+//        tokenService.provideRefreshToken(response, memberDto);
     }
 
     private String determineTargetUrl(AuthInfo authInfo) {
