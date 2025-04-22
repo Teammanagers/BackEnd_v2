@@ -68,7 +68,7 @@ public class TodoCrudService {
     }
 
     public GetTeamTodoRes getTeamTodo(Long memberId, Long teamId) {
-        if (!teamMemberRepository.existsByTeam_IdAndMember_Id(memberId, teamId)) {
+        if (!teamMemberRepository.existsByTeam_IdAndMember_Id(teamId, memberId)) {
             throw new GeneralException(ErrorStatus.TEAM_FORBIDDEN);
         }
 
