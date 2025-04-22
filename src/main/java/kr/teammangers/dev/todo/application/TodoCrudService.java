@@ -60,7 +60,7 @@ public class TodoCrudService {
         Todo todoForDelete = todoRepository.findById(todoId)
                 .orElseThrow(() -> new GeneralException(ErrorStatus.TODO_NOT_FOUND));
 
-        if (!teamMemberRepository.existsByTeam_IdAndMember_Id(memberId, todoForDelete.getTeamMember().getTeam().getId())) {
+        if (!teamMemberRepository.existsByTeam_IdAndMember_Id(todoForDelete.getTeamMember().getTeam().getId(), memberId)) {
             throw new GeneralException(ErrorStatus.TODO_FORBIDDEN);
         }
 
