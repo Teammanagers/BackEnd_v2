@@ -20,6 +20,7 @@ public class TodoApiFacade {
     private final TodoImgService todoImgService;
     private final S3Service s3Service;
 
+    @Transactional
     public TodoCommonRes uploadImage(Long todoId, MultipartFile imageFile) {
 
         S3FileInfoDto s3FileInfoDto = s3Service.uploadFile(imageFile, TODO_IMAGE_PATH);
