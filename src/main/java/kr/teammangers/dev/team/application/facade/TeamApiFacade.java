@@ -97,8 +97,14 @@ public class TeamApiFacade {
     }
 
     private GetTeamRes buildGetTeamRes(TeamDto teamDto) {
-        String filePath = teamImgService.findFilePathByTeamId(teamDto.id());
-        String generatedUrl = s3Service.generateUrl(filePath);
+        String generatedUrl = null;
+
+        try {
+            String filePath = teamImgService.findFilePathByTeamId(teamDto.id());
+            generatedUrl = s3Service.generateUrl(filePath);
+        } catch (GeneralException e) {
+            generatedUrl = null;
+        }
 
         List<TagDto> tagDtoList = teamTagService.findAllTagDtoByTeamId(teamDto.id());
 
@@ -150,6 +156,9 @@ public class TeamApiFacade {
         if (isAlreadyJoin(teamDto, memberId)) {
             throw new GeneralException(ErrorStatus.TEAM_ALREADY_JOIN);
         }
+
+        teamMemberService.save(teamDto.id(), memberId);
+
         return teamDto;
     }
 
