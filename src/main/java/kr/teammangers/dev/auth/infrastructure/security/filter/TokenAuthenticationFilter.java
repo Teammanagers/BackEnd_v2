@@ -38,18 +38,16 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         }
 
         String accessToken = tokenService.resolveTokenFromHeader(request, ACCESS_PREFIX);
-        if (accessToken == null || accessToken.isEmpty()) {
-            accessToken = tokenService.resolveTokenFromCookie(request, ACCESS_PREFIX);
+        if (tokenService.validateAccessToken(accessToken)) {
+            setAuthenticationToContext(accessToken);
+            filterChain.doFilter(request, response);
+            return;
         }
         else {
             handleAuthException(response, ErrorStatus.AUTH_INVALID_EXPIRED_TOKEN);
         }
 
-//        if (tokenService.validateAccessToken(accessToken)) {
-//            setAuthenticationToContext(accessToken);
-//            filterChain.doFilter(request, response);
-//            return;
-//        }
+
 
 //        String refreshToken = tokenService.resolveTokenFromCookie(request, REFRESH_PREFIX);
 //        MemberDto memberDto = findByRefreshToken(refreshToken);     // TODO: refreshToken 구현시
