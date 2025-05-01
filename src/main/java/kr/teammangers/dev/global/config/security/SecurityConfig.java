@@ -59,7 +59,9 @@ public class SecurityConfig {
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(PUBLIC_URLS).permitAll()
+                        //잠시 수정
                         .requestMatchers("/**").permitAll()
+                        .requestMatchers("/error").permitAll()
                         .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2 -> oauth2
@@ -82,12 +84,19 @@ public class SecurityConfig {
     public TokenAuthenticationFilter tokenAuthenticationFilter() {
         return new TokenAuthenticationFilter(tokenService);
     }
-    private static final String[] PUBLIC_URLS = {
+
+/*    private static final String[] PUBLIC_URLS = {
             "/",
             Arrays.toString(PERMITTED_URI),
             Arrays.toString(WHITE_LIST_URI),
             Arrays.toString(DOCS_URI)
-    };
+    };*/
 
+    private static final String[] PUBLIC_URLS = Stream.of(
+            Stream.of("/"),
+            Arrays.stream(PERMITTED_URI),
+            Arrays.stream(WHITE_LIST_URI),
+            Arrays.stream(DOCS_URI)
+    ).flatMap(s -> s).toArray(String[]::new);
 
 }
