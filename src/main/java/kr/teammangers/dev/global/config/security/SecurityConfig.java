@@ -21,6 +21,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfigurationSource;
 
 import java.util.Arrays;
+import java.util.stream.Stream;
 
 import static kr.teammangers.dev.global.common.constant.WebConfigConstant.*;
 
@@ -81,11 +82,18 @@ public class SecurityConfig {
         return new TokenAuthenticationFilter(tokenService);
     }
 
-    private static final String[] PUBLIC_URLS = {
+/*    private static final String[] PUBLIC_URLS = {
             "/",
             Arrays.toString(PERMITTED_URI),
             Arrays.toString(WHITE_LIST_URI),
             Arrays.toString(DOCS_URI)
-    };
+    };*/
+
+    private static final String[] PUBLIC_URLS = Stream.of(
+            Stream.of("/"),
+            Arrays.stream(PERMITTED_URI),
+            Arrays.stream(WHITE_LIST_URI),
+            Arrays.stream(DOCS_URI)
+    ).flatMap(s -> s).toArray(String[]::new);
 
 }
