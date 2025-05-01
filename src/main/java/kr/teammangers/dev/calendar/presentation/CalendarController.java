@@ -1,5 +1,6 @@
 package kr.teammangers.dev.calendar.presentation;
 
+import kr.teammangers.dev.auth.infrastructure.security.AuthInfo;
 import kr.teammangers.dev.calendar.application.facade.PlanApiFacade;
 import kr.teammangers.dev.calendar.dto.PlanDto;
 import kr.teammangers.dev.calendar.dto.request.CreatePlanReq;
@@ -7,6 +8,7 @@ import kr.teammangers.dev.calendar.dto.request.UpdatePlanReq;
 import kr.teammangers.dev.calendar.dto.response.GetPlanRes;
 import kr.teammangers.dev.global.common.response.ApiRes;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,6 +22,7 @@ public class CalendarController {
 
     @PostMapping("/teams/{teamId}")
     public ApiRes<PlanDto> createPlan(
+            @AuthenticationPrincipal final AuthInfo auth,
             @PathVariable("teamId") final Long teamId,
             @RequestBody final CreatePlanReq req
     ) {
