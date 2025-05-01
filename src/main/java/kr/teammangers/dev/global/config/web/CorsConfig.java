@@ -19,10 +19,6 @@ public class CorsConfig {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList(CORS_ALLOW_ORIGIN));
         configuration.setAllowedMethods(Arrays.asList(CORS_ALLOW_METHODS));
-
-        //임시 작성
-        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
-
         configuration.setAllowedHeaders(Arrays.asList(CORS_ALLOW_HEADERS));
         configuration.setExposedHeaders(Arrays.asList(CORS_EXPOSE_HEADERS));
         configuration.setAllowCredentials(true);
