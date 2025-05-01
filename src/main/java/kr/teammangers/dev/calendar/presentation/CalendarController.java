@@ -20,9 +20,8 @@ public class CalendarController {
 
     private final PlanApiFacade calendarService;
 
-    @PostMapping("/teams/{teamId}")
+    @PostMapping("/{teamId}")
     public ApiRes<PlanDto> createPlan(
-            @AuthenticationPrincipal final AuthInfo auth,
             @PathVariable("teamId") final Long teamId,
             @RequestBody final CreatePlanReq req
     ) {
