@@ -53,6 +53,13 @@ public class PlanService {
         return PLAN_MAPPER.toDto(plan);
     }
 
+    public List<PlanDto> findUpcomingPlans(Long teamId) {
+        LocalDate today = LocalDate.now();
+        return planRepository.findAllUpcomingPlansByTeamId(teamId, today).stream()
+                .map(PLAN_MAPPER::toDto)
+                .toList();
+    }
+
     public void deleteByPlanId(Long planId) {
         planRepository.deleteById(planId);
     }

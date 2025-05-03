@@ -63,4 +63,12 @@ public class CalendarController {
         return ApiRes.onSuccess(result);
     }
 
+    @GetMapping("/upcoming")
+    public ApiRes<List<GetPlanRes>> getUpcomingPlans(
+            @RequestParam("teamId") final Long teamId
+    ) {
+        List<GetPlanRes> result = calendarService.getUpcomingPlans(teamId);
+        return ApiRes.onSuccess(result);
+    }
+
 }

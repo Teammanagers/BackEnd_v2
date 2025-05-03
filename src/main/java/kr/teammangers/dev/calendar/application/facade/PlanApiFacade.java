@@ -52,4 +52,12 @@ public class PlanApiFacade {
         return planService.complete(planId);
     }
 
+    @Transactional(readOnly = true)
+    public List<GetPlanRes> getUpcomingPlans(Long teamId) {
+        List<PlanDto> upcomingPlans = planService.findUpcomingPlans(teamId);
+        return upcomingPlans.stream()
+                .map(PLAN_RES_MAPPER::toGet)
+                .toList();
+    }
+
 }

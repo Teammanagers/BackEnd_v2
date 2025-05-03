@@ -19,4 +19,7 @@ public interface PlanRepository extends JpaRepository<Plan, Long> {
                                   @Param("startDate") LocalDate startDate,
                                   @Param("endDate") LocalDate endDate);
 
+    @Query("SELECT p FROM Plan p WHERE p.teamId = :teamId AND p.date >= :today ORDER BY p.date ASC")
+    List<Plan> findAllUpcomingPlansByTeamId(@Param("teamId") Long teamId, @Param("today") LocalDate today);
+
 }
