@@ -55,4 +55,12 @@ public class CalendarController {
         return ApiRes.onSuccess(result);
     }
 
+    @PatchMapping("/{planId}/complete")
+    public ApiRes<PlanDto> completePlan(
+            @PathVariable final Long planId
+    ) {
+        PlanDto result = calendarService.completePlan(planId);
+        return ApiRes.onSuccess(result);
+    }
+
 }

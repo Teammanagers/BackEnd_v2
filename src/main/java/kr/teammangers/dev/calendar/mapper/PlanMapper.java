@@ -13,6 +13,7 @@ public interface PlanMapper {
     PlanMapper PLAN_MAPPER = Mappers.getMapper(PlanMapper.class);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "completed", expression = "java(false)")
     Plan toEntity(PlanDto planDto);
 
     PlanDto toDto(Plan plan);
@@ -22,6 +23,7 @@ public interface PlanMapper {
     @Mapping(target = "date", source = "req.date")
     @Mapping(target = "title", source = "req.title")
     @Mapping(target = "content", source = "req.content")
+    @Mapping(target = "completed", expression = "java(false)")
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "createdBy", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)

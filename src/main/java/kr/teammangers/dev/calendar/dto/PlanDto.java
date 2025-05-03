@@ -13,9 +13,8 @@ public record PlanDto(
         LocalDate date,
         String title,
         String content,
-
         Long teamId,
-
+        boolean completed,
         @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
         LocalDateTime createdAt,
         Long createdBy,

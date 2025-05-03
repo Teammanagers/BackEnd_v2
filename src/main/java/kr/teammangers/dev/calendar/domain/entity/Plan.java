@@ -35,6 +35,15 @@ public class Plan extends BaseField {
     @Column(name = "team_id", nullable = false)
     private Long teamId;
 
+    // 일정 완료 칼럼 추가
+    @Column(name = "completed", nullable = false)
+    private boolean completed;  // 완료 여부, 기본 false
+
+    // 일정 완료 처리 메서드
+    public void markComplete() {
+        this.completed = true;
+    }
+
     public void update(UpdatePlanReq req) {
         this.title = req.title();
         this.content = req.content();

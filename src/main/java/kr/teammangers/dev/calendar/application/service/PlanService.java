@@ -47,6 +47,12 @@ public class PlanService {
         return PLAN_MAPPER.toDto(plan);
     }
 
+    public PlanDto complete(Long planId) {
+        Plan plan = findById(planId);
+        plan.markComplete();
+        return PLAN_MAPPER.toDto(plan);
+    }
+
     public void deleteByPlanId(Long planId) {
         planRepository.deleteById(planId);
     }

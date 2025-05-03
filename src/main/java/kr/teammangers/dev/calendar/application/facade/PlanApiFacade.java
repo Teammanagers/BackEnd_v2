@@ -47,4 +47,9 @@ public class PlanApiFacade {
         return planId;
     }
 
+    @Transactional
+    public PlanDto completePlan(Long planId) {
+        return planService.complete(planId);
+    }
+
 }
