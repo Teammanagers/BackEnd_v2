@@ -31,7 +31,8 @@ public final class WebConfigConstant {
             "http://localhost:5173",
             "http://localhost:8080",
             "https://www.teammanagers.kr",
-            "https://dev.teammanagers.kr"
+            "https://dev.teammanagers.kr",
+            "https://team-managers.netlify.app"
     };
 
     public static final String[] CORS_ALLOW_METHODS = {
