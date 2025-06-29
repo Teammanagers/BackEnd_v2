@@ -11,7 +11,11 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') { steps { checkout scm } }
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
 
         stage('Create ENV file') {
             steps {
@@ -40,28 +44,28 @@ pipeline {
             }
         }
 
-stage('Deploy') {
-    steps {
-        sshagent(['ec2-ssh-key']) {
+        stage('Deploy') {
+            steps {
+                sshagent(['ec2-ssh-key']) {
 
-            sh 'scp -o StrictHostKeyChecking=no ${WORKSPACE}/docker-compose.yml ubuntu@${EC2_HOST}:~/'
-            sh 'scp -o StrictHostKeyChecking=no ${WORKSPACE}/.env ubuntu@${EC2_HOST}:~/'
+                    sh 'scp -o StrictHostKeyChecking=no ${WORKSPACE}/docker-compose.yml ubuntu@${EC2_HOST}:~/'
+                    sh 'scp -o StrictHostKeyChecking=no ${WORKSPACE}/.env ubuntu@${EC2_HOST}:~/'
 
-            sh '''
-            ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} "
-                export APP_IMAGE_TAG=${DOCKER_IMAGE}:latest
-                cd ~/
+                    sh '''
+                    ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} "
+                        export APP_IMAGE_TAG=${DOCKER_IMAGE}:latest
+                        cd ~/
 
-                sudo docker-compose pull
-                sudo docker-compose up -d --force-recreate
-
-                sudo docker container prune -f
-                sudo docker image prune -f
-            "
-            '''
+                        sudo docker-compose pull
+                        sudo docker-compose up -d --force-recreate
+                        sudo docker container prune -f
+                        sudo docker image prune -f
+                    "
+                    '''
+                }
+            }
         }
     }
-}
 
     post {
         always {
