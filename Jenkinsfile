@@ -40,32 +40,28 @@ pipeline {
             }
         }
 
-        stage('Deploy') {
-            steps {
-                sshagent(['ec2-ssh-key']) {
-                    sh '''
-                    ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} "
-                        mkdir -p ~/app/
+stage('Deploy') {
+    steps {
+        sshagent(['ec2-ssh-key']) {
 
-                        scp -o StrictHostKeyChecking=no ${WORKSPACE}/docker-compose.yml ubuntu@${EC2_HOST}:~/app/
-                        scp -o StrictHostKeyChecking=no ${WORKSPACE}/.env ubuntu@${EC2_HOST}:~/app/
+            sh 'scp -o StrictHostKeyChecking=no ${WORKSPACE}/docker-compose.yml ubuntu@${EC2_HOST}:~/'
+            sh 'scp -o StrictHostKeyChecking=no ${WORKSPACE}/.env ubuntu@${EC2_HOST}:~/'
 
-                        cd ~/app/
+            sh '''
+            ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} "
+                export APP_IMAGE_TAG=${DOCKER_IMAGE}:latest
+                cd ~/
 
-                        export APP_IMAGE_TAG=${DOCKER_IMAGE}:latest
+                sudo docker-compose pull
+                sudo docker-compose up -d --force-recreate
 
-                        sudo docker-compose pull
-
-                        sudo docker-compose --env-file ./.env up -d
-
-                        sudo docker container prune -f
-                        sudo docker image prune -f
-                    "
-                    '''
-                }
-            }
+                sudo docker container prune -f
+                sudo docker image prune -f
+            "
+            '''
         }
     }
+}
 
     post {
         always {
