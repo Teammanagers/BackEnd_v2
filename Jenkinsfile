@@ -62,9 +62,10 @@ pipeline {
 
                         cd ~/
 
+                        sudo docker-compose down || true
                         sudo docker-compose pull
 
-                        sudo docker-compose up -d --force-recreate
+                        sudo docker-compose up -d
 
                         sudo docker container prune -f
                         sudo docker image prune -f
