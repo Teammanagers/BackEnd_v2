@@ -2,16 +2,14 @@ version: '3.8'
 
 services:
   app:
-    image: ${APP_IMAGE_TAG}
+    image: __APP_IMAGE_TAG__
     container_name: teammangers-app
     ports:
       - "8080:8080"
     networks:
       - teammangers-net
-
     depends_on:
       - redis
-
     env_file:
       - ./.env
 
