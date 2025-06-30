@@ -44,7 +44,7 @@ public class Member extends BaseField {
     @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
-    private Role role = Role.GUEST;
+    private Role role = Role.USER;
 
     public void update(UpdateProfileReq req) {
         this.name = req.name();
