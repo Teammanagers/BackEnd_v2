@@ -20,7 +20,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfigurationSource;
 
-import java.util.Arrays;
+import java.util.stream.Stream;
 
 import static kr.teammangers.dev.global.common.constant.WebConfigConstant.*;
 
@@ -81,11 +81,11 @@ public class SecurityConfig {
         return new TokenAuthenticationFilter(tokenService);
     }
 
-    private static final String[] PUBLIC_URLS = {
-            "/",
-            Arrays.toString(PERMITTED_URI),
-            Arrays.toString(WHITE_LIST_URI),
-            Arrays.toString(DOCS_URI)
-    };
+    private static final String[] PUBLIC_URLS = Stream.of(
+            new String[]{"/", "/api/v2/auth/token", "/api/v2/auth/reissue"},
+            PERMITTED_URI,
+            WHITE_LIST_URI,
+            DOCS_URI
+    ).flatMap(Stream::of).toArray(String[]::new);
 
 }

@@ -39,6 +39,7 @@ public class TokenProvider {
         return Jwts.builder()
                 .setHeader(createHeader())
                 .setExpiration(new Date(now + REFRESH_EXPIRATION))
+                .setSubject(String.valueOf(memberDto.id()))
                 .signWith(REFRESH_SECRET, SignatureAlgorithm.HS256)
                 .compact();
     }

@@ -1,35 +1,37 @@
 package kr.teammangers.dev.auth.application.service;
 
 import io.jsonwebtoken.Jwts;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import kr.teammangers.dev.auth.domain.enums.TokenRule;
 import kr.teammangers.dev.auth.domain.enums.TokenStatus;
+import kr.teammangers.dev.auth.dto.response.TokenRes;
+import kr.teammangers.dev.auth.infrastructure.security.AuthInfo;
 import kr.teammangers.dev.auth.infrastructure.security.provider.TokenProvider;
 import kr.teammangers.dev.member.dto.MemberDto;
 import kr.teammangers.dev.member.domain.enums.Role;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseCookie;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
 import java.security.Key;
+import java.time.Duration;
 
 import static kr.teammangers.dev.auth.constant.AuthConstant.TOKEN_PREFIX;
-import static kr.teammangers.dev.auth.domain.enums.TokenRule.*;
 
 @Slf4j
-@Component
+@Service
+@Transactional(readOnly = true)
 public class TokenService {
 
     private final AuthService authService;
     private final TokenProvider tokenProvider;
-//    private final TokenRepository tokenRepository;        // TODO: refresh Token 구현시 추가
+    private final RedisTemplate<String, String> redisTemplate;
 
     private final Key accessSecretKey;
     private final Key refreshSecretKey;
@@ -38,74 +40,84 @@ public class TokenService {
 
     public TokenService(AuthService authService,
                         TokenProvider tokenProvider,
-                        @Value("${jwt.secret-key}") String secretKey, // TODO: access, refresh 비밀키 분리 필요할 듯
+                        RedisTemplate<String, String> redisTemplate,
+                        @Value("${jwt.secret-key}") String secretKey,
+                        @Value("${jwt.secret-key-refresh}") String refreshSecretKeyString,
                         @Value("${jwt.access.expiration}") long accessTokenExpiration,
                         @Value("${jwt.refresh.expiration}") long refreshTokenExpiration) {
         this.authService = authService;
         this.tokenProvider = tokenProvider;
+        this.redisTemplate = redisTemplate;
         this.accessSecretKey = tokenProvider.getSigningKey(secretKey);
-        this.refreshSecretKey = tokenProvider.getSigningKey(secretKey);
+        this.refreshSecretKey = tokenProvider.getSigningKey(refreshSecretKeyString);
         this.accessTokenExpiration = accessTokenExpiration;
         this.refreshTokenExpiration = refreshTokenExpiration;
     }
 
+    public String generateNewAccessToken(MemberDto memberDto) {
+        validMember(memberDto);
+        return tokenProvider.generateAccessToken(accessSecretKey, accessTokenExpiration, memberDto);
+    }
+
+    @Transactional
+    public TokenRes issueAndSaveTokens(MemberDto memberDto) {
+        validMember(memberDto);
+        String accessToken = tokenProvider.generateAccessToken(accessSecretKey, accessTokenExpiration, memberDto);
+        String refreshToken = tokenProvider.generateRefreshToken(refreshSecretKey, refreshTokenExpiration, memberDto);
+        redisTemplate.opsForValue().set(
+                String.valueOf(memberDto.id()),
+                refreshToken,
+                Duration.ofMillis(refreshTokenExpiration)
+        );
+        return new TokenRes(accessToken, refreshToken);
+    }
+
+    @Transactional
+    public TokenRes reissueTokens(String refreshToken) {
+        if (!validateRefreshToken(refreshToken)) {
+            throw new RuntimeException("유효하지 않은 Refresh Token 입니다.");
+        }
+        String memberId = getMemberId(refreshToken, refreshSecretKey);
+        String storedRefreshToken = redisTemplate.opsForValue().get(memberId);
+        if (storedRefreshToken == null || !storedRefreshToken.equals(refreshToken)) {
+            throw new RuntimeException("저장된 토큰과 일치하지 않습니다. 재로그인이 필요합니다.");
+        }
+
+        UserDetails userDetails = authService.loadUserByUsername(memberId);
+        AuthInfo authInfo = (AuthInfo) userDetails;
+        return issueAndSaveTokens(authInfo.memberDto());
+    }
+
+    @Transactional
+    public void logout(Long memberId) {
+        redisTemplate.delete(String.valueOf(memberId));
+        log.info("로그아웃 처리 완료. Member ID: {}", memberId);
+    }
+
+    public Authentication getAuthentication(String accessToken) {
+        String memberId = getMemberId(accessToken, accessSecretKey);
+        UserDetails userDetails = authService.loadUserByUsername(memberId);
+        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+    }
+
     public void validMember(MemberDto memberDto) {
         if (memberDto.role().equals(Role.GUEST)) {
-            throw new RuntimeException("");     // TODO: Exception
+            throw new RuntimeException("GUEST 등급은 토큰을 발급받을 수 없습니다.");
         }
-    }
-
-    public String provideAccessToken(HttpServletResponse response, MemberDto memberDto) {
-        String accessToken = tokenProvider.generateAccessToken(accessSecretKey, accessTokenExpiration, memberDto);
-        response.setHeader(ACCESS_PREFIX.getValue(), TOKEN_PREFIX + accessToken);
-        return accessToken;
-    }
-
-    public String provideRefreshToken(HttpServletResponse response, MemberDto memberDto) {
-        String refreshToken = tokenProvider.generateRefreshToken(refreshSecretKey, refreshTokenExpiration, memberDto);
-        ResponseCookie responseCookie = setTokenToCookie(REFRESH_PREFIX.getValue(), refreshToken, refreshTokenExpiration / 1000);
-        response.addHeader("Set-Cookie", responseCookie.toString());
-
-//        tokenRepository.save(new Token(memberDto.id(), refreshToken));      // TODO: refreshToken 구현시 추가
-        return refreshToken;
-    }
-
-    private ResponseCookie setTokenToCookie(String tokenPrefix, String token, long maxAgeSeconds) {
-        return ResponseCookie.from(tokenPrefix, token)
-                .path("/")
-                .maxAge(maxAgeSeconds)
-                .httpOnly(true)
-                .sameSite("None")
-                .secure(true)
-                .build();
     }
 
     public boolean validateAccessToken(String token) {
         return tokenProvider.getTokenStatus(token, accessSecretKey).equals(TokenStatus.AUTHENTICATED);
     }
 
-    public boolean validateRefreshToken(String token, String memberId) {
-        boolean isRefreshValid = tokenProvider.getTokenStatus(token, refreshSecretKey).equals(TokenStatus.AUTHENTICATED);
-//        Token storedToken = tokenRepository.findByMemberId(memberId)  // TODO: refreshToken 구현시 추가
-//        boolean isMatchedToken = storedToken.getToken().equals(token);
-        return isRefreshValid;  // && isMatchedToken
+    public boolean validateRefreshToken(String token) {
+        return tokenProvider.getTokenStatus(token, refreshSecretKey).equals(TokenStatus.AUTHENTICATED);
     }
 
-    public String resolveTokenFromCookie(HttpServletRequest request, TokenRule tokenPrefix) {
-        Cookie[] cookies = request.getCookies();
-        if (cookies == null) throw new RuntimeException(""); // TODO: Exception
-        return tokenProvider.resolveTokenFromCookie(cookies, tokenPrefix);
-    }
-
-    public String resolveTokenFromHeader(HttpServletRequest request, TokenRule tokenPrefix) {
-        String token = request.getHeader(tokenPrefix.getValue());
+    public String resolveTokenFromHeader(HttpServletRequest request) {
+        String token = request.getHeader(TokenRule.ACCESS_PREFIX.getValue());
         if (ObjectUtils.isEmpty(token) || !token.startsWith(TOKEN_PREFIX)) return null;
         return token.substring(TOKEN_PREFIX.length());
-    }
-
-    public Authentication getAuthentication(String token) {
-        UserDetails principals = authService.loadUserByUsername(getMemberId(token, accessSecretKey));
-        return new UsernamePasswordAuthenticationToken(principals, "", principals.getAuthorities());
     }
 
     public String getMemberId(String token, Key secretKey) {
@@ -115,27 +127,5 @@ public class TokenService {
                 .parseClaimsJws(token)
                 .getBody()
                 .getSubject();
-    }
-
-    public String getIdFromRefresh(String refreshToken) {
-        try {
-            return Jwts.parserBuilder()
-                    .setSigningKey(refreshSecretKey)
-                    .build()
-                    .parseClaimsJws(refreshToken)
-                    .getBody()
-                    .getSubject();
-        } catch (Exception e) {
-            throw new RuntimeException(""); // TODO: Exception
-        }
-    }
-
-    public void logout(MemberDto memberDto, HttpServletResponse response) {
-//        tokenRepository.deleteById(memberDto.id())    // TODO: refreshToken 구현시
-        Cookie accessCookie = tokenProvider.resetToken(ACCESS_PREFIX);
-        Cookie refreshCookie = tokenProvider.resetToken(REFRESH_PREFIX);
-
-        response.addCookie(accessCookie);
-        response.addCookie(refreshCookie);
     }
 }

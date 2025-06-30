@@ -6,73 +6,53 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import kr.teammangers.dev.auth.application.service.TokenService;
 import kr.teammangers.dev.global.error.code.ErrorStatus;
-import kr.teammangers.dev.global.common.constant.WebConfigConstant;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.List;
 
-import static kr.teammangers.dev.auth.domain.enums.TokenRule.ACCESS_PREFIX;
 import static kr.teammangers.dev.global.error.exception.ExceptionUtil.handleAuthException;
 
-@Service
+@Component
 @RequiredArgsConstructor
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
     private final TokenService tokenService;
-//    private final MemberService memberService;    // TODO: refreshToken 구현시
+    private final AntPathMatcher pathMatcher = new AntPathMatcher();
 
+    private static final List<String> PERMIT_URLS = List.of(
+            "/api/v2/auth/token",
+            "/api/v2/auth/reissue",
+            "/oauth2/authorization/**",
+            "/login"
+    );
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        return PERMIT_URLS.stream()
+                .anyMatch(pattern -> pathMatcher.match(pattern, request.getRequestURI()));
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-        if (isPermittedUri(request.getRequestURI())) {
-            SecurityContextHolder.getContext().setAuthentication(null);
-            filterChain.doFilter(request, response);
-            return;
-        }
+        String accessToken = tokenService.resolveTokenFromHeader(request);
 
-        String accessToken = tokenService.resolveTokenFromHeader(request, ACCESS_PREFIX);
-        if (tokenService.validateAccessToken(accessToken)) {
+        if (accessToken != null && tokenService.validateAccessToken(accessToken)) {
             setAuthenticationToContext(accessToken);
-            filterChain.doFilter(request, response);
+        } else {
+            handleAuthException(response, ErrorStatus.AUTH_INVALID_EXPIRED_TOKEN);
             return;
         }
-        else {
-            handleAuthException(response, ErrorStatus.AUTH_INVALID_EXPIRED_TOKEN);
-        }
 
-
-
-//        String refreshToken = tokenService.resolveTokenFromCookie(request, REFRESH_PREFIX);
-//        MemberDto memberDto = findByRefreshToken(refreshToken);     // TODO: refreshToken 구현시
-//        if (jwtService.validateRefreshToken(refreshToken, memberDto.id())) {
-//            String reissuedAccessToken = jwtService.provideAccessToken(response, memberDto);
-//            setAuthenticationToContext(reissuedAccessToken);
-//            filterChain.doFilter(request, response);
-//            return;
-//        }
-
-//        jwtService.logout(memberDto, response);
+        filterChain.doFilter(request, response);
     }
-
-    private boolean isPermittedUri(String requestUri) {
-        return Arrays.stream(WebConfigConstant.PERMITTED_URI)
-                .anyMatch(permittedUri -> {
-                    String replace = permittedUri.replace("*", "");
-                    return requestUri.contains(replace) || replace.contains(requestUri);
-                });
-    }
-    // TODO: refreshToken 구현시
-//    private MemberDto findMemberByRefreshToken(String refreshToken) {
-//        String id = jwtService.getIdFromRefresh(refreshToken);
-//        return MEMBER_MAPPER.toDto(memberService.findMemberById(id));
-//    }
 
     private void setAuthenticationToContext(String accessToken) {
         Authentication authentication = tokenService.getAuthentication(accessToken);
