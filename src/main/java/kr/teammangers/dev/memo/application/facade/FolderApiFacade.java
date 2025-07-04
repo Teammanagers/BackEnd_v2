@@ -24,7 +24,9 @@ public class FolderApiFacade {
     @Transactional
     public FolderDto createFolder(Long parentId, CreateFolderReq req) {
         Integer parentDepth = folderService.findDtoById(parentId).depth();
-        return FOLDER_MAPPER.toDto(req, parentId, parentDepth + 1);
+        FolderDto folderDto = FOLDER_MAPPER.toDto(req, parentId, parentDepth + 1);
+
+        return folderService.save(folderDto);
     }
 
     public GetFolderRes getRootFolderByTeamId(Long teamId) {
