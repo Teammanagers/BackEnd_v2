@@ -17,7 +17,7 @@ import org.hibernate.annotations.SQLRestriction;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @SQLRestriction("use_yn <> 'N'")
-@SQLDelete(sql = "UPDATE team SET use_yn = 'N' WHERE id = ?")
+@SQLDelete(sql = "UPDATE todo SET use_yn = 'N' WHERE id = ?")
 public class Todo extends BaseField {
 
     @Id

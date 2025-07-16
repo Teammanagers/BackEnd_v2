@@ -83,6 +83,7 @@ public enum ErrorStatus implements ErrorBaseCode {
     TEAM_MEMBER_TAG_NOT_FOUND(NOT_FOUND, "TEAM_MEMBER_TAG404", entityNotFoundMessage("팀멤버-태그 매핑 테이블")),
     TEAM_MEMBER_NOT_FOUND(NOT_FOUND, "TEAM_MEMBER404", entityNotFoundMessage("팀-사용자 매핑 테이블")),
     MEMBER_IMG_NOT_FOUND(NOT_FOUND, "MEMBER_IMG404", entityNotFoundMessage("사용자-S3 매핑 테이블")),
+    DATA_FILE_NOT_FOUND(NOT_FOUND, "DATA_FILE404", entityNotFoundMessage("자료-S3 매핑 테이블"))
     ;
 
     private final HttpStatus httpStatus;
