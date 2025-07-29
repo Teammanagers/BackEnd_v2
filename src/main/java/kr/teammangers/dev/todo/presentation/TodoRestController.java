@@ -4,6 +4,7 @@ import kr.teammangers.dev.auth.infrastructure.security.AuthInfo;
 import kr.teammangers.dev.global.common.response.ApiRes;
 import kr.teammangers.dev.todo.application.TodoCrudService;
 import kr.teammangers.dev.todo.application.facade.TodoApiFacade;
+import kr.teammangers.dev.todo.dto.TodoListDto;
 import kr.teammangers.dev.todo.dto.req.CreateTodoReq;
 import kr.teammangers.dev.todo.dto.req.UpdateTodoReq;
 import kr.teammangers.dev.todo.dto.res.*;
@@ -82,6 +83,17 @@ public class TodoRestController {
     ) {
 
         return ApiRes.onSuccess(todoApiFacade.uploadImage(todoId, imageFile));
+
+    }
+
+    @GetMapping("/my/{teamMemberId}")
+    public ApiRes<TodoListDto> getMyTodo(
+            @AuthenticationPrincipal final AuthInfo auth,
+            @PathVariable(name = "teamMemberId") final Long teamMemberId
+    ) {
+
+        return ApiRes.onSuccess(todoCrudService.getTodoListByTeamMemberId(teamMemberId));
+
 
     }
 }

@@ -1,5 +1,6 @@
 package kr.teammangers.dev.todo.application;
 
+import kr.teammangers.dev.global.common.enums.TodoStatus;
 import kr.teammangers.dev.global.error.code.ErrorStatus;
 import kr.teammangers.dev.global.error.exception.GeneralException;
 import kr.teammangers.dev.tag.domain.repository.team_member.TeamMemberTagRepository;
@@ -107,6 +108,24 @@ public class TodoCrudService {
         todoForUpdate.updateStatus(option);
 
         return TODO_MAPPER.toCommonRes(todoForUpdate);
+    }
+
+    public TodoListDto getTodoListByTeamMemberId(Long teamMemberId) {
+
+        TeamMember teamMember = teamMemberRepository.findById(teamMemberId)
+                .orElseThrow(() -> new GeneralException(ErrorStatus.TEAMMEMBER_NOT_FOUND));
+        List<TodoDto> todoList = todoRepository.findAllByTeamMember_Id(teamMemberId)
+                .stream()
+                .filter(todo -> todo.getStatus().equals(TodoStatus.IN_PROGRESS))
+                .map(TODO_MAPPER::toDto)
+                .toList();
+
+        List<TagDto> tagList = teamMemberTagRepository.findAllByTeamMember_Id(teamMemberId)
+                .stream()
+                .map(teamMemberTag -> TAG_MAPPER.toDto(teamMemberTag.getTag()))
+                .toList();
+
+        return TODO_MAPPER.toTodoListDto(teamMemberId, teamMember.getMember().getName(), tagList, todoList);
     }
 
 }
