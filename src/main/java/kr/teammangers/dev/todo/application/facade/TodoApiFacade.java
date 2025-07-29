@@ -1,7 +1,7 @@
 package kr.teammangers.dev.todo.application.facade;
 
-import kr.teammangers.dev.s3.application.service.S3Service;
-import kr.teammangers.dev.s3.application.service.TodoImgService;
+import kr.teammangers.dev.s3.application.S3Service;
+import kr.teammangers.dev.s3.application.TodoImgService;
 import kr.teammangers.dev.s3.dto.S3FileInfoDto;
 import kr.teammangers.dev.todo.dto.res.TodoCommonRes;
 import lombok.RequiredArgsConstructor;

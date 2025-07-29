@@ -1,4 +1,4 @@
-package kr.teammangers.dev.s3.application.service;
+package kr.teammangers.dev.s3.application;
 
 import kr.teammangers.dev.global.error.code.ErrorStatus;
 import kr.teammangers.dev.global.error.exception.GeneralException;

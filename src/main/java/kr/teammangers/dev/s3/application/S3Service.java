@@ -1,4 +1,4 @@
-package kr.teammangers.dev.s3.application.service;
+package kr.teammangers.dev.s3.application;
 
 import io.awspring.cloud.s3.ObjectMetadata;
 import io.awspring.cloud.s3.S3Operations;

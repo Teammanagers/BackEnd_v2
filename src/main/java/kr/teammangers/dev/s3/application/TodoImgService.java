@@ -1,4 +1,4 @@
-package kr.teammangers.dev.s3.application.service;
+package kr.teammangers.dev.s3.application;
 
 import kr.teammangers.dev.s3.domain.entity.S3FileInfo;
 import kr.teammangers.dev.s3.domain.repository.S3Repository;

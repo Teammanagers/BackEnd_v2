@@ -33,4 +33,12 @@ public class DataRestController {
 
         return ApiRes.onSuccess(result);
     }
+
+    @DeleteMapping("/{dataId}")
+    public ApiRes<Void> deleteData(@PathVariable(name = "dataId") Long dataId) {
+
+        dataCrudService.deleteData(dataId);
+
+        return ApiRes.onSuccess();
+    }
 }

@@ -10,5 +10,6 @@ import java.util.Optional;
 public interface DataFileRepository extends JpaRepository<DataFile, Long> {
 
     Optional<DataFile> findByDataId(Long dataId);
+    void deleteByDataId(Long dataId);
 
 }

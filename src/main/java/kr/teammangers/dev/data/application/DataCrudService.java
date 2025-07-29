@@ -6,8 +6,8 @@ import kr.teammangers.dev.data.dto.DataDTO;
 import kr.teammangers.dev.data.dto.response.GetDataRes;
 import kr.teammangers.dev.global.error.code.ErrorStatus;
 import kr.teammangers.dev.global.error.exception.GeneralException;
-import kr.teammangers.dev.s3.application.service.DataFileService;
-import kr.teammangers.dev.s3.application.service.S3Service;
+import kr.teammangers.dev.s3.application.DataFileService;
+import kr.teammangers.dev.s3.application.S3Service;
 import kr.teammangers.dev.s3.dto.S3FileInfoDto;
 import kr.teammangers.dev.team.domain.entity.TeamMember;
 import kr.teammangers.dev.team.domain.repository.TeamMemberRepository;
@@ -64,5 +64,12 @@ public class DataCrudService {
                 .toList();
 
         return GetDataRes.of(dataDtoList);
+    }
+
+    public void deleteData(Long dataId) {
+
+        dataFileService.deleteByDataId(dataId);
+        dataRepository.deleteById(dataId);
+
     }
 }

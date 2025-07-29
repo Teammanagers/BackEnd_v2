@@ -1,4 +1,4 @@
-package kr.teammangers.dev.s3.application.service;
+package kr.teammangers.dev.s3.application;
 
 import kr.teammangers.dev.data.domain.entity.Data;
 import kr.teammangers.dev.data.domain.repository.DataRepository;
@@ -48,6 +48,12 @@ public class DataFileService {
 
         return S3_MAPPER.toDto(dataFile.getS3FileInfo());
     }
+
+    public void deleteByDataId(Long dataId) {
+
+        dataFileRepository.deleteByDataId(dataId);
+    }
+
 
 
 
