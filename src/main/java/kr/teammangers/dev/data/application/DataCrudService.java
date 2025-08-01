@@ -3,6 +3,7 @@ package kr.teammangers.dev.data.application;
 import kr.teammangers.dev.data.domain.entity.Data;
 import kr.teammangers.dev.data.domain.repository.DataRepository;
 import kr.teammangers.dev.data.dto.DataDTO;
+import kr.teammangers.dev.data.dto.response.CreateDataRes;
 import kr.teammangers.dev.data.dto.response.GetDataRes;
 import kr.teammangers.dev.global.error.code.ErrorStatus;
 import kr.teammangers.dev.global.error.exception.GeneralException;
@@ -32,7 +33,7 @@ public class DataCrudService {
     private final TeamMemberRepository teamMemberRepository;
 
     @Transactional
-    public void createData(Long memberId, Long teamId, MultipartFile file) {
+    public CreateDataRes createData(Long memberId, Long teamId, MultipartFile file) {
 
         TeamMember teamMember = teamMemberRepository.findByTeam_IdAndMember_Id(teamId, memberId)
                 .orElseThrow(() -> new GeneralException(ErrorStatus.TEAM_MEMBER_NOT_FOUND));
@@ -42,6 +43,8 @@ public class DataCrudService {
 
         S3FileInfoDto s3FileInfoDto = s3Service.uploadFile(file, TEAM_DATA_PATH);
         dataFileService.save(newData.getId(), s3FileInfoDto.id());
+
+        return CreateDataRes.from(newData);
     }
 
     public GetDataRes getTeamData(Long teamId) {

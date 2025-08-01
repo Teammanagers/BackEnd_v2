@@ -3,6 +3,7 @@ package kr.teammangers.dev.data.presentation;
 import kr.teammangers.dev.auth.infrastructure.security.AuthInfo;
 import kr.teammangers.dev.data.application.DataCrudService;
 import kr.teammangers.dev.data.dto.DataDTO;
+import kr.teammangers.dev.data.dto.response.CreateDataRes;
 import kr.teammangers.dev.data.dto.response.GetDataRes;
 import kr.teammangers.dev.global.common.response.ApiRes;
 import lombok.RequiredArgsConstructor;
@@ -18,12 +19,12 @@ public class DataRestController {
     private final DataCrudService dataCrudService;
 
     @PostMapping("/{teamId}")
-    public ApiRes<Void> uploadData(@AuthenticationPrincipal final AuthInfo authInfo,
-                                   @PathVariable(name = "teamId") Long teamId,
-                                   @RequestPart(name = "file") MultipartFile file) {
+    public ApiRes<CreateDataRes> uploadData(@AuthenticationPrincipal final AuthInfo authInfo,
+                                            @PathVariable(name = "teamId") Long teamId,
+                                            @RequestPart(name = "file") MultipartFile file) {
 
-        dataCrudService.createData(authInfo.memberDto().id(), teamId, file);
-        return ApiRes.onSuccess();
+        CreateDataRes result = dataCrudService.createData(authInfo.memberDto().id(), teamId, file);
+        return ApiRes.onSuccess(result);
     }
 
     @GetMapping("/{teamId}")
