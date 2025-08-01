@@ -69,9 +69,9 @@ public class TodoCrudService {
     }
 
     public GetTeamTodoRes getTeamTodo(Long memberId, Long teamId) {
-        if (!teamMemberRepository.existsByTeam_IdAndMember_Id(teamId, memberId)) {
-            throw new GeneralException(ErrorStatus.TEAM_FORBIDDEN);
-        }
+
+        TeamMember myTeamMember = teamMemberRepository.findByTeam_IdAndMember_Id(teamId, memberId)
+                .orElseThrow(() -> new GeneralException(ErrorStatus.TEAMMEMBER_NOT_FOUND));
 
         AtomicInteger pending = new AtomicInteger();
         AtomicInteger in_progress = new AtomicInteger();
@@ -97,7 +97,7 @@ public class TodoCrudService {
                     return TODO_MAPPER.toTodoListDto(teamMember.getId(), name, tagList, todoList);
                 }).toList();
 
-        return TODO_MAPPER.toGetTeamTodoRes(teamTodoList, pending.get(), in_progress.get(), completed.get());
+        return TODO_MAPPER.toGetTeamTodoRes(myTeamMember.getId(), teamTodoList, pending.get(), in_progress.get(), completed.get());
     }
 
     @Transactional

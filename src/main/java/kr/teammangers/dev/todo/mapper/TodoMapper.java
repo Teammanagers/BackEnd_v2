@@ -35,6 +35,6 @@ public interface TodoMapper {
 
     TodoListDto toTodoListDto(Long teamMemberId, String name, List<TagDto> tagList, List<TodoDto> todoList);
 
-    GetTeamTodoRes toGetTeamTodoRes(List<TodoListDto> teamTodoList, Integer pending, Integer in_progress, Integer completed);
+    GetTeamTodoRes toGetTeamTodoRes(Long myTeamMemberId, List<TodoListDto> teamTodoList, Integer pending, Integer in_progress, Integer completed);
 
 }
