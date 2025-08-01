@@ -24,11 +24,11 @@ public class TodoRestController {
     @PostMapping
     public ApiRes<TodoCommonRes> createTodo(
             @AuthenticationPrincipal final AuthInfo auth,
-            @RequestParam(name = "teamMemberId") final Long teamMemberId,
+            @RequestParam(name = "teamId") final Long teamId,
             @RequestBody final CreateTodoReq request
             ) {
 
-        return ApiRes.onSuccess(todoCrudService.createTodo(teamMemberId, request));
+        return ApiRes.onSuccess(todoCrudService.createTodo(auth.memberDto().id(), teamId, request));
 
     }
 
@@ -86,13 +86,13 @@ public class TodoRestController {
 
     }
 
-    @GetMapping("/my/{teamMemberId}")
+    @GetMapping("/my")
     public ApiRes<TodoListDto> getMyTodo(
             @AuthenticationPrincipal final AuthInfo auth,
-            @PathVariable(name = "teamMemberId") final Long teamMemberId
+            @RequestParam(name = "teamId") final Long teamId
     ) {
 
-        return ApiRes.onSuccess(todoCrudService.getTodoListByTeamMemberId(teamMemberId));
+        return ApiRes.onSuccess(todoCrudService.getMyTodoList(auth.memberDto().id(), teamId));
 
 
     }

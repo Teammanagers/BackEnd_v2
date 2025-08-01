@@ -34,8 +34,8 @@ public class TodoCrudService {
     private final TeamMemberTagRepository teamMemberTagRepository;
 
     @Transactional
-    public TodoCommonRes createTodo(Long teamMemberId, CreateTodoReq request) {
-        TeamMember teamMember = teamMemberRepository.findById(teamMemberId)
+    public TodoCommonRes createTodo(Long memberId, Long teamId, CreateTodoReq request) {
+        TeamMember teamMember = teamMemberRepository.findByTeam_IdAndMember_Id(teamId, memberId)
                 .orElseThrow(() -> new GeneralException(ErrorStatus.TEAMMEMBER_NOT_FOUND));
 
         Todo newTodo = TODO_MAPPER.toEntity(request, teamMember);
@@ -110,10 +110,12 @@ public class TodoCrudService {
         return TODO_MAPPER.toCommonRes(todoForUpdate);
     }
 
-    public TodoListDto getTodoListByTeamMemberId(Long teamMemberId) {
+    public TodoListDto getMyTodoList(Long memberId, Long teamId) {
 
-        TeamMember teamMember = teamMemberRepository.findById(teamMemberId)
+        TeamMember teamMember = teamMemberRepository.findByTeam_IdAndMember_Id(teamId, memberId)
                 .orElseThrow(() -> new GeneralException(ErrorStatus.TEAMMEMBER_NOT_FOUND));
+
+        Long teamMemberId = teamMember.getId();
         List<TodoDto> todoList = todoRepository.findAllByTeamMember_Id(teamMemberId)
                 .stream()
                 .filter(todo -> todo.getStatus().equals(TodoStatus.IN_PROGRESS))
