@@ -1,6 +1,7 @@
 package kr.teammangers.dev.global.config.security;
 
 import kr.teammangers.dev.auth.application.service.AuthService;
+import kr.teammangers.dev.auth.application.service.CustomOAuth2UserService;
 import kr.teammangers.dev.auth.application.service.DelegatingOAuth2UserService;
 import kr.teammangers.dev.auth.application.service.TokenService;
 import kr.teammangers.dev.auth.infrastructure.security.filter.TokenAuthenticationFilter;
@@ -33,12 +34,14 @@ public class SecurityConfig {
     private final OAuth2FailureHandler oAuth2FailureHandler;
     private final OAuth2SuccessHandler oAuth2SuccessHandler;
     private final CorsConfigurationSource corsConfigurationSource;
+    private final CustomOAuth2UserService customOAuth2UserService;
 
     public SecurityConfig(
             AuthService authService,
             TokenService tokenService,
             OAuth2FailureHandler oAuth2FailureHandler,
             OAuth2SuccessHandler oAuth2SuccessHandler,
+            CustomOAuth2UserService customOAuth2UserService,
             @Qualifier("corsConfigurationSource") CorsConfigurationSource corsConfigurationSource
     ) {
         this.authService = authService;
@@ -46,6 +49,7 @@ public class SecurityConfig {
         this.oAuth2FailureHandler = oAuth2FailureHandler;
         this.oAuth2SuccessHandler = oAuth2SuccessHandler;
         this.corsConfigurationSource = corsConfigurationSource;
+        this.customOAuth2UserService = customOAuth2UserService;
     }
 
     @Bean
@@ -61,8 +65,7 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2 -> oauth2
-                        .userInfoEndpoint(userInfo -> userInfo
-                                .userService(oAuth2UserService()))
+                        .userInfoEndpoint(userInfo -> userInfo.userService(customOAuth2UserService))
                         .successHandler(oAuth2SuccessHandler)
                         .failureHandler(oAuth2FailureHandler)
                 )
@@ -71,10 +74,10 @@ public class SecurityConfig {
                 .build();
     }
 
-    @Bean
-    public OAuth2UserService<OAuth2UserRequest, OAuth2User> oAuth2UserService() {
-        return new DelegatingOAuth2UserService(authService);
-    }
+//    @Bean
+//    public OAuth2UserService<OAuth2UserRequest, OAuth2User> oAuth2UserService() {
+//        return new DelegatingOAuth2UserService(authService);
+//    }
 
     @Bean
     public TokenAuthenticationFilter tokenAuthenticationFilter() {

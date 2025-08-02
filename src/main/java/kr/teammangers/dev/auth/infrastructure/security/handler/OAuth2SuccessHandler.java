@@ -25,7 +25,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         AuthInfo authInfo = (AuthInfo) authentication.getPrincipal();
         String accessToken = tokenService.generateNewAccessToken(authInfo.memberDto());
-        String oneTimeCode = oneTimeCodeService.generateAndStore(accessToken);
+        String oneTimeCode = oneTimeCodeService.generateAndStore(accessToken, authInfo.isNewMember());
 
         String targetUrl = UriComponentsBuilder.fromUriString("http://localhost:5173")
                 .queryParam("code", oneTimeCode)

@@ -69,7 +69,7 @@ public class TokenService {
                 refreshToken,
                 Duration.ofMillis(refreshTokenExpiration)
         );
-        return new TokenRes(accessToken, refreshToken);
+        return new TokenRes(false,accessToken, refreshToken);
     }
 
     @Transactional

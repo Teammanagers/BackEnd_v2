@@ -25,12 +25,17 @@ public class AuthController {
     public ResponseEntity<TokenRes> issueTokenFromCode(@RequestBody Map<String, String> payload) {
         String code = payload.get("code");
 
-        String tempAccessToken = oneTimeCodeService.exchangeCodeForToken(code);
-        AuthInfo authInfo = (AuthInfo) tokenService.getAuthentication(tempAccessToken).getPrincipal();
+        OneTimeCodeService.OneTimeCodeInfo codeInfo = oneTimeCodeService.exchangeCodeForInfo(code);
+        AuthInfo authInfo = (AuthInfo) tokenService.getAuthentication(codeInfo.getAccessToken()).getPrincipal();
+        TokenRes tokenResponsePart = tokenService.issueAndSaveTokens(authInfo.memberDto());
 
-        TokenRes tokenResponse = tokenService.issueAndSaveTokens(authInfo.memberDto());
+        TokenRes finalResponse = new TokenRes(
+                codeInfo.isNewUser(), // 신규 사용자 여부
+                tokenResponsePart.accessToken(),
+                tokenResponsePart.refreshToken()
+        );
 
-        return ResponseEntity.ok(tokenResponse);
+        return ResponseEntity.ok(finalResponse);
     }
 
     @PostMapping("/reissue")
