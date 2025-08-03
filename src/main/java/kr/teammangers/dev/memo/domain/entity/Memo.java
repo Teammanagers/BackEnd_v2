@@ -48,4 +48,8 @@ public class Memo extends BaseField {
     public void updateFixStatus() {
         this.isFixed = !this.isFixed;
     }
+
+    public void moveFolder(Folder folder) {
+        this.folder = folder;
+    }
 }

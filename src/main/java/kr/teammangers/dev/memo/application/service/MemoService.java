@@ -12,10 +12,12 @@ import kr.teammangers.dev.team.domain.entity.Team;
 import kr.teammangers.dev.team.domain.repository.TeamRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
 
+import static kr.teammangers.dev.global.error.code.ErrorStatus.*;
 import static kr.teammangers.dev.global.error.code.ErrorStatus.MEMO_NOT_FOUND;
 import static kr.teammangers.dev.global.error.code.ErrorStatus.MEMO_NO_AUTHORITY;
 import static kr.teammangers.dev.memo.mapper.MemoMapper.MEMO_MAPPER;
@@ -30,6 +32,12 @@ public class MemoService {
 
     public MemoDto save(Long folderId, Long teamId, CreateMemoReq req) {
         return MEMO_MAPPER.toDto(insert(folderId, teamId, req));
+    }
+
+    public MemoDto findDtoById(Long memoId) {
+        return memoRepository.findById(memoId)
+                .map(MEMO_MAPPER::toDto)
+                .orElseThrow(() -> new GeneralException(MEMO_NOT_FOUND));
     }
 
     public List<MemoDto> findAllDtoByFolderId(Long folderId, Boolean isFixed) {
@@ -47,6 +55,14 @@ public class MemoService {
     public MemoDto update(Long memoId, UpdateMemoReq req) {
         Memo memo = findById(memoId);
         memo.update(req);
+        return MEMO_MAPPER.toDto(memo);
+    }
+
+    public MemoDto updateMemoFolder(Long memoId, Long newFolderId) {
+        Memo memo = findById(memoId);
+        Folder newFolder = folderRepository.findById(newFolderId)
+                .orElseThrow(() -> new GeneralException(FOLDER_NOT_FOUND));
+        memo.moveFolder(newFolder);
         return MEMO_MAPPER.toDto(memo);
     }
 

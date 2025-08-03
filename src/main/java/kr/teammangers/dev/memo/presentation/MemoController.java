@@ -5,6 +5,7 @@ import kr.teammangers.dev.global.common.response.ApiRes;
 import kr.teammangers.dev.memo.application.facade.MemoApiFacade;
 import kr.teammangers.dev.memo.dto.MemoDto;
 import kr.teammangers.dev.memo.dto.request.CreateMemoReq;
+import kr.teammangers.dev.memo.dto.request.UpdateMemoFolderReq;
 import kr.teammangers.dev.memo.dto.request.UpdateMemoReq;
 import kr.teammangers.dev.memo.dto.response.GetMemoRes;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,14 @@ public class MemoController {
             @RequestBody final CreateMemoReq req
     ) {
         MemoDto result = memoApiFacade.createMemo(folderId, teamId, req);
+        return ApiRes.onSuccess(result);
+    }
+
+    @GetMapping("/{memoId}")
+    public ApiRes<GetMemoRes> getMemo(
+            @PathVariable("memoId") final Long memoId
+    ) {
+        GetMemoRes result = memoApiFacade.getMemo(memoId);
         return ApiRes.onSuccess(result);
     }
 
@@ -71,6 +80,16 @@ public class MemoController {
             @PathVariable("memoId") final Long memoId
     ) {
         Long result = memoApiFacade.deleteMemo(auth.memberDto().id(), memoId);
+        return ApiRes.onSuccess(result);
+    }
+
+    @PatchMapping("/{memoId}/folder")
+    public ApiRes<MemoDto> updateMemoFolder(
+            @AuthenticationPrincipal final AuthInfo auth,
+            @PathVariable("memoId") final Long memoId,
+            @RequestBody final UpdateMemoFolderReq req
+    ) {
+        MemoDto result = memoApiFacade.updateMemoFolder(auth.memberDto().id(), memoId, req);
         return ApiRes.onSuccess(result);
     }
 

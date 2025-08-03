@@ -4,6 +4,7 @@ import kr.teammangers.dev.memo.application.service.MemoService;
 import kr.teammangers.dev.memo.dto.MemoDto;
 import kr.teammangers.dev.memo.dto.request.CreateMemoReq;
 import kr.teammangers.dev.memo.dto.request.UpdateMemoReq;
+import kr.teammangers.dev.memo.dto.request.UpdateMemoFolderReq;
 import kr.teammangers.dev.memo.dto.response.GetMemoRes;
 import kr.teammangers.dev.tag.application.service.MemoTagService;
 import kr.teammangers.dev.tag.application.service.TagService;
@@ -34,6 +35,12 @@ public class MemoApiFacade {
                 .ifPresent(memoTagList -> memoTagList
                         .forEach(tagName -> saveMemoTagFromTagName(memoDto.id(), tagName)));
         return memoDto;
+    }
+
+    public GetMemoRes getMemo(Long memoId) {
+        MemoDto memoDto = memoService.findDtoById(memoId);
+        List<TagDto> tagDtoList = memoTagService.findAllTagDtoByMemoId(memoId);
+        return MEMO_RES_MAPPER.toGet(memoDto, tagDtoList);
     }
 
     public List<GetMemoRes> getMemoList(Long folderId, Boolean isFixed) {
@@ -85,6 +92,12 @@ public class MemoApiFacade {
         memoTagService.deleteAllByMemoId(memoId);
         memoService.deleteById(memoId);
         return memoId;
+    }
+
+    @Transactional
+    public MemoDto updateMemoFolder(Long memberId, Long memoId, UpdateMemoFolderReq req) {
+        memoService.validateMemoAdmin(memoId, memberId);
+        return memoService.updateMemoFolder(memoId, req.folderId());
     }
 
     @Transactional
