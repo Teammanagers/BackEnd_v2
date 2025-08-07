@@ -34,6 +34,11 @@ public class FolderApiFacade {
         return FOLDER_RES_MAPPER.toGet(folderDto);
     }
 
+    public GetFolderRes getFolder(Long folderId) {
+        FolderDto folderDto = folderService.findDtoById(folderId);
+        return FOLDER_RES_MAPPER.toGet(folderDto);
+    }
+
     public List<GetFolderRes> getFolderList(Long folderId) {
         return folderService.findAllDtoByParentId(folderId).stream()
                 .map(FOLDER_RES_MAPPER::toGet)

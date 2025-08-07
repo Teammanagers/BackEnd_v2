@@ -60,4 +60,12 @@ public class FolderController {
         return ApiRes.onSuccess(result);
     }
 
+    @GetMapping("/{folderId}")
+    public ApiRes<GetFolderRes> getFolder(
+            @PathVariable("folderId") final Long folderId
+    ) {
+        GetFolderRes result = folderApiFacade.getFolder(folderId);
+        return ApiRes.onSuccess(result);
+    }
+
 }
