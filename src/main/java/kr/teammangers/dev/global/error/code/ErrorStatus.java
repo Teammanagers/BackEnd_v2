@@ -77,6 +77,9 @@ public enum ErrorStatus implements ErrorBaseCode {
     TIME_SLOT_ORDER(BAD_REQUEST, "TIME_SLOT4004", "슬롯의 전후 순서가 맞지 않습니다."),
     TIME_SLOT_NOT_FOUND(NOT_FOUND, "TIME_SLOT_4040", entityNotFoundMessage("스케줄")),
 
+    // Alarm
+    ALARM_NOT_FOUND(NOT_FOUND, "ALARM_4040", entityNotFoundMessage("알림")),
+
     // 매핑 테이블
     TEAM_IMG_NOT_FOUND(NOT_FOUND, "TEAM_IMG404", entityNotFoundMessage("팀-S3 매핑 테이블")),
     TEAM_TAG_NOT_FOUND(NOT_FOUND, "TEAM_TAG404", entityNotFoundMessage("팀-태그 매핑 테이블")),

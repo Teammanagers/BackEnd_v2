@@ -1,5 +1,6 @@
 package kr.teammangers.dev.todo.presentation;
 
+import kr.teammangers.dev.alarm.dto.AlarmDto;
 import kr.teammangers.dev.auth.infrastructure.security.AuthInfo;
 import kr.teammangers.dev.global.common.response.ApiRes;
 import kr.teammangers.dev.todo.application.TodoCrudService;
@@ -95,5 +96,15 @@ public class TodoRestController {
         return ApiRes.onSuccess(todoCrudService.getMyTodoList(auth.memberDto().id(), teamId));
 
 
+    }
+
+    @PostMapping("/awake/{todoId}")
+    public ApiRes<Void> awakeTodo(
+            @PathVariable(name = "todoId") final Long todoId
+    ) {
+
+        AlarmDto result = todoApiFacade.awake(todoId);
+
+        return ApiRes.onSuccess();
     }
 }
