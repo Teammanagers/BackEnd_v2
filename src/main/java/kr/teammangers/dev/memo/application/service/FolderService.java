@@ -59,11 +59,17 @@ public class FolderService {
         // 모든 자식 폴더 ID를 가져옴
         List<Long> allFolderIds = folderRepository.findAllDescendantFolderIds(folderId);
 
+        if (allFolderIds == null || allFolderIds.isEmpty()) {
+            return;
+        }
+
         // 관련된 메모 삭제
-        memoRepository.deleteAllByFolderIds(allFolderIds);
+        memoRepository.setFolderToNullByFolderIds(allFolderIds);
+
+        List<Folder> foldersToDelete = folderRepository.findAllById(allFolderIds);
 
         // 폴더 삭제
-        folderRepository.deleteAllByIds(allFolderIds);
+        folderRepository.deleteAll(foldersToDelete);
     }
 
     private List<Folder> findAllByParentId(Long parentId) {

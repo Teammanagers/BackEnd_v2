@@ -18,5 +18,9 @@ public interface MemoRepository extends JpaRepository<Memo, Long>, MemoRepositor
     @Query("SELECT m FROM Memo  m WHERE m.team.id = :teamId AND m.isFixed = true")
     List<Memo> findAllByMemoListByFixed(@Param("teamId") Long teamId);
 
+    @Modifying(flushAutomatically = true, clearAutomatically = true)
+    @Query("UPDATE Memo m SET m.folder = null WHERE m.folder.id IN :folderIds")
+    void setFolderToNullByFolderIds(@Param("folderIds") List<Long> folderIds);
+
     Long team(Team team);
 }
