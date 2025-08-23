@@ -5,6 +5,7 @@ import kr.teammangers.dev.global.common.response.ApiRes;
 import kr.teammangers.dev.member.application.facade.MemberApiFacade;
 import kr.teammangers.dev.member.dto.MemberDto;
 import kr.teammangers.dev.member.dto.request.UpdateProfileReq;
+import kr.teammangers.dev.member.dto.response.GetMemberNameRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +31,14 @@ public class MemberController {
             @AuthenticationPrincipal final AuthInfo auth
     ) {
         MemberDto result = memberApiFacade.getMemberProfile(auth.memberDto().id());
+        return ApiRes.onSuccess(result);
+    }
+
+    @GetMapping("/name")
+    public ApiRes<GetMemberNameRes> getMemberName(
+            @AuthenticationPrincipal final AuthInfo auth
+    ) {
+        GetMemberNameRes result = memberApiFacade.getMemberName(auth.memberDto().id());
         return ApiRes.onSuccess(result);
     }
 

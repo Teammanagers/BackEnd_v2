@@ -2,6 +2,7 @@ package kr.teammangers.dev.member.application.facade;
 
 import kr.teammangers.dev.member.application.service.MemberService;
 import kr.teammangers.dev.member.dto.MemberDto;
+import kr.teammangers.dev.member.dto.response.GetMemberNameRes;
 import kr.teammangers.dev.member.dto.request.UpdateProfileReq;
 import kr.teammangers.dev.tag.application.service.MemberTagService;
 import kr.teammangers.dev.tag.application.service.TagService;
@@ -50,6 +51,13 @@ public class MemberApiFacade {
 
     public MemberDto getMemberProfile(Long memberId) {
         return memberService.findDtoById(memberId);
+    }
+
+    public GetMemberNameRes getMemberName(Long memberId) {
+        MemberDto memberDto = memberService.findDtoById(memberId);
+        return GetMemberNameRes.builder()
+                .name(memberDto.name())
+                .build();
     }
 
     private void saveMemberTagFromTagName(Long memberId, String tagName) {

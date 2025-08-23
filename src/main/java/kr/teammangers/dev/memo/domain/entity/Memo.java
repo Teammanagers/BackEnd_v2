@@ -4,9 +4,11 @@ import jakarta.persistence.*;
 import kr.teammangers.dev.global.common.base.BaseField;
 import kr.teammangers.dev.memo.dto.request.UpdateMemoReq;
 import kr.teammangers.dev.team.domain.entity.Team;
+
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
+
 
 @Entity
 @Getter
@@ -33,7 +35,7 @@ public class Memo extends BaseField {
     private Boolean isFixed = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "folder_id", nullable = false)
+    @JoinColumn(name = "folder_id", nullable = true)
     private Folder folder;
 
     @ManyToOne(fetch = FetchType.LAZY)
