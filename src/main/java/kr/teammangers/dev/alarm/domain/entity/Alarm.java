@@ -32,14 +32,14 @@ public class Alarm extends BaseField {
     private String content;
 
     @Column(nullable = false)
-    private Boolean read;
+    private Boolean isRead;
 
     @Setter
     @OneToOne(fetch = FetchType.LAZY)
     private Member member;
 
     public boolean read() {
-        read = true;
+        isRead = true;
         return true;
     }
 

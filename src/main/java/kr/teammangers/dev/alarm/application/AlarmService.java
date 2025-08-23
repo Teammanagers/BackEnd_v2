@@ -47,7 +47,7 @@ public class AlarmService {
                 .alarmType(AlarmType.TODO)
                 .referenceId(todoId)
                 .content("누군가가 " + member.getName() + "님을 깨웠어요. 할 일을 해주세요!")
-                .read(false)
+                .isRead(false)
                 .build();
 
 
