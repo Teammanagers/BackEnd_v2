@@ -99,12 +99,12 @@ public class TodoRestController {
     }
 
     @PostMapping("/awake")
-    public ApiRes<Void> awakeTodo(
+    public ApiRes<AlarmDto> awakeTodo(
             @RequestParam(name = "todoId") final Long todoId
     ) {
 
         AlarmDto result = todoApiFacade.awake(todoId);
 
-        return ApiRes.onSuccess();
+        return ApiRes.onSuccess(result);
     }
 }
