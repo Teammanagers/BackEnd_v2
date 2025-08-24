@@ -37,6 +37,7 @@ public class TodoApiFacade {
         return TODO_MAPPER.toCommonRes(todoImgService.save(todoId, s3FileInfoDto.id()));
     }
 
+    @Transactional
     public AlarmDto awake(Long todoId) {
 
         Todo todo = todoRepository.findById(todoId)

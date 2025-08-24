@@ -11,6 +11,7 @@ import kr.teammangers.dev.member.domain.entity.Member;
 import kr.teammangers.dev.member.domain.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
