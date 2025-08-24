@@ -98,9 +98,9 @@ public class TodoRestController {
 
     }
 
-    @PostMapping("/awake/{todoId}")
+    @PostMapping("/awake")
     public ApiRes<Void> awakeTodo(
-            @PathVariable(name = "todoId") final Long todoId
+            @RequestParam(name = "todoId") final Long todoId
     ) {
 
         AlarmDto result = todoApiFacade.awake(todoId);
