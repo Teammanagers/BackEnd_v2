@@ -53,6 +53,8 @@ public class AlarmService {
 
         newAlarm.setMember(member);
 
+        alarmRepository.save(newAlarm);
+
         return AlarmDto.from(newAlarm);
 
     }
