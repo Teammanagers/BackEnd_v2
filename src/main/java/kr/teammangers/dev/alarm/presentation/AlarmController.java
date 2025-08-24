@@ -8,8 +8,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-@RestController("/api/v2/alarm")
+@RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/v2/alarm")
 public class AlarmController {
 
     private final AlarmService alarmService;
