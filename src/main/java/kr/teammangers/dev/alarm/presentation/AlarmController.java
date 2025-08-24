@@ -22,10 +22,10 @@ public class AlarmController {
         return ApiRes.onSuccess(result);
     }
 
-    @PatchMapping("/{AlarmId}")
-    public ApiRes<Void> readAlarm(@PathVariable Long AlarmId) {
+    @PatchMapping("/{alarmId}")
+    public ApiRes<Void> readAlarm(@PathVariable Long alarmId) {
 
-        alarmService.readAlarm(AlarmId);
+        alarmService.readAlarm(alarmId);
         return ApiRes.onSuccess();
     }
 }
