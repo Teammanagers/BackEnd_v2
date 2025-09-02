@@ -10,6 +10,9 @@ import kr.teammangers.dev.member.dto.request.UpdateProfileReq;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import static kr.teammangers.dev.member.mapper.MemberMapper.MEMBER_MAPPER;
 
 @Service
@@ -36,6 +39,12 @@ public class MemberService {
     private Member findById(final Long id) {
         return memberRepository.findById(id)
                 .orElseThrow(() -> new GeneralException(ErrorStatus.MEMBER_NOT_FOUND));
+    }
+
+    public List<MemberDto> findMembersByIds(List<Long> ids) {
+        return memberRepository.findAllByIdIn(ids).stream()
+                .map(MEMBER_MAPPER::toDto)
+                .collect(Collectors.toList());
     }
 
     private Member insertMember(final Member member) {

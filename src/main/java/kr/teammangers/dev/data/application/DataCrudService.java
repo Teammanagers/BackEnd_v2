@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import kr.teammangers.dev.feedback.application.FeedbackService;
 
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class DataCrudService {
 
     private final S3Service s3Service;
     private final DataFileService dataFileService;
+    private final FeedbackService feedbackService;
 
     private final DataRepository dataRepository;
     private final TeamMemberRepository teamMemberRepository;
@@ -45,6 +47,18 @@ public class DataCrudService {
         dataFileService.save(newData.getId(), s3FileInfoDto.id());
 
         return CreateDataRes.from(newData);
+    }
+
+    @Transactional
+    public void deleteData(Long dataId) {
+        // 1. 관련 피드백 모두 논리적 삭제
+        feedbackService.deleteAllFeedbacksByDataId(dataId);
+
+        // 2. S3 파일 정보 및 실제 파일 삭제
+        dataFileService.deleteByDataId(dataId);
+
+        // 3. Data 엔티티 논리적 삭제
+        dataRepository.deleteById(dataId);
     }
 
     public GetDataRes getTeamData(Long teamId) {
@@ -67,12 +81,5 @@ public class DataCrudService {
                 .toList();
 
         return GetDataRes.of(dataDtoList);
-    }
-
-    public void deleteData(Long dataId) {
-
-        dataFileService.deleteByDataId(dataId);
-        dataRepository.deleteById(dataId);
-
     }
 }
