@@ -5,8 +5,9 @@ import kr.teammangers.dev.feedback.application.FeedbackService;
 import kr.teammangers.dev.feedback.dto.FeedbackDto;
 import kr.teammangers.dev.feedback.dto.request.CreateFeedbackReq;
 import kr.teammangers.dev.feedback.dto.request.UpdateFeedbackReq;
-import kr.teammangers.dev.global.common.response.ApiRes;
+import kr.teammangers.dev.global.common.response.ApiRes; // ApiRes import
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,9 +22,9 @@ public class FeedbackController {
 
     @GetMapping
     public ApiRes<List<FeedbackDto>> getFeedbacks(@PathVariable Long dataId) {
-        return ApiRes.onSuccess(feedbackService.getFeedbackTree(dataId));
+        List<FeedbackDto> feedbackTree = feedbackService.getFeedbackTree(dataId);
+        return ApiRes.onSuccess(feedbackTree);
     }
-
 
     @PostMapping
     public ApiRes<Void> createFeedback(
@@ -34,9 +35,7 @@ public class FeedbackController {
         return ApiRes.onSuccess(null);
     }
 
-    /**
-     * 피드백 수정
-     */
+
     @PutMapping("/{feedbackId}")
     public ApiRes<Void> updateFeedback(
             @PathVariable String dataId,
@@ -47,9 +46,7 @@ public class FeedbackController {
         return ApiRes.onSuccess(null);
     }
 
-    /**
-     * 피드백 삭제
-     */
+
     @DeleteMapping("/{feedbackId}")
     public ApiRes<Void> deleteFeedback(
             @PathVariable String dataId,
