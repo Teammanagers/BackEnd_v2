@@ -10,6 +10,8 @@ import kr.teammangers.dev.global.error.exception.GeneralException;
 import kr.teammangers.dev.s3.application.DataFileService;
 import kr.teammangers.dev.s3.application.S3Service;
 import kr.teammangers.dev.s3.dto.S3FileInfoDto;
+import kr.teammangers.dev.tag.application.service.TeamMemberTagService;
+import kr.teammangers.dev.tag.dto.TagDto;
 import kr.teammangers.dev.team.domain.entity.TeamMember;
 import kr.teammangers.dev.team.domain.repository.TeamMemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +32,7 @@ public class DataCrudService {
     private final S3Service s3Service;
     private final DataFileService dataFileService;
     private final FeedbackService feedbackService;
+    private final TeamMemberTagService teamMemberTagService;
 
     private final DataRepository dataRepository;
     private final TeamMemberRepository teamMemberRepository;
@@ -63,6 +66,8 @@ public class DataCrudService {
 
     public GetDataRes getTeamData(Long teamId) {
 
+
+
         List<TeamMember> teamMemberList = teamMemberRepository.findAllByTeam_Id(teamId);
         List<Data> dataList = teamMemberList.stream()
                 .flatMap(teamMember -> dataRepository.findAllByTeamMemberId(teamMember.getId()).stream())
@@ -70,13 +75,17 @@ public class DataCrudService {
 
         List<DataDTO> dataDtoList =  dataList.stream()
                 .map(data -> {
+
                     Long dataId = data.getId();
                     Long teamMemberId = data.getTeamMember().getId();
+
+                    List<TagDto> tagDtoList = teamMemberTagService.findAllTagDtoByTeamMemberId(teamMemberId);
+
                     String filePath = dataFileService.findFilePathByDataId(dataId);
                     S3FileInfoDto fileInfoDto = dataFileService.getDataFileInfo(dataId);
                     String generatedUrl = s3Service.generateUrl(filePath);
 
-                    return DataDTO.of(dataId, teamMemberId, fileInfoDto, generatedUrl);
+                    return DataDTO.of(dataId, teamMemberId, tagDtoList.getFirst(), fileInfoDto, generatedUrl);
                 })
                 .toList();
 
