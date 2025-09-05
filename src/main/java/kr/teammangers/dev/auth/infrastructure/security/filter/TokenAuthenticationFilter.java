@@ -29,7 +29,8 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             "/api/v2/auth/token",
             "/api/v2/auth/reissue",
             "/oauth2/authorization/**",
-            "/login"
+            "/login",
+            "/images/**"
     );
 
     @Override
