@@ -87,7 +87,7 @@ public class SecurityConfig {
     }
 
     private static final String[] PUBLIC_URLS = Stream.of(
-            new String[]{"/", "/api/v2/auth/token", "/api/v2/auth/reissue"},
+            new String[]{"/", "/api/v2/auth/token", "/api/v2/auth/reissue", "/favicon.ico", "/error"},
             PERMITTED_URI,
             WHITE_LIST_URI,
             DOCS_URI
