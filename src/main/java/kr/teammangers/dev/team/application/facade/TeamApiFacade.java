@@ -22,6 +22,7 @@ import kr.teammangers.dev.team.dto.request.UpdateTeamPasswordReq;
 import kr.teammangers.dev.team.dto.request.UpdateTeamReq;
 import kr.teammangers.dev.team.dto.response.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -38,6 +39,9 @@ import static kr.teammangers.dev.team.mapper.TeamResMapper.TEAM_RES_MAPPER;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class TeamApiFacade {
+
+    @Value("${url.static.default-team-image}")
+    private String defaultTeamImageUrl;
 
     private final TeamService teamService;
     private final TeamMemberService teamMemberService;
@@ -103,7 +107,7 @@ public class TeamApiFacade {
             String filePath = teamImgService.findFilePathByTeamId(teamDto.id());
             generatedUrl = s3Service.generateUrl(filePath);
         } catch (GeneralException e) {
-            generatedUrl = null;
+            generatedUrl = defaultTeamImageUrl;
         }
 
         List<TagDto> tagDtoList = teamTagService.findAllTagDtoByTeamId(teamDto.id());
