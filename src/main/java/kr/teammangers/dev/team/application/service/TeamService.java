@@ -84,7 +84,7 @@ public class TeamService {
     }
 
     private Team findById(Long id) {
-        return teamRepository.findById(id)
+        return teamRepository.findDistinctById(id)
                 .orElseThrow(() -> new GeneralException(ErrorStatus.TEAM_NOT_FOUND));
     }
 
