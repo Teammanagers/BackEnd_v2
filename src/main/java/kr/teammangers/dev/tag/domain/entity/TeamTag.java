@@ -29,4 +29,7 @@ public class TeamTag extends BaseField {
     @JoinColumn(name = "team_id", nullable = false)
     private Team team;
 
+    public void updateTag(Tag tag) {
+        this.tag = tag;
+    }
 }

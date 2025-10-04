@@ -33,9 +33,15 @@ public class TeamTagService {
         return TEAM_TAG_MAPPER.toDto(teamTag);
     }
 
+    public TeamTagDto update(Long teamId, Long oldTagId, Long newTagId) {
+        TeamTag teamTag = findEntityByTagIdAndTeamId(oldTagId, teamId);
+        Tag newTag = tagRepository.getReferenceById(newTagId);
+        teamTag.updateTag(newTag);
+        return TEAM_TAG_MAPPER.toDto(teamTag);
+    }
+
     public Long findIdByTagIdAndTeamId(Long tagId, Long teamId) {
-        TeamTag teamTag = teamTagRepository.findByTag_IdAndTeam_Id(tagId, teamId)
-                .orElseThrow(() -> new GeneralException(TEAM_TAG_NOT_FOUND));
+        TeamTag teamTag = findEntityByTagIdAndTeamId(tagId, teamId);
         return teamTag.getId();
     }
 
@@ -43,6 +49,11 @@ public class TeamTagService {
         return findAllByTeamId(teamId).stream()
                 .map(teamTag -> TAG_MAPPER.toDto(teamTag.getTag()))
                 .toList();
+    }
+
+    private TeamTag findEntityByTagIdAndTeamId(Long tagId, Long teamId) {
+        return teamTagRepository.findByTag_IdAndTeam_Id(tagId, teamId)
+                .orElseThrow(() -> new GeneralException(TEAM_TAG_NOT_FOUND));
     }
 
     private List<TeamTag> findAllByTeamId(Long teamId) {

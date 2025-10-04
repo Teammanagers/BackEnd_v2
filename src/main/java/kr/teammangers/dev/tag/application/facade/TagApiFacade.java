@@ -38,9 +38,8 @@ public class TagApiFacade {
 
     @Transactional
     public TeamTagDto updateTeamTag(Long tagId, Long teamId, UpdateTeamTagReq req) {
-        deleteTeamTag(tagId, teamId);
         TagDto tagDto = tagService.findDtoOrSave(req.tagName(), TagType.TEAM);
-        return teamTagService.save(teamId, tagDto.id());
+        return teamTagService.update(teamId, tagId, tagDto.id());
     }
 
     @Transactional
