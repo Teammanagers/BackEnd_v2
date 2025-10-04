@@ -46,16 +46,31 @@ public class TokenProvider {
 
     public TokenStatus getTokenStatus(String token, Key secretKey) {
         try {
+            // null 또는 빈 토큰 체크
+            if (token == null || token.trim().isEmpty()) {
+                log.debug("Token is null or empty");
+                return TokenStatus.EXPIRED;
+            }
+            
             Jwts.parserBuilder()
                     .setSigningKey(secretKey)
                     .build()
                     .parseClaimsJws(token);
             return TokenStatus.AUTHENTICATED;
-        } catch (ExpiredJwtException | IllegalArgumentException e) {
-            log.error(AuthErrorMessage.INVALID_EXPIRED_TOKEN);
+        } catch (ExpiredJwtException e) {
+            log.debug("Token expired: {}", e.getMessage());
+            return TokenStatus.EXPIRED;
+        } catch (IllegalArgumentException e) {
+            log.debug("Invalid token format: {}", e.getMessage());
             return TokenStatus.EXPIRED;
         } catch (JwtException e) {
-            throw new GeneralException(ErrorStatus._UNAUTHORIZED);     // TODO: Exception
+            // 500 에러 대신 401로 처리하기 위해 EXPIRED 반환
+            log.debug("JWT validation failed: {}", e.getMessage());
+            return TokenStatus.EXPIRED;
+        } catch (Exception e) {
+            // 예상치 못한 예외도 안전하게 처리
+            log.error("Unexpected error during token validation: {}", e.getMessage(), e);
+            return TokenStatus.EXPIRED;
         }
     }
 

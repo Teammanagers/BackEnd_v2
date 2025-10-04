@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import kr.teammangers.dev.auth.application.service.TokenService;
 import kr.teammangers.dev.global.error.code.ErrorStatus;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -18,6 +19,7 @@ import java.util.List;
 
 import static kr.teammangers.dev.global.error.exception.ExceptionUtil.handleAuthException;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
@@ -43,16 +45,23 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-        String accessToken = tokenService.resolveTokenFromHeader(request);
+        try {
+            String accessToken = tokenService.resolveTokenFromHeader(request);
 
-        if (accessToken != null && tokenService.validateAccessToken(accessToken)) {
-            setAuthenticationToContext(accessToken);
-        } else {
+            if (accessToken != null && tokenService.validateAccessToken(accessToken)) {
+                setAuthenticationToContext(accessToken);
+            } else {
+                handleAuthException(response, ErrorStatus.AUTH_INVALID_EXPIRED_TOKEN);
+                return;
+            }
+
+            filterChain.doFilter(request, response);
+            
+        } catch (Exception e) {
+            // 예상치 못한 예외 발생 시 401로 처리
+            log.error("Authentication error for URI: {}", request.getRequestURI(), e);
             handleAuthException(response, ErrorStatus.AUTH_INVALID_EXPIRED_TOKEN);
-            return;
         }
-
-        filterChain.doFilter(request, response);
     }
 
     private void setAuthenticationToContext(String accessToken) {
