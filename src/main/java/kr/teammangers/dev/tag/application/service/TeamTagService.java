@@ -52,7 +52,7 @@ public class TeamTagService {
     }
 
     private TeamTag findEntityByTagIdAndTeamId(Long tagId, Long teamId) {
-        return teamTagRepository.findByTag_IdAndTeam_Id(tagId, teamId)
+        return teamTagRepository.findFirstByTag_IdAndTeam_Id(tagId, teamId)
                 .orElseThrow(() -> new GeneralException(TEAM_TAG_NOT_FOUND));
     }
 

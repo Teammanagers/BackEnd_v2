@@ -10,6 +10,6 @@ public interface TeamTagRepository extends JpaRepository<TeamTag, Long>, TeamTag
 
     List<TeamTag> findAllByTeam_Id(Long teamId);
 
-    Optional<TeamTag> findByTag_IdAndTeam_Id(Long tagId, Long teamId);
+    Optional<TeamTag> findFirstByTag_IdAndTeam_Id(Long tagId, Long teamId);
 
 }
