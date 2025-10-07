@@ -28,7 +28,7 @@ public class DataRestController {
     }
 
     @GetMapping("/{teamId}")
-    public ApiRes<GetDataRes> getTeamData(@RequestParam(name = "teamId") Long teamId) {
+    public ApiRes<GetDataRes> getTeamData(@PathVariable(name = "teamId") Long teamId) {
 
         GetDataRes result = dataCrudService.getTeamData(teamId);
 
