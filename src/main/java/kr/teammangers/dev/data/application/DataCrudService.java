@@ -80,12 +80,16 @@ public class DataCrudService {
                     Long teamMemberId = data.getTeamMember().getId();
 
                     List<TagDto> tagDtoList = teamMemberTagService.findAllTagDtoByTeamMemberId(teamMemberId);
+                    TagDto tag = null;
+                    if (!tagDtoList.isEmpty()) {
+                        tag = tagDtoList.getFirst();
+                    }
 
                     String filePath = dataFileService.findFilePathByDataId(dataId);
                     S3FileInfoDto fileInfoDto = dataFileService.getDataFileInfo(dataId);
                     String generatedUrl = s3Service.generateUrl(filePath);
 
-                    return DataDTO.of(dataId, teamMemberId, tagDtoList.getFirst(), fileInfoDto, generatedUrl);
+                    return DataDTO.of(dataId, teamMemberId, tag, fileInfoDto, generatedUrl);
                 })
                 .toList();
 
