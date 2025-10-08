@@ -13,7 +13,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 
 import static kr.teammangers.dev.global.error.code.ErrorStatus.TEAM_MEMBER_NOT_FOUND;
 import static kr.teammangers.dev.global.error.code.ErrorStatus.TEAM_NOT_FOUND;
@@ -74,6 +76,25 @@ public class TimeSlotService {
         return TIME_SLOT_MAPPER.toDto(savedSchedule);
     }
 
+    public TimeSlotDto findPartialDtoByTeamMemberIds(List<Long> teamMemberIds) {
+        List<TimeSlot> timeSlotList = teamMemberIds.stream()
+                .map(this::findByTeamMemberId).toList();
+
+        Map<DayOfWeek, Long> dailySlots = new EnumMap<>(DayOfWeek.class);
+
+        Arrays.stream(DayOfWeek.values())
+                .forEach(day -> {
+                    long combinedBits = -1L;
+                    for (TimeSlot timeSlot : timeSlotList) {
+                        Long bits = timeSlot.getDailySlots().get(day);
+                        combinedBits = combinedBits & bits;
+                    }
+                    dailySlots.put(day, combinedBits);
+                });
+
+        return TIME_SLOT_MAPPER.toDto(dailySlots);
+    }
+
     private void updateTeamSchedule(TimeSlot teamSchedule, TimeSlot memberSchedule) {
         Arrays.stream(DayOfWeek.values())
                 .forEach(day -> {
@@ -91,6 +112,12 @@ public class TimeSlotService {
 
     private TimeSlot findByTeamIdAndMemberId(Long teamId, Long memberId) {
         return teamMemberRepository.findByTeam_IdAndMember_Id(teamId, memberId)
+                .orElseThrow(() -> new GeneralException(TEAM_MEMBER_NOT_FOUND))
+                .getTimeSlot();
+    }
+
+    private TimeSlot findByTeamMemberId(Long teamMemberId) {
+        return teamMemberRepository.findById(teamMemberId)
                 .orElseThrow(() -> new GeneralException(TEAM_MEMBER_NOT_FOUND))
                 .getTimeSlot();
     }

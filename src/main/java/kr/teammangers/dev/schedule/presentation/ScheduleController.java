@@ -4,6 +4,7 @@ import kr.teammangers.dev.auth.infrastructure.security.AuthInfo;
 import kr.teammangers.dev.global.common.response.ApiRes;
 import kr.teammangers.dev.schedule.application.facade.TimeSlotApiFacade;
 import kr.teammangers.dev.schedule.dto.TimeSlotDto;
+import kr.teammangers.dev.schedule.dto.request.GetPartialTeamScheduleReq;
 import kr.teammangers.dev.schedule.dto.request.UpdateScheduleReq;
 import kr.teammangers.dev.schedule.dto.response.GetScheduleRes;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +34,17 @@ public class ScheduleController {
             @PathVariable("teamId") final Long teamId
     ) {
         List<GetScheduleRes> result = timeSlotApiFacade.getTeamSchedule(teamId);
+        return ApiRes.onSuccess(result);
+    }
+
+    @GetMapping("/teams/{teamId}/partial")
+    public ApiRes<List<GetScheduleRes>> getPartialTeamSchedulePart(
+            @PathVariable(name = "teamId") final Long teamId,
+            @RequestBody final GetPartialTeamScheduleReq req
+            ) {
+
+        List<GetScheduleRes> result = timeSlotApiFacade.getPartialTeamSchedule(teamId, req);
+
         return ApiRes.onSuccess(result);
     }
 

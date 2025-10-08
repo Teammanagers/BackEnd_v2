@@ -1,9 +1,12 @@
 package kr.teammangers.dev.schedule.mapper;
 
 import kr.teammangers.dev.schedule.domain.entity.TimeSlot;
+import kr.teammangers.dev.schedule.domain.enums.DayOfWeek;
 import kr.teammangers.dev.schedule.dto.TimeSlotDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
+
+import java.util.Map;
 
 @Mapper(componentModel = "spring")
 public interface TimeSlotMapper {
@@ -11,5 +14,11 @@ public interface TimeSlotMapper {
     TimeSlotMapper TIME_SLOT_MAPPER = Mappers.getMapper(TimeSlotMapper.class);
 
     TimeSlotDto toDto(TimeSlot timeSlot);
+
+    default TimeSlotDto toDto(Map<DayOfWeek, Long> daySlots) {
+        if (daySlots == null) return null;
+
+        return TimeSlotDto.builder().dailySlots(daySlots).build();
+    }
 
 }

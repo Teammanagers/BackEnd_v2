@@ -3,6 +3,7 @@ package kr.teammangers.dev.schedule.application.facade;
 import kr.teammangers.dev.schedule.application.service.TimeSlotService;
 import kr.teammangers.dev.schedule.dto.ScheduleDto;
 import kr.teammangers.dev.schedule.dto.TimeSlotDto;
+import kr.teammangers.dev.schedule.dto.request.GetPartialTeamScheduleReq;
 import kr.teammangers.dev.schedule.dto.request.UpdateScheduleReq;
 import kr.teammangers.dev.schedule.dto.response.GetScheduleRes;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +40,15 @@ public class TimeSlotApiFacade {
         return scheduleDtoList.stream()
                 .map(SCHEDULE_RES_MAPPER::toGet)
                 .toList();
+    }
+
+    public List<GetScheduleRes> getPartialTeamSchedule(Long teamId, GetPartialTeamScheduleReq req) {
+        TimeSlotDto timeSlotDto = timeSlotService.findPartialDtoByTeamMemberIds(req.teamMemberIdList());
+        List<ScheduleDto> scheduleDtoList = SCHEDULE_RES_MAPPER.toScheduleListFrom(timeSlotDto);
+        return scheduleDtoList.stream()
+                .map(SCHEDULE_RES_MAPPER::toGet)
+                .toList();
+
     }
 
 }
