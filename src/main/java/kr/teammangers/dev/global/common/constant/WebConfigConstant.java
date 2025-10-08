@@ -9,7 +9,8 @@ public final class WebConfigConstant {
 
     public static final String[] PERMITTED_URI = {
             "/login",
-            "/oauth2/**"
+            "/oauth2/**",
+            "/images/**"
     };
 
     public static final String[] WHITE_LIST_URI ={
