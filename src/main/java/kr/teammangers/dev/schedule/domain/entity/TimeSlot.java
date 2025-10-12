@@ -62,6 +62,10 @@ public class TimeSlot extends BaseField {
         this.isConfigured = true;
     }
 
+    public void resetTimeSlot() {
+        this.dailySlots.clear();
+    }
+
     @PrePersist
     @PreUpdate
     private void validateTimeSlots() {

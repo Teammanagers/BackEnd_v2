@@ -54,6 +54,7 @@ public class TimeSlotService {
         TimeSlot memberSchedule = findByTeamIdAndMemberId(teamId, memberId);
 
         // 멤버 스케줄 업데이트
+        memberSchedule.resetTimeSlot();
         req.times().forEach(dayTimeReq ->
                 dayTimeReq.timeRanges().forEach(timeReq ->
                         memberSchedule.setTimeSlot(
@@ -65,6 +66,10 @@ public class TimeSlotService {
                         )
                 )
         );
+
+        if (!memberSchedule.getIsConfigured()) {
+            memberSchedule.updateConfig();
+        }
         TimeSlot savedSchedule = timeSlotRepository.save(memberSchedule);
 
         // 팀 스케줄 업데이트
@@ -90,6 +95,7 @@ public class TimeSlotService {
         List<TimeSlot> memberScheduleList = teamMemberRepository.findAllByTeam_Id(teamId)
                 .stream()
                 .map(TeamMember::getTimeSlot)
+                .filter(TimeSlot::getIsConfigured)
                 .toList();
 
         Map<DayOfWeek, Long> combinedDailySlots = combineTimeSlots(memberScheduleList);
