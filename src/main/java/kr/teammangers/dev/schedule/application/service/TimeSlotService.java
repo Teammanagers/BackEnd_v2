@@ -115,7 +115,7 @@ public class TimeSlotService {
                     long combinedBits = -1L;
                     for (TimeSlot timeSlot : timeSlotList) {
                         Long bits = timeSlot.getDailySlots().get(day);
-                        combinedBits = combinedBits & bits;
+                        if (bits != null) combinedBits = combinedBits & bits;
                     }
                     dailySlots.put(day, combinedBits);
                 });
