@@ -63,7 +63,8 @@ public class TimeSlot extends BaseField {
     }
 
     public void resetTimeSlot() {
-        this.dailySlots.clear();
+        this.dailySlots = new EnumMap<>(DayOfWeek.class);
+        Arrays.stream(DayOfWeek.values()).forEach(day -> dailySlots.put(day, 0L));
     }
 
     @PrePersist
