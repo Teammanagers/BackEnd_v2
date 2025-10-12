@@ -53,9 +53,9 @@ public class TimeSlot extends BaseField {
         dailySlots.merge(day, bitMask, (existing, newValue) -> newValue);
     }
 
-    public void update(TimeSlot schedule) {
+    public void update(Map<DayOfWeek, Long> dailySlots) {
         this.dailySlots = new HashMap<>();
-        this.dailySlots.putAll(schedule.dailySlots);
+        this.dailySlots.putAll(dailySlots);
     }
 
     public void updateConfig() {

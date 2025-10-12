@@ -6,6 +6,7 @@ import kr.teammangers.dev.schedule.dto.TimeSlotDto;
 import kr.teammangers.dev.schedule.dto.request.UpdateScheduleReq;
 import kr.teammangers.dev.schedule.domain.enums.DayOfWeek;
 import kr.teammangers.dev.schedule.domain.repository.TimeSlotRepository;
+import kr.teammangers.dev.team.application.service.TeamMemberService;
 import kr.teammangers.dev.team.domain.entity.TeamMember;
 import kr.teammangers.dev.team.domain.repository.TeamRepository;
 import kr.teammangers.dev.team.domain.repository.TeamMemberRepository;
@@ -29,6 +30,8 @@ public class TimeSlotService {
     private final TeamMemberRepository teamMemberRepository;
     private final TeamRepository teamRepository;
 
+    private final TeamMemberService teamMemberService;
+
     public TimeSlotDto findDtoByTeamIdAndMemberId(Long teamId, Long memberId) {
         TimeSlot timeSlot = findByTeamIdAndMemberId(teamId, memberId);
         return TIME_SLOT_MAPPER.toDto(timeSlot);
@@ -48,7 +51,6 @@ public class TimeSlotService {
     }
 
     public TimeSlotDto update(Long teamId, Long memberId, UpdateScheduleReq req) {
-        TimeSlot teamSchedule = findByTeamId(teamId);
         TimeSlot memberSchedule = findByTeamIdAndMemberId(teamId, memberId);
 
         // 멤버 스케줄 업데이트
@@ -66,20 +68,40 @@ public class TimeSlotService {
         TimeSlot savedSchedule = timeSlotRepository.save(memberSchedule);
 
         // 팀 스케줄 업데이트
-        if (!teamSchedule.getIsConfigured()) {
-            teamSchedule.updateConfig();
-            teamSchedule.update(savedSchedule);
-        } else updateTeamSchedule(teamSchedule, savedSchedule);
+        updateTeamSchedule(teamId);
+//        if (!teamSchedule.getIsConfigured()) {
+//            teamSchedule.updateConfig();
+//            teamSchedule.update(savedSchedule.getDailySlots());
+//        } else updateTeamSchedule(teamSchedule, savedSchedule);
 
-        // 한 번에 저장하고 반환
-        timeSlotRepository.save(teamSchedule);
         return TIME_SLOT_MAPPER.toDto(savedSchedule);
     }
 
     public TimeSlotDto findPartialDtoByTeamMemberIds(List<Long> teamMemberIds) {
-        List<TimeSlot> timeSlotList = teamMemberIds.stream()
+        List<TimeSlot> memberScheduleList = teamMemberIds.stream()
                 .map(this::findByTeamMemberId).toList();
 
+        Map<DayOfWeek, Long> combinedDailySlots = combineTimeSlots(memberScheduleList);
+
+        return TIME_SLOT_MAPPER.toDto(combinedDailySlots);
+    }
+
+    private TimeSlotDto updateTeamSchedule(Long teamId) {
+        List<TimeSlot> memberScheduleList = teamMemberRepository.findAllByTeam_Id(teamId)
+                .stream()
+                .map(TeamMember::getTimeSlot)
+                .toList();
+
+        Map<DayOfWeek, Long> combinedDailySlots = combineTimeSlots(memberScheduleList);
+
+        TimeSlot teamSchedule = findByTeamId(teamId);
+        teamSchedule.update(combinedDailySlots);
+
+        timeSlotRepository.save(teamSchedule);
+        return TIME_SLOT_MAPPER.toDto(teamSchedule);
+    }
+
+    private Map<DayOfWeek, Long> combineTimeSlots(List<TimeSlot> timeSlotList) {
         Map<DayOfWeek, Long> dailySlots = new EnumMap<>(DayOfWeek.class);
 
         Arrays.stream(DayOfWeek.values())
@@ -92,7 +114,7 @@ public class TimeSlotService {
                     dailySlots.put(day, combinedBits);
                 });
 
-        return TIME_SLOT_MAPPER.toDto(dailySlots);
+        return dailySlots;
     }
 
     private void updateTeamSchedule(TimeSlot teamSchedule, TimeSlot memberSchedule) {
