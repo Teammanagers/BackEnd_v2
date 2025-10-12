@@ -60,10 +60,10 @@ public class TeamController {
     }
 
     @GetMapping("/{teamId}/member-list")
-    public ApiRes<List<GetMemberRes>> getMemberListByTeam(
+    public ApiRes<GetMemberRes> getMemberListByTeam(
             @PathVariable("teamId") final Long teamId
     ) {
-        List<GetMemberRes> result = teamApiFacade.getMemberListByTeamId(teamId);
+        GetMemberRes result = teamApiFacade.getMemberListByTeamId(teamId);
         return ApiRes.onSuccess(result);
     }
 

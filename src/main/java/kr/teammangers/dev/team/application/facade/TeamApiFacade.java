@@ -16,6 +16,7 @@ import kr.teammangers.dev.tag.dto.TagDto;
 import kr.teammangers.dev.team.application.service.TeamMemberService;
 import kr.teammangers.dev.team.application.service.TeamService;
 import kr.teammangers.dev.team.dto.TeamDto;
+import kr.teammangers.dev.team.dto.TeamMemberDto;
 import kr.teammangers.dev.team.dto.request.CreateTeamReq;
 import kr.teammangers.dev.team.dto.request.JoinTeamReq;
 import kr.teammangers.dev.team.dto.request.UpdateTeamPasswordReq;
@@ -27,6 +28,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -34,6 +36,7 @@ import static kr.teammangers.dev.memo.constant.FolderConstant.ROOT_FOLDER;
 import static kr.teammangers.dev.s3.constant.S3Constant.TEAM_PROFILE_PATH;
 import static kr.teammangers.dev.tag.domain.enums.TagType.TEAM;
 import static kr.teammangers.dev.team.mapper.TeamResMapper.TEAM_RES_MAPPER;
+import static kr.teammangers.dev.team.mapper.TeamMemberMapper.TEAM_MEMBER_MAPPER;
 
 @Service
 @Transactional(readOnly = true)
@@ -94,10 +97,8 @@ public class TeamApiFacade {
         return buildGetTeamRes(teamDto);
     }
 
-    public List<GetMemberRes> getMemberListByTeamId(Long teamId) {
-        return teamMemberService.findAllTeamMemberIdByTeamId(teamId).stream()
-                .map(this::buildGetMemberRes)
-                .toList();
+    public GetMemberRes getMemberListByTeamId(Long teamId) {
+        return buildGetMemberRes(teamMemberService.findAllTeamMemberIdByTeamId(teamId));
     }
 
     private GetTeamRes buildGetTeamRes(TeamDto teamDto) {
@@ -125,19 +126,33 @@ public class TeamApiFacade {
 //        return TEAM_RES_MAPPER.toGetMember(teamMemberId, memberDto, generatedUrl, tagDtoList);
 //    }
 
-    private GetMemberRes buildGetMemberRes(Long teamMemberId) {
-        MemberDto memberDto = teamMemberService.findMemberDtoByTeamMemberId(teamMemberId);
-        String generatedUrl = null;
+    private GetMemberRes buildGetMemberRes(List<Long> teamMemberIdList) {
 
-        try {
-            String filePath = memberImgService.findFilePahtByMemberId(memberDto.id());
-            generatedUrl = s3Service.generateUrl(filePath);
-        } catch (GeneralException e) {
-            generatedUrl = null;
-        }
+        List<TeamMemberDto> teamMemberDtoList = teamMemberIdList.stream()
+                .map(teamMemberId -> {
+                    MemberDto memberDto = teamMemberService.findMemberDtoByTeamMemberId(teamMemberId);
+                    String generatedUrl = null;
 
-        List<TagDto> tagDtoList = teamMemberTagService.findAllTagDtoByTeamMemberId(teamMemberId);
-        return TEAM_RES_MAPPER.toGetMember(teamMemberId, memberDto, generatedUrl, tagDtoList);
+                    try {
+                        String filePath = memberImgService.findFilePahtByMemberId(memberDto.id());
+                        generatedUrl = s3Service.generateUrl(filePath);
+                    } catch (GeneralException e) {
+                        generatedUrl = null;
+                    }
+
+                    List<TagDto> tagDtoList = teamMemberTagService.findAllTagDtoByTeamMemberId(teamMemberId);
+
+                    return TEAM_MEMBER_MAPPER.toDto(teamMemberId, memberDto, generatedUrl, tagDtoList);
+                }).toList();
+
+        TeamMemberDto leaderDto = teamMemberDtoList.stream()
+                .min(Comparator.comparing(TeamMemberDto::teamMemberId))
+                .orElseThrow(() -> new GeneralException(ErrorStatus._INTERNAL_SERVER_ERROR));
+
+        List<TeamMemberDto> memberDtoList = teamMemberDtoList.stream()
+                .filter(teamMemberDto -> !teamMemberDto.teamMemberId().equals(leaderDto.teamMemberId())).toList();
+
+        return TEAM_RES_MAPPER.toGetMember(leaderDto, memberDtoList);
     }
 
     @Transactional
