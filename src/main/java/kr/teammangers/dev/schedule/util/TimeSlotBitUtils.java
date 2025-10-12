@@ -52,7 +52,7 @@ public class TimeSlotBitUtils {
             if (isSet && start == -1) {
                 start = i;
             } else if (!isSet && start != -1) {
-                ranges.add(createTimeRange(start, i));
+                ranges.add(createTimeRange(start, i - 1));
                 start = -1;
             }
         }
