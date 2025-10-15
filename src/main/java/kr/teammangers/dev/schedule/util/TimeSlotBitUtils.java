@@ -57,7 +57,7 @@ public class TimeSlotBitUtils {
             }
         }
         if (start != -1) {
-            ranges.add(createTimeRange(start, TOTAL_SLOTS));
+            ranges.add(createTimeRange(start, TOTAL_SLOTS - 1));
         }
         return ranges;
     }
