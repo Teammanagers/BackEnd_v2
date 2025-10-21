@@ -42,8 +42,8 @@ public class TimeSlotApiFacade {
                 .toList();
     }
 
-    public List<GetScheduleRes> getPartialTeamSchedule(Long teamId, GetPartialTeamScheduleReq req) {
-        TimeSlotDto timeSlotDto = timeSlotService.findPartialDtoByTeamMemberIds(req.teamMemberIdList());
+    public List<GetScheduleRes> getPartialTeamSchedule(Long teamId, List<Long> teamMemberIdList) {
+        TimeSlotDto timeSlotDto = timeSlotService.findPartialDtoByTeamMemberIds(teamMemberIdList);
         List<ScheduleDto> scheduleDtoList = SCHEDULE_RES_MAPPER.toScheduleListFrom(timeSlotDto);
         return scheduleDtoList.stream()
                 .map(SCHEDULE_RES_MAPPER::toGet)

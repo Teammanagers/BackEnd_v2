@@ -40,10 +40,10 @@ public class ScheduleController {
     @GetMapping("/teams/{teamId}/partial")
     public ApiRes<List<GetScheduleRes>> getPartialTeamSchedulePart(
             @PathVariable(name = "teamId") final Long teamId,
-            @RequestBody final GetPartialTeamScheduleReq req
+            @RequestParam(name = "teamMemberId") final List<Long> teamMemberIdList
             ) {
 
-        List<GetScheduleRes> result = timeSlotApiFacade.getPartialTeamSchedule(teamId, req);
+        List<GetScheduleRes> result = timeSlotApiFacade.getPartialTeamSchedule(teamId, teamMemberIdList);
 
         return ApiRes.onSuccess(result);
     }
