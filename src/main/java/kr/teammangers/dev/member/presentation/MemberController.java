@@ -6,6 +6,7 @@ import kr.teammangers.dev.member.application.facade.MemberApiFacade;
 import kr.teammangers.dev.member.dto.MemberDto;
 import kr.teammangers.dev.member.dto.request.UpdateProfileReq;
 import kr.teammangers.dev.member.dto.response.GetMemberNameRes;
+import kr.teammangers.dev.member.dto.response.GetMemberProfileRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -27,10 +28,10 @@ public class MemberController {
     }
 
     @GetMapping
-    public ApiRes<MemberDto> getMemberProfile(
+    public ApiRes<GetMemberProfileRes> getMemberProfile(
             @AuthenticationPrincipal final AuthInfo auth
     ) {
-        MemberDto result = memberApiFacade.getMemberProfile(auth.memberDto().id());
+        GetMemberProfileRes result = memberApiFacade.getMemberProfile(auth.memberDto().id());
         return ApiRes.onSuccess(result);
     }
 

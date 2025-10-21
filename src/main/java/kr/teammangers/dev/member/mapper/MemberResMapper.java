@@ -1,5 +1,6 @@
 package kr.teammangers.dev.member.mapper;
 
+import kr.teammangers.dev.member.dto.response.GetMemberProfileRes;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

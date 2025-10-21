@@ -4,6 +4,9 @@ import kr.teammangers.dev.member.application.service.MemberService;
 import kr.teammangers.dev.member.dto.MemberDto;
 import kr.teammangers.dev.member.dto.response.GetMemberNameRes;
 import kr.teammangers.dev.member.dto.request.UpdateProfileReq;
+import kr.teammangers.dev.member.dto.response.GetMemberProfileRes;
+import kr.teammangers.dev.s3.application.MemberImgService;
+import kr.teammangers.dev.s3.application.S3Service;
 import kr.teammangers.dev.tag.application.service.MemberTagService;
 import kr.teammangers.dev.tag.application.service.TagService;
 import kr.teammangers.dev.tag.dto.TagDto;
@@ -23,7 +26,9 @@ public class MemberApiFacade {
 
     private final MemberService memberService;
     private final MemberTagService memberTagService;
+    private final MemberImgService memberImgService;
     private final TagService tagService;
+    private final S3Service s3Service;
 
     @Transactional
     public MemberDto updateProfile(Long memberId, UpdateProfileReq req) {
@@ -49,8 +54,16 @@ public class MemberApiFacade {
         return memberDto;
     }
 
-    public MemberDto getMemberProfile(Long memberId) {
-        return memberService.findDtoById(memberId);
+    public GetMemberProfileRes getMemberProfile(Long memberId) {
+        MemberDto memberDto = memberService.findDtoById(memberId);
+        String imgPath = memberImgService.findFilePahtByMemberId(memberId);
+        String imgUrl = s3Service.generateUrl(imgPath);
+
+        return GetMemberProfileRes.builder()
+                .memberDto(memberDto)
+                .imgUrl(imgUrl)
+                .build();
+
     }
 
     public GetMemberNameRes getMemberName(Long memberId) {
