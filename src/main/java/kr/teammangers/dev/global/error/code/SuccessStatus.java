@@ -24,11 +24,21 @@ public enum SuccessStatus implements BaseCode {
 
     @Override
     public ReasonDto getReason() {
-        return null;
+        return ReasonDto.builder()
+                .httpStatus(this.httpStatus)
+                .isSuccess(true)
+                .code(this.code)
+                .message(this.message)
+                .build();
     }
 
     @Override
     public ReasonDto getReasonHttpStatus() {
-        return null;
+        return ReasonDto.builder()
+                .httpStatus(this.httpStatus)
+                .isSuccess(true)
+                .code(this.code)
+                .message(this.message)
+                .build();
     }
 }

@@ -9,6 +9,7 @@ import kr.teammangers.dev.member.dto.MemberDto;
 import kr.teammangers.dev.member.dto.request.UpdateProfileReq;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,10 +19,12 @@ import static kr.teammangers.dev.member.mapper.MemberMapper.MEMBER_MAPPER;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class MemberService {
 
     private final MemberRepository memberRepository;
 
+    @Transactional
     public MemberDto findDtoOrSave(final OAuth2UserInfo oAuth2UserInfo) {
         // 1. 먼저 활성 회원 조회
         Optional<Member> activeMember = memberRepository.findByProviderInfo_ProviderId(oAuth2UserInfo.providerInfo().getProviderId());
@@ -45,6 +48,7 @@ public class MemberService {
         return MEMBER_MAPPER.toDto(findById(id));
     }
 
+    @Transactional
     public MemberDto update(Long memberId, UpdateProfileReq req) {
         Member member = findById(memberId);
         member.update(req);
@@ -62,6 +66,7 @@ public class MemberService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public void deleteMember(Long memberId) {
         Member member = findById(memberId);
         memberRepository.delete(member);
