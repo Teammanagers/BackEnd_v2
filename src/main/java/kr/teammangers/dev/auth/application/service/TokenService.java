@@ -32,6 +32,7 @@ public class TokenService {
     private final AuthService authService;
     private final TokenProvider tokenProvider;
     private final RedisTemplate<String, String> redisTemplate;
+    private final kr.teammangers.dev.member.application.service.MemberService memberService;
 
     private final Key accessSecretKey;
     private final Key refreshSecretKey;
@@ -41,6 +42,7 @@ public class TokenService {
     public TokenService(AuthService authService,
                         TokenProvider tokenProvider,
                         RedisTemplate<String, String> redisTemplate,
+                        kr.teammangers.dev.member.application.service.MemberService memberService,
                         @Value("${jwt.secret-key}") String secretKey,
                         @Value("${jwt.secret-key-refresh}") String refreshSecretKeyString,
                         @Value("${jwt.access.expiration}") long accessTokenExpiration,
@@ -48,6 +50,7 @@ public class TokenService {
         this.authService = authService;
         this.tokenProvider = tokenProvider;
         this.redisTemplate = redisTemplate;
+        this.memberService = memberService;
         this.accessSecretKey = tokenProvider.getSigningKey(secretKey);
         this.refreshSecretKey = tokenProvider.getSigningKey(refreshSecretKeyString);
         this.accessTokenExpiration = accessTokenExpiration;
@@ -92,6 +95,17 @@ public class TokenService {
     public void logout(Long memberId) {
         redisTemplate.delete(String.valueOf(memberId));
         log.info("로그아웃 처리 완료. Member ID: {}", memberId);
+    }
+
+    @Transactional
+    public void withdraw(Long memberId) {
+        // 1. Redis에서 Refresh Token 삭제 (로그아웃 처리)
+        redisTemplate.delete(String.valueOf(memberId));
+        
+        // 2. 회원 정보 소프트 삭제 (Member 엔티티의 @SQLDelete 어노테이션 활용)
+        memberService.deleteMember(memberId);
+        
+        log.info("회원탈퇴 처리 완료. Member ID: {}", memberId);
     }
 
     public Authentication getAuthentication(String accessToken) {

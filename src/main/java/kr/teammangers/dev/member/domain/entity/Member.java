@@ -3,6 +3,7 @@ package kr.teammangers.dev.member.domain.entity;
 import jakarta.persistence.*;
 import kr.teammangers.dev.member.domain.embed.ProviderInfo;
 import kr.teammangers.dev.global.common.base.BaseField;
+import kr.teammangers.dev.global.common.enums.EntityStatus;
 import kr.teammangers.dev.member.domain.enums.Role;
 import kr.teammangers.dev.member.dto.request.UpdateProfileReq;
 import lombok.*;
@@ -51,5 +52,9 @@ public class Member extends BaseField {
         this.birth = req.birth();
         this.telNum = req.telNum();
         this.belong = req.belong();
+    }
+
+    public void reactivate() {
+        this.setUseYn(EntityStatus.Y);
     }
 }

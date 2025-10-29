@@ -5,12 +5,16 @@ import kr.teammangers.dev.auth.application.service.TokenService;
 import kr.teammangers.dev.auth.dto.request.ReissueReq;
 import kr.teammangers.dev.auth.dto.response.TokenRes;
 import kr.teammangers.dev.auth.infrastructure.security.AuthInfo;
+import kr.teammangers.dev.global.common.response.ApiRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+
+import static kr.teammangers.dev.global.error.code.SuccessStatus._LOGOUT_SUCCESS;
+import static kr.teammangers.dev.global.error.code.SuccessStatus._WITHDRAW_SUCCESS;
 
 @RestController
 @RequiredArgsConstructor
@@ -45,8 +49,14 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<Void> logout(@AuthenticationPrincipal AuthInfo authInfo) {
+    public ResponseEntity<ApiRes<Void>> logout(@AuthenticationPrincipal AuthInfo authInfo) {
         tokenService.logout(authInfo.memberDto().id());
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(ApiRes.onSuccess(_LOGOUT_SUCCESS, null));
+    }
+
+    @DeleteMapping("/withdraw")
+    public ResponseEntity<ApiRes<Void>> withdraw(@AuthenticationPrincipal AuthInfo authInfo) {
+        tokenService.withdraw(authInfo.memberDto().id());
+        return ResponseEntity.ok(ApiRes.onSuccess(_WITHDRAW_SUCCESS, null));
     }
 }

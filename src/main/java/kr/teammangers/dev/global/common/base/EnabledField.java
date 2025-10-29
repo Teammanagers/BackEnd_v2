@@ -17,4 +17,8 @@ public abstract class EnabledField {
     @Column(name = "use_yn", nullable = false, length = 1)
     private EntityStatus useYn = Y;
 
+    protected void setUseYn(EntityStatus useYn) {
+        this.useYn = useYn;
+    }
+
 }
