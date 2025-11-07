@@ -1,5 +1,6 @@
 package kr.teammangers.dev.team.application.service;
 
+import kr.teammangers.dev.global.error.code.ErrorStatus;
 import kr.teammangers.dev.global.error.exception.GeneralException;
 import kr.teammangers.dev.member.domain.entity.Member;
 import kr.teammangers.dev.member.domain.repository.MemberRepository;
@@ -65,6 +66,12 @@ public class TeamMemberService {
                     return teamMember.getId();
                 })
                 .orElseThrow(() -> new GeneralException(TEAM_MEMBER_NOT_FOUND));
+    }
+
+    public Long findId(Long teamId, Long memberId) {
+        return teamMemberRepository.findByTeam_IdAndMember_Id(teamId, memberId)
+                .orElseThrow(() -> new GeneralException(TEAM_MEMBER_NOT_FOUND))
+                .getId();
     }
 
     private TeamMember findById(Long teamMemberId) {

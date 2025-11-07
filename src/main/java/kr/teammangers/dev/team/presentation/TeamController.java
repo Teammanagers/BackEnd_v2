@@ -113,4 +113,13 @@ public class TeamController {
         return ApiRes.onSuccess(result);
     }
 
+    @GetMapping("/{teamId}/team-member-id")
+    public ApiRes<Long> getTeamMemberId(
+            @AuthenticationPrincipal final AuthInfo auth,
+            @PathVariable("teamId") final Long teamId
+    ) {
+        Long result = teamApiFacade.getTeamMemberId(auth.memberDto().id(), teamId);
+        return ApiRes.onSuccess(result);
+    }
+
 }

@@ -201,6 +201,10 @@ public class TeamApiFacade {
         return teamMemberService.delete(teamId, memberId);
     }
 
+    public Long getTeamMemberId(Long memberId, Long teamId) {
+        return teamMemberService.findId(teamId, memberId);
+    }
+
     private boolean validPassword(TeamDto teamDto, String password) {
         return !Objects.equals(teamDto.password(), password);
     }
