@@ -37,11 +37,13 @@ pipeline {
                     echo "=== Java Environment ==="
                     echo "JAVA_HOME: $JAVA_HOME"
                     java -version
-                    which java
                     
                     echo "=== Starting Gradle Build ==="
                     chmod +x gradlew
-                    ./gradlew clean build -x test --no-daemon
+                    
+                    # Gradle에게 Java 위치 명시적으로 전달
+                    ./gradlew clean build -x test --no-daemon \
+                      -Dorg.gradle.java.home=$JAVA_HOME
                 '''
             }
         }
