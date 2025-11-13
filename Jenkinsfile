@@ -87,7 +87,7 @@ pipeline {
                             sudo docker image prune -f
                     
                             # 배포 상태 확인
-                            sudo docker compose ps
+                            sudo docker-compose ps
                         "
                     '''
                 }
