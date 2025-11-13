@@ -10,8 +10,6 @@ pipeline {
     }
     
     environment {
-        JAVA_HOME = '/usr/lib/jvm/java-21-amazon-corretto'
-        PATH = "/usr/lib/jvm/java-21-amazon-corretto/bin:${env.PATH}"
         DOCKER_CREDENTIALS = credentials('docker-hub-credentials')
         DOCKER_IMAGE = "${DOCKER_CREDENTIALS_USR}/${env.DOCKER_APP_NAME}"
     }
@@ -20,16 +18,6 @@ pipeline {
         stage('Checkout') {
             steps {
                 checkout scm
-            }
-        }
-        
-        stage('Verify Java') {
-            steps {
-                sh '''
-                    echo "JAVA_HOME: $JAVA_HOME"
-                    java -version
-                    ./gradlew --version
-                '''
             }
         }
         
@@ -44,6 +32,18 @@ pipeline {
         stage('Build') {
             steps {
                 sh '''
+                    # Java 환경 설정 - 실제 경로 사용
+                    export JAVA_HOME=/usr/lib/jvm/java-21-amazon-corretto.x86_64
+                    export PATH=$JAVA_HOME/bin:$PATH
+                    
+                    # 환경 확인
+                    echo "=== Java Environment ==="
+                    echo "JAVA_HOME: $JAVA_HOME"
+                    java -version
+                    which java
+                    
+                    # Gradle 빌드
+                    echo "=== Starting Gradle Build ==="
                     chmod +x gradlew
                     ./gradlew clean build -x test --no-daemon
                 '''
@@ -64,31 +64,23 @@ pipeline {
             steps {
                 sshagent(['ec2-ssh-key']) {
                     sh '''
-                        # 이미지 태그 치환
                         sed -i "s|__APP_IMAGE_TAG__|${DOCKER_IMAGE}:latest|g" docker-compose.yml
                 
-                        # EC2에 배포 디렉토리 생성 및 권한 설정
                         ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} "
                             mkdir -p ~/deployment
                             chmod 755 ~/deployment
                         "
                 
-                        # 파일 전송
                         scp -o StrictHostKeyChecking=no ${WORKSPACE}/docker-compose.yml ubuntu@${EC2_HOST}:~/deployment/
                         scp -o StrictHostKeyChecking=no ${WORKSPACE}/.env ubuntu@${EC2_HOST}:~/deployment/
                 
-                        # Docker Compose 배포 실행
                         ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} "
                             cd ~/deployment
                             sudo docker-compose down || true
                             sudo docker-compose pull
                             sudo docker-compose up -d
-                    
-                            # 정리 작업
                             sudo docker container prune -f
                             sudo docker image prune -f
-                    
-                            # 배포 상태 확인
                             sudo docker-compose ps
                         "
                     '''
