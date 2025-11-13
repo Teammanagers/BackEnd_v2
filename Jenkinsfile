@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    tools {
-        jdk 'JDK21'
-    }
-
     options {
         disableConcurrentBuilds()
     }
@@ -16,6 +12,8 @@ pipeline {
     environment {
         DOCKER_CREDENTIALS = credentials('docker-hub-credentials')
         DOCKER_IMAGE = "${DOCKER_CREDENTIALS_USR}/${env.DOCKER_APP_NAME}"
+        JAVA_HOME = '/usr/lib/jvm/java-21-amazon-corretto.x86_64'
+        PATH = "/usr/lib/jvm/java-21-amazon-corretto.x86_64/bin:${env.PATH}"
     }
 
     stages {
@@ -36,8 +34,14 @@ pipeline {
         stage('Build') {
             steps {
                 sh '''
+                    echo "=== Java Environment ==="
+                    echo "JAVA_HOME: $JAVA_HOME"
+                    java -version
+                    which java
+                    
+                    echo "=== Starting Gradle Build ==="
                     chmod +x gradlew
-                    ./gradlew clean build -x test
+                    ./gradlew clean build -x test --no-daemon
                 '''
             }
         }
