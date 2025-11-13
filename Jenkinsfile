@@ -1,26 +1,38 @@
 pipeline {
     agent any
-
+    
     options {
         disableConcurrentBuilds()
     }
-
+    
     triggers {
         githubPush()
     }
-
+    
     environment {
+        JAVA_HOME = '/usr/lib/jvm/java-21-amazon-corretto'
+        PATH = "/usr/lib/jvm/java-21-amazon-corretto/bin:${env.PATH}"
         DOCKER_CREDENTIALS = credentials('docker-hub-credentials')
         DOCKER_IMAGE = "${DOCKER_CREDENTIALS_USR}/${env.DOCKER_APP_NAME}"
     }
-
+    
     stages {
         stage('Checkout') {
             steps {
                 checkout scm
             }
         }
-
+        
+        stage('Verify Java') {
+            steps {
+                sh '''
+                    echo "JAVA_HOME: $JAVA_HOME"
+                    java -version
+                    ./gradlew --version
+                '''
+            }
+        }
+        
         stage('Create ENV file') {
             steps {
                 withCredentials([file(credentialsId: 'env-file', variable: 'ENV_FILE')]) {
@@ -28,26 +40,26 @@ pipeline {
                 }
             }
         }
-
+        
         stage('Build') {
             steps {
                 sh '''
                     chmod +x gradlew
-                    ./gradlew clean build -x test
+                    ./gradlew clean build -x test --no-daemon
                 '''
             }
         }
-
+        
         stage('Docker Build & Push') {
             steps {
                 sh '''
-                docker login -u $DOCKER_CREDENTIALS_USR -p $DOCKER_CREDENTIALS_PSW
-                docker build -t $DOCKER_IMAGE:latest .
-                docker push $DOCKER_IMAGE:latest
+                    docker login -u $DOCKER_CREDENTIALS_USR -p $DOCKER_CREDENTIALS_PSW
+                    docker build -t $DOCKER_IMAGE:latest .
+                    docker push $DOCKER_IMAGE:latest
                 '''
             }
         }
-
+        
         stage('Deploy') {
             steps {
                 sshagent(['ec2-ssh-key']) {
@@ -84,7 +96,7 @@ pipeline {
             }
         }
     }
-
+    
     post {
         always {
             cleanWs()
