@@ -76,7 +76,7 @@ pipeline {
                         scp -o StrictHostKeyChecking=no ${WORKSPACE}/.env ubuntu@${EC2_HOST}:~/deployment/
                 
                         # Docker Compose 배포 실행
-                        ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} "
+                        ssh -o StrictHostKeyChecking=no ec2-user@${EC2_HOST} "
                             cd ~/deployment
                             sudo docker-compose down || true
                             sudo docker-compose pull
