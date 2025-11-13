@@ -75,12 +75,12 @@ pipeline {
                         scp -o StrictHostKeyChecking=no ${WORKSPACE}/docker-compose.yml ec2-user@${EC2_HOST}:~/deployment/
                         scp -o StrictHostKeyChecking=no ${WORKSPACE}/.env ec2-user@${EC2_HOST}:~/deployment/
                 
-                        # Docker Compose 배포 실행
+                        # docker-compose 배포 실행
                         ssh -o StrictHostKeyChecking=no ec2-user@${EC2_HOST} "
                             cd ~/deployment
-                            sudo docker compose down || true
-                            sudo docker compose pull
-                            sudo docker compose up -d
+                            sudo docker-compose down || true
+                            sudo docker-compose pull
+                            sudo docker-compose up -d
                     
                             # 정리 작업
                             sudo docker container prune -f
