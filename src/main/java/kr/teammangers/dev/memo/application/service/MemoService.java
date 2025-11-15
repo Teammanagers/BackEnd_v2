@@ -82,6 +82,12 @@ public class MemoService {
         return MEMO_MAPPER.toDto(memo);
     }
 
+    public List<MemoDto> findAllDtoByMemberId(Long memberId, Long teamId) {
+        return memoRepository.findAllByMemberIdAndTeamId(memberId, teamId).stream()
+                .map(MEMO_MAPPER::toDto)
+                .toList();
+    }
+
     private Memo insert(Long folderId, Long teamId, CreateMemoReq req) {
         Folder folder = folderRepository.getReferenceById(folderId);
         Team team = teamRepository.getReferenceById(teamId);

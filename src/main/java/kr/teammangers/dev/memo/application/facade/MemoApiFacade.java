@@ -105,6 +105,15 @@ public class MemoApiFacade {
         return memoService.updateFixStatus(memoId);
     }
 
+    public List<GetMemoRes> getMyMemos(Long memberId, Long teamId) {
+        List<MemoDto> memoDtoList = memoService.findAllDtoByMemberId(memberId, teamId);
+        return memoDtoList.stream()
+                .map(memoDto -> {
+                    List<TagDto> tagDtoList = memoTagService.findAllTagDtoByMemoId(memoDto.id());
+                    return MEMO_RES_MAPPER.toGet(memoDto, tagDtoList);
+                }).toList();
+    }
+
     private void saveMemoTagFromTagName(Long memoId, String tagName) {
         TagDto tagDto = tagService.findDtoOrSave(tagName, MEMO);
         memoTagService.save(memoId, tagDto.id());

@@ -93,4 +93,13 @@ public class MemoController {
         return ApiRes.onSuccess(result);
     }
 
+    @GetMapping("/my")
+    public ApiRes<List<GetMemoRes>> getMyMemos(
+            @AuthenticationPrincipal final AuthInfo auth,
+            @RequestParam("teamId") final Long teamId
+    ) {
+        List<GetMemoRes> result = memoApiFacade.getMyMemos(auth.memberDto().id(), teamId);
+        return ApiRes.onSuccess(result);
+    }
+
 }

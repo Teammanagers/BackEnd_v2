@@ -24,4 +24,17 @@ public class MemoRepositoryImpl implements MemoRepositoryCustom {
                 .fetch();
     }
 
+    @Override
+    public List<Memo> findAllByMemberIdAndTeamId(Long memberId, Long teamId) {
+        QMemo memo = QMemo.memo;
+        return queryFactory
+                .selectFrom(memo)
+                .where(
+                        memo.createdBy.eq(memberId),
+                        memo.team.id.eq(teamId)
+                )
+                .orderBy(memo.createdAt.desc())
+                .fetch();
+    }
+
 }

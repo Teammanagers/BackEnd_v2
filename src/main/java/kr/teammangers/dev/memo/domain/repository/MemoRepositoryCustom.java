@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface MemoRepositoryCustom {
     List<Memo> findAllByOptions(Long folderId, Boolean isFixed);
+    List<Memo> findAllByMemberIdAndTeamId(Long memberId, Long teamId);
 }
