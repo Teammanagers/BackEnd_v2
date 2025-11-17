@@ -50,7 +50,7 @@ public class TimeSlot extends BaseField {
 
     public void setTimeSlot(DayOfWeek day, int startHour, int startMinute, int endHour, int endMinute) {
         Long bitMask = createTimeSlot(startHour, startMinute, endHour, endMinute);
-        dailySlots.merge(day, bitMask, (existing, newValue) -> newValue);
+        dailySlots.merge(day, bitMask, (existing, newValue) -> existing | newValue);
     }
 
     public void update(Map<DayOfWeek, Long> dailySlots) {
