@@ -19,9 +19,11 @@ public record MemoDto(
         @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
         LocalDateTime createdAt,
         Long createdBy,
+        String createdByName,  // 작성자 이름 추가
         @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
         LocalDateTime updatedAt,
         Long updatedBy,
+        String updatedByName,  // 수정자 이름 추가
         EntityStatus useYn
 ) {
 }

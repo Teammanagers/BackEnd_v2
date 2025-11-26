@@ -8,6 +8,8 @@ import kr.teammangers.dev.memo.domain.repository.MemoRepository;
 import kr.teammangers.dev.memo.dto.MemoDto;
 import kr.teammangers.dev.memo.dto.request.CreateMemoReq;
 import kr.teammangers.dev.memo.dto.request.UpdateMemoReq;
+import kr.teammangers.dev.member.domain.entity.Member;
+import kr.teammangers.dev.member.domain.repository.MemberRepository;
 import kr.teammangers.dev.team.domain.entity.Team;
 import kr.teammangers.dev.team.domain.repository.TeamRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +17,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static kr.teammangers.dev.global.error.code.ErrorStatus.*;
 import static kr.teammangers.dev.global.error.code.ErrorStatus.MEMO_NOT_FOUND;
@@ -29,27 +33,26 @@ public class MemoService {
     private final MemoRepository memoRepository;
     private final FolderRepository folderRepository;
     private final TeamRepository teamRepository;
+    private final MemberRepository memberRepository;
 
     public MemoDto save(Long folderId, Long teamId, CreateMemoReq req) {
         return MEMO_MAPPER.toDto(insert(folderId, teamId, req));
     }
 
     public MemoDto findDtoById(Long memoId) {
-        return memoRepository.findById(memoId)
-                .map(MEMO_MAPPER::toDto)
+        Memo memo = memoRepository.findById(memoId)
                 .orElseThrow(() -> new GeneralException(MEMO_NOT_FOUND));
+        return enrichWithMemberInfo(MEMO_MAPPER.toDto(memo));
     }
 
     public List<MemoDto> findAllDtoByFolderId(Long folderId, Boolean isFixed) {
-        return memoRepository.findAllByOptions(folderId, isFixed).stream()
-                .map(MEMO_MAPPER::toDto)
-                .toList();
+        List<Memo> memos = memoRepository.findAllByOptions(folderId, isFixed);
+        return enrichMemosWithMemberInfo(memos);
     }
 
     public List<MemoDto> findAllDtoByFixed(Long teamId) {
-        return memoRepository.findAllByMemoListByFixed(teamId).stream()
-                .map(MEMO_MAPPER::toDto)
-                .toList();
+        List<Memo> memos = memoRepository.findAllByMemoListByFixed(teamId);
+        return enrichMemosWithMemberInfo(memos);
     }
 
     public MemoDto update(Long memoId, UpdateMemoReq req) {
@@ -83,9 +86,76 @@ public class MemoService {
     }
 
     public List<MemoDto> findAllDtoByMemberId(Long memberId, Long teamId) {
-        return memoRepository.findAllByMemberIdAndTeamId(memberId, teamId).stream()
-                .map(MEMO_MAPPER::toDto)
+        List<Memo> memos = memoRepository.findAllByMemberIdAndTeamId(memberId, teamId);
+        return enrichMemosWithMemberInfo(memos);
+    }
+
+    private List<MemoDto> enrichMemosWithMemberInfo(List<Memo> memos) {
+        if (memos.isEmpty()) {
+            return List.of();
+        }
+
+        // 모든 메모의 작성자/수정자 ID 수집
+        List<Long> memberIds = memos.stream()
+                .flatMap(memo -> List.of(memo.getCreatedBy(), memo.getUpdatedBy()).stream())
+                .filter(Objects::nonNull)
+                .distinct()
                 .toList();
+
+        // 한 번에 모든 멤버 정보 조회
+        Map<Long, String> memberNameMap = memberRepository.findAllByIdIn(memberIds).stream()
+                .collect(Collectors.toMap(Member::getId, Member::getName));
+
+        // MemoDto 생성 시 작성자 정보 포함
+        return memos.stream()
+                .map(memo -> {
+                    MemoDto baseDto = MEMO_MAPPER.toDto(memo);
+                    return MemoDto.builder()
+                            .id(baseDto.id())
+                            .title(baseDto.title())
+                            .content(baseDto.content())
+                            .isFixed(baseDto.isFixed())
+                            .folderId(baseDto.folderId())
+                            .teamId(baseDto.teamId())
+                            .createdAt(baseDto.createdAt())
+                            .createdBy(baseDto.createdBy())
+                            .createdByName(memberNameMap.get(memo.getCreatedBy()))
+                            .updatedAt(baseDto.updatedAt())
+                            .updatedBy(baseDto.updatedBy())
+                            .updatedByName(memberNameMap.get(memo.getUpdatedBy()))
+                            .useYn(baseDto.useYn())
+                            .build();
+                }).toList();
+    }
+
+    private MemoDto enrichWithMemberInfo(MemoDto memoDto) {
+        String createdByName = memoDto.createdBy() != null
+                ? memberRepository.findById(memoDto.createdBy())
+                .map(Member::getName)
+                .orElse(null)
+                : null;
+
+        String updatedByName = memoDto.updatedBy() != null
+                ? memberRepository.findById(memoDto.updatedBy())
+                .map(Member::getName)
+                .orElse(null)
+                : null;
+
+        return MemoDto.builder()
+                .id(memoDto.id())
+                .title(memoDto.title())
+                .content(memoDto.content())
+                .isFixed(memoDto.isFixed())
+                .folderId(memoDto.folderId())
+                .teamId(memoDto.teamId())
+                .createdAt(memoDto.createdAt())
+                .createdBy(memoDto.createdBy())
+                .createdByName(createdByName)
+                .updatedAt(memoDto.updatedAt())
+                .updatedBy(memoDto.updatedBy())
+                .updatedByName(updatedByName)
+                .useYn(memoDto.useYn())
+                .build();
     }
 
     private Memo insert(Long folderId, Long teamId, CreateMemoReq req) {
