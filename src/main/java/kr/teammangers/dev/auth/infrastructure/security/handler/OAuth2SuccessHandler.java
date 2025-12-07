@@ -27,7 +27,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         String accessToken = tokenService.generateNewAccessToken(authInfo.memberDto());
         String oneTimeCode = oneTimeCodeService.generateAndStore(accessToken, authInfo.isNewMember());
 
-        String targetUrl = UriComponentsBuilder.fromUriString("http://localhost:5173/redirect")
+        String targetUrl = UriComponentsBuilder.fromUriString("https://www.teammanagers.kr/redirect")
                 .queryParam("code", oneTimeCode)
                 .build()
                 .toUriString();
