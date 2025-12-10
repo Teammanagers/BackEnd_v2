@@ -27,11 +27,12 @@ public class MemberImgService {
         return memberImgRepository.save(MEMBER_IMG_MAPPER.toEntity(member, s3FileInfo)).getId();
     }
 
-    public String findFilePahtByMemberId(Long memberId) {
+    public String findFilePathOrNullByMemberId(Long memberId) {
         return memberImgRepository.findByMember_Id(memberId)
                 .map(MemberImg::getS3FileInfo)
                 .map(S3FileInfo::getFilePath)
-                .orElseThrow(() -> new GeneralException(ErrorStatus.MEMBER_IMG_NOT_FOUND));
+                .orElse(null);
+//                .orElseThrow(() -> new GeneralException(ErrorStatus.MEMBER_IMG_NOT_FOUND));
     }
 
     public void delete(Long memberId) {
