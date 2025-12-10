@@ -60,7 +60,7 @@ public class MemberApiFacade {
 
         String imgUrl;
         try {
-            String imgPath = memberImgService.findFilePathOrNullByMemberId(memberId);
+            String imgPath = memberImgService.findFilePathByMemberId(memberId);
             imgUrl = s3Service.generateUrl(imgPath);
         } catch (GeneralException e) {
             imgUrl = null;

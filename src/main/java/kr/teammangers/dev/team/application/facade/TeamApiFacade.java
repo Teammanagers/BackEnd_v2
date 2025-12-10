@@ -119,7 +119,7 @@ public class TeamApiFacade {
 //    private GetMemberRes buildGetMemberRes(Long teamMemberId) {
 //        MemberDto memberDto = teamMemberService.findMemberDtoByTeamMemberId(teamMemberId);
 //
-//        String filePath = memberImgService.findFilePathOrNullByMemberId(memberDto.id());
+//        String filePath = memberImgService.findFilePathByMemberId(memberDto.id());
 //        String generatedUrl = s3Service.generateUrl(filePath);
 //
 //        List<TagDto> tagDtoList = teamMemberTagService.findAllTagDtoByTeamMemberId(teamMemberId);
@@ -134,7 +134,7 @@ public class TeamApiFacade {
                     String generatedUrl = null;
 
                     try {
-                        String filePath = memberImgService.findFilePathOrNullByMemberId(memberDto.id());
+                        String filePath = memberImgService.findFilePathByMemberId(memberDto.id());
                         generatedUrl = s3Service.generateUrl(filePath);
                     } catch (GeneralException e) {
                         generatedUrl = null;
