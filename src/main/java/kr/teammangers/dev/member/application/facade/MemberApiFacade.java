@@ -57,7 +57,10 @@ public class MemberApiFacade {
     public GetMemberProfileRes getMemberProfile(Long memberId) {
         MemberDto memberDto = memberService.findDtoById(memberId);
         String imgPath = memberImgService.findFilePathOrNullByMemberId(memberId);
-        String imgUrl = s3Service.generateUrl(imgPath);
+        String imgUrl = null;
+        if (imgPath != null) {
+            imgUrl = s3Service.generateUrl(imgPath);
+        }
 
         return GetMemberProfileRes.builder()
                 .memberDto(memberDto)
