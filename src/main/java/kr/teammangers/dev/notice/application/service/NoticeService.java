@@ -37,7 +37,7 @@ public class NoticeService {
     }
 
     public NoticeDto findRecentDtoByTeamId(Long teamId) {
-        return NOTICE_MAPPER.toDto(findRecentByTeamId(teamId));
+        return NOTICE_MAPPER.toDto(findRecentOrElseNullByTeamId(teamId));
     }
 
     public List<NoticeDto> findAllDtoByTeamId(Long teamId) {
@@ -56,9 +56,9 @@ public class NoticeService {
                 .orElseThrow(() -> new GeneralException(NOTICE_NOT_FOUND));
     }
 
-    private Notice findRecentByTeamId(Long teamId) {
+    private Notice findRecentOrElseNullByTeamId(Long teamId) {
         return noticeRepository.findTopRecentByTeamId(teamId)
-                .orElseThrow(() -> new GeneralException(NOTICE_NOT_FOUND));
+                .orElse(null);
     }
 
     private List<Notice> findAllByTeamId(Long teamId) {
