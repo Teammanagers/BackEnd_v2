@@ -1,5 +1,6 @@
 package kr.teammangers.dev.member.application.facade;
 
+import kr.teammangers.dev.global.error.exception.GeneralException;
 import kr.teammangers.dev.member.application.service.MemberService;
 import kr.teammangers.dev.member.dto.MemberDto;
 import kr.teammangers.dev.member.dto.response.GetMemberNameRes;
@@ -56,10 +57,13 @@ public class MemberApiFacade {
 
     public GetMemberProfileRes getMemberProfile(Long memberId) {
         MemberDto memberDto = memberService.findDtoById(memberId);
-        String imgPath = memberImgService.findFilePathOrNullByMemberId(memberId);
-        String imgUrl = null;
-        if (imgPath != null) {
+
+        String imgUrl;
+        try {
+            String imgPath = memberImgService.findFilePathOrNullByMemberId(memberId);
             imgUrl = s3Service.generateUrl(imgPath);
+        } catch (GeneralException e) {
+            imgUrl = null;
         }
 
         return GetMemberProfileRes.builder()
