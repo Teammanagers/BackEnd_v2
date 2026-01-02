@@ -34,8 +34,8 @@ public class TodoCrudService {
     private final TeamMemberTagRepository teamMemberTagRepository;
 
     @Transactional
-    public TodoCommonRes createTodo(Long memberId, Long teamId, CreateTodoReq request) {
-        TeamMember teamMember = teamMemberRepository.findByTeam_IdAndMember_Id(teamId, memberId)
+    public TodoCommonRes createTodo(Long teamMemberId, CreateTodoReq request) {
+        TeamMember teamMember = teamMemberRepository.findById(teamMemberId)
                 .orElseThrow(() -> new GeneralException(ErrorStatus.TEAMMEMBER_NOT_FOUND));
 
         Todo newTodo = TODO_MAPPER.toEntity(request, teamMember);

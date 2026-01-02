@@ -25,11 +25,11 @@ public class TodoRestController {
     @PostMapping
     public ApiRes<TodoCommonRes> createTodo(
             @AuthenticationPrincipal final AuthInfo auth,
-            @RequestParam(name = "teamId") final Long teamId,
+            @RequestParam(name = "teamMemberId") final Long teamMemberId,
             @RequestBody final CreateTodoReq request
             ) {
 
-        return ApiRes.onSuccess(todoCrudService.createTodo(auth.memberDto().id(), teamId, request));
+        return ApiRes.onSuccess(todoCrudService.createTodo(teamMemberId, request));
 
     }
 
