@@ -118,7 +118,7 @@ public class TodoCrudService {
         Long teamMemberId = teamMember.getId();
         List<TodoDto> todoList = todoRepository.findAllByTeamMember_Id(teamMemberId)
                 .stream()
-                .filter(todo -> todo.getStatus().equals(TodoStatus.IN_PROGRESS))
+                .filter(todo -> todo.getStatus().equals(TodoStatus.PENDING) || todo.getStatus().equals(TodoStatus.IN_PROGRESS))
                 .map(TODO_MAPPER::toDto)
                 .toList();
 
