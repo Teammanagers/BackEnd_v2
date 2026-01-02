@@ -66,8 +66,11 @@ public class MemberApiFacade {
             imgUrl = null;
         }
 
+        List<TagDto> tagDtoList = memberTagService.findAllTagDtoByMemberId(memberId);
+
         return GetMemberProfileRes.builder()
                 .memberDto(memberDto)
+                .memberTagList(tagDtoList)
                 .imgUrl(imgUrl)
                 .build();
 
