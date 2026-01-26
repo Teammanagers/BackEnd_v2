@@ -12,8 +12,8 @@ pipeline {
     environment {
         DOCKER_CREDENTIALS = credentials('docker-hub-credentials')
         DOCKER_IMAGE = "${DOCKER_CREDENTIALS_USR}/${env.DOCKER_APP_NAME}"
-        JAVA_HOME = '/usr/lib/jvm/java-21-amazon-corretto.x86_64'
-        PATH = "/usr/lib/jvm/java-21-amazon-corretto.x86_64/bin:${env.PATH}"
+        JAVA_HOME = '/usr/lib/jvm/java-21-openjdk-amd64'
+        PATH = "/usr/lib/jvm/java-21-openjdk-amd64/bin:${env.PATH}"
     }
 
     stages {
