@@ -68,17 +68,17 @@ pipeline {
                         sed -i "s|__APP_IMAGE_TAG__|${DOCKER_IMAGE}:latest|g" docker-compose.yml
                 
                         # EC2에 배포 디렉토리 생성 및 권한 설정
-                        ssh -o StrictHostKeyChecking=no ec2-user@${EC2_HOST} "
+                        ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} "
                             mkdir -p ~/deployment
                             chmod 755 ~/deployment
                         "
                 
                         # 파일 전송
-                        scp -o StrictHostKeyChecking=no ${WORKSPACE}/docker-compose.yml ec2-user@${EC2_HOST}:~/deployment/
-                        scp -o StrictHostKeyChecking=no ${WORKSPACE}/.env ec2-user@${EC2_HOST}:~/deployment/
+                        scp -o StrictHostKeyChecking=no ${WORKSPACE}/docker-compose.yml ubuntu@${EC2_HOST}:~/deployment/
+                        scp -o StrictHostKeyChecking=no ${WORKSPACE}/.env ubuntu@${EC2_HOST}:~/deployment/
                 
                         # docker-compose 배포 실행
-                        ssh -o StrictHostKeyChecking=no ec2-user@${EC2_HOST} "
+                        ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} "
                             cd ~/deployment
                             sudo docker-compose down || true
                             sudo docker-compose pull
