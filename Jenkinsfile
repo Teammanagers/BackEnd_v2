@@ -71,6 +71,7 @@ pipeline {
                         ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} "
                             mkdir -p ~/deployment
                             chmod 755 ~/deployment
+                            rm -f ~/deployment/.env ~/deployment/docker-compose.yml
                         "
                 
                         # 파일 전송
