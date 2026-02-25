@@ -10,6 +10,7 @@ import kr.teammangers.dev.member.dto.response.GetMemberProfileRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,9 +22,10 @@ public class MemberController {
     @PostMapping
     public ApiRes<MemberDto> updateProfile(
             @AuthenticationPrincipal final AuthInfo auth,
-            @RequestBody final UpdateProfileReq req
+            @RequestPart final UpdateProfileReq req,
+            @RequestPart(required = false) final MultipartFile file
     ) {
-        MemberDto result = memberApiFacade.updateProfile(auth.memberDto().id(), req);
+        MemberDto result = memberApiFacade.updateProfile(auth.memberDto().id(), req, file);
         return ApiRes.onSuccess(result);
     }
 

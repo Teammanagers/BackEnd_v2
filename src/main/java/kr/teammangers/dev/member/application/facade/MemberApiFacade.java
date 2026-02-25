@@ -8,17 +8,20 @@ import kr.teammangers.dev.member.dto.request.UpdateProfileReq;
 import kr.teammangers.dev.member.dto.response.GetMemberProfileRes;
 import kr.teammangers.dev.s3.application.MemberImgService;
 import kr.teammangers.dev.s3.application.S3Service;
+import kr.teammangers.dev.s3.dto.S3FileInfoDto;
 import kr.teammangers.dev.tag.application.service.MemberTagService;
 import kr.teammangers.dev.tag.application.service.TagService;
 import kr.teammangers.dev.tag.dto.TagDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
 
 import static kr.teammangers.dev.tag.domain.enums.TagType.MEMBER;
+import static kr.teammangers.dev.s3.constant.S3Constant.MEMBER_PROFILE_PATH;
 
 @Service
 @Transactional(readOnly = true)
@@ -32,8 +35,13 @@ public class MemberApiFacade {
     private final S3Service s3Service;
 
     @Transactional
-    public MemberDto updateProfile(Long memberId, UpdateProfileReq req) {
+    public MemberDto updateProfile(Long memberId, UpdateProfileReq req, MultipartFile file) {
         MemberDto memberDto = memberService.update(memberId, req);
+
+        if (!file.isEmpty()) {
+            S3FileInfoDto s3FileInfoDto = s3Service.uploadFile(file, MEMBER_PROFILE_PATH);
+            memberImgService.save(memberId, s3FileInfoDto.id());
+        }
 
         List<String> existingTagNames = memberTagService.findAllTagDtoByMemberId(memberId).stream()
                 .map(TagDto::name).toList();
