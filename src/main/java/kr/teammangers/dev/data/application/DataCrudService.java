@@ -12,6 +12,7 @@ import kr.teammangers.dev.s3.application.S3Service;
 import kr.teammangers.dev.s3.dto.S3FileInfoDto;
 import kr.teammangers.dev.tag.application.service.TeamMemberTagService;
 import kr.teammangers.dev.tag.dto.TagDto;
+import kr.teammangers.dev.team.application.service.TeamMemberService;
 import kr.teammangers.dev.team.domain.entity.TeamMember;
 import kr.teammangers.dev.team.domain.repository.TeamMemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +34,7 @@ public class DataCrudService {
     private final DataFileService dataFileService;
     private final FeedbackService feedbackService;
     private final TeamMemberTagService teamMemberTagService;
+    private final TeamMemberService teamMemberService;
 
     private final DataRepository dataRepository;
     private final TeamMemberRepository teamMemberRepository;
@@ -79,17 +81,19 @@ public class DataCrudService {
                     Long dataId = data.getId();
                     Long teamMemberId = data.getTeamMember().getId();
 
-                    List<TagDto> tagDtoList = teamMemberTagService.findAllTagDtoByTeamMemberId(teamMemberId);
-                    TagDto tag = null;
-                    if (!tagDtoList.isEmpty()) {
-                        tag = tagDtoList.getFirst();
-                    }
+                    String name = teamMemberService.findMemberDtoByTeamMemberId(teamMemberId).name();
+
+//                    List<TagDto> tagDtoList = teamMemberTagService.findAllTagDtoByTeamMemberId(teamMemberId);
+//                    TagDto tag = null;
+//                    if (!tagDtoList.isEmpty()) {
+//                        tag = tagDtoList.getFirst();
+//                    }
 
                     String filePath = dataFileService.findFilePathByDataId(dataId);
                     S3FileInfoDto fileInfoDto = dataFileService.getDataFileInfo(dataId);
                     String generatedUrl = s3Service.generateUrl(filePath);
 
-                    return DataDTO.of(dataId, teamMemberId, tag, fileInfoDto, generatedUrl);
+                    return DataDTO.of(dataId, teamMemberId, name, fileInfoDto, generatedUrl);
                 })
                 .toList();
 
